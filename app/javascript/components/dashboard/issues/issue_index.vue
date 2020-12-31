@@ -305,15 +305,17 @@ computed: {
         }
       }
 
-      if(taskIssueOnWatch.length > 0 && taksIssueNotOnWatch == true){
-        valid = true
-      }else{
-        if(taskIssueOnWatch.length > 0){
-          valid = valid && issue.watched
-        }
-
-        if(taksIssueNotOnWatch == true){
-          valid = valid && !issue.watched 
+      if (taskIssueOnWatch && taskIssueOnWatch.length > 0) {
+        var onWatchFilterNames = _.map(taskIssueOnWatch, 'id')
+        if (onWatchFilterNames.includes("onWatch") && onWatchFilterNames.includes("notOnWatch")) {
+          valid = true
+        }else{
+          if (onWatchFilterNames.includes("onWatch")) {
+            valid = (issue.watched == true)
+          }
+          if (onWatchFilterNames.includes("notOnWatch")) {
+            valid = (issue.watched == false)
+          }
         }
       }
 

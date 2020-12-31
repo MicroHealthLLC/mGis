@@ -300,15 +300,17 @@
             }
           }
 
-          if(taskIssueOnWatch.length > 0 && taksIssueNotOnWatch == true){
-            valid = true
-          }else{
-            if(taskIssueOnWatch.length > 0){
-              valid = valid && risk.watched
-            }
-
-            if(taksIssueNotOnWatch == true){
-              valid = valid && !risk.watched 
+          if (taskIssueOnWatch && taskIssueOnWatch.length > 0) {
+            var onWatchFilterNames = _.map(taskIssueOnWatch, 'id')
+            if (onWatchFilterNames.includes("onWatch") && onWatchFilterNames.includes("notOnWatch")) {
+              valid = true
+            }else{
+              if (onWatchFilterNames.includes("onWatch")) {
+                valid = (risk.watched == true)
+              }
+              if (onWatchFilterNames.includes("notOnWatch")) {
+                valid = (risk.watched == false)
+              }
             }
           }
 

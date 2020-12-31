@@ -259,6 +259,7 @@ export default {
       'ganttData',
       'myActionsFilter',
       'onWatchFilter',
+      'getNotOnWatchFilter',
       'taskUserFilter',
       'issueUserFilter',
       'progressFilter',
@@ -655,7 +656,14 @@ export default {
       this.updateMapFilters({ key: 'myActions', filter: value, _k: 'value' })
     },
     onWatchFilter(value) {
-      this.updateMapFilters({ key: 'onWatch', filter: value, _k: 'value' })
+      //this.updateMapFilters({ key: 'onWatch', filter: value, _k: 'value' })
+      this.updateMapFilters({ key: 'onWatch', filter: value,same: true })
+      
+    },
+    getNotOnWatchFilter(value){
+      console.log('getNotOnWatchFilter')
+      console.log(value)
+      this.updateMapFilters({ key: 'notOnWatch', filter: value, same: true })
     },
     "progressFilter.facility": {
       handler(value) {

@@ -201,7 +201,6 @@ computed: {
     let taskIssueProgressStatus = this.getTaskIssueProgressStatusFilter
     let taskIssueOnWatch = this.onWatchFilter
     let taskIssueMyAction = this.myActionsFilter
-    let taksIssueNotOnWatch = _.map(this.getAdvancedFilter(), 'id').includes("notOnWatch")
     let taksIssueNotMyAction = _.map(this.getAdvancedFilter(), 'id').includes("notMyAction")
     let taskIssueUsers = this.getTaskIssueUserFilter
 
@@ -239,18 +238,20 @@ computed: {
         }
       }
 
-      if(taskIssueOnWatch.length > 0 && taksIssueNotOnWatch == true){
-        valid = true
-      }else{
-        if(taskIssueOnWatch.length > 0){
-          valid = valid && task.watched
+      if (taskIssueOnWatch && taskIssueOnWatch.length > 0) {
+        var onWatchFilterNames = _.map(taskIssueOnWatch, 'id')
+        if (onWatchFilterNames.includes("onWatch") && onWatchFilterNames.includes("notOnWatch")) {
+          valid = true
+        }else{
+          if (onWatchFilterNames.includes("onWatch")) {
+            valid = (task.watched == true)
+          }
+          if (onWatchFilterNames.includes("notOnWatch")) {
+            valid = (task.watched == false)
+          }
         }
 
-        if(taksIssueNotOnWatch == true){
-         valid = valid && !task.watched 
-        }
       }
-
 
       if (stageIds.length > 0) valid = valid && stageIds.includes(task.taskStageId)
       if (typeIds.length > 0) valid = valid && typeIds.includes(task.taskTypeId)
@@ -297,8 +298,6 @@ computed: {
         var max = taskIssueProgress[0].value.split("-")[1]
         valid = valid && (task.progress >= min && task.progress <= max)
       }
-
-
 
       if (search_query) valid = valid && search_query.test(task.text)
 
