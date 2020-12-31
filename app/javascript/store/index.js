@@ -78,9 +78,7 @@ export default new Vuex.Store({
     },
     taskIssueUserFilter: new Array,
     myActionsFilter: new Array,
-    notMyActionsFilter: new Array,
     onWatchFilter: new Array,
-    notOnWatchFilter: new Array,
     managerView: {
       task: null,
       issue: null,
@@ -107,17 +105,16 @@ export default new Vuex.Store({
           _taskIssueOverdueFilter.push(option)
         }else if(option.name == "active" || option.id == 'completed'){
           _taskIssueProgressStatusFilter.push(option)
-        }else if(option.id == "myAction"){
-          _myActionsFilter.push({id: 'myTasks', name: 'My Tasks', value: 'tasks'})
-          _myActionsFilter.push({id: 'myIssues', name: 'My Issues', value: 'issues'})
-          _myActionsFilter.push({id: 'myNotes', name: 'My Notes', value: 'notes'})
+        }else if(option.id == "myAction" || option.id == 'notMyAction'){
+          // _myActionsFilter.push({id: 'myTasks', name: 'My Tasks', value: 'tasks'})
+          // _myActionsFilter.push({id: 'myIssues', name: 'My Issues', value: 'issues'})
+          // _myActionsFilter.push({id: 'myNotes', name: 'My Notes', value: 'notes'})
+          _myActionsFilter.push(option)
         }else if(option.id == "onWatch" || option.id == 'notOnWatch'){
           // TODO: make just one  instead of 2. for now keeping two nearly will not break other features.
           // _onWatchFilter.push({id: 'onWatchTask', name: 'On Watch Task', value: 'tasks'})
           // _onWatchFilter.push({id: 'onWatchIssue', name: 'On Watch Issue', value: 'issues'})
           _onWatchFilter.push(option)
-        }else if(option.id == "notMyAction"){
-          _notMyActionsFilter.push({id: 'notMyAction', name: 'Not My Action', value: 'tasks'})
         }
       }
 
@@ -125,10 +122,8 @@ export default new Vuex.Store({
       state.taskIssueOverdueFilter = _taskIssueOverdueFilter
       // if(_onWatchFilter.length > 0)
       state.onWatchFilter = _onWatchFilter
-      // state.notOnWatchFilter = _notOnWatchFilter
       // if(_myActionsFilter.length > 0)
       state.myActionsFilter = _myActionsFilter
-      state.notMyActionsFilter = _notMyActionsFilter
       state.taskIssueProgressStatusFilter = _taskIssueProgressStatusFilter
     },
     setContentLoaded: (state, loading) => state.contentLoaded = loading,
@@ -272,8 +267,8 @@ export default new Vuex.Store({
         {id: 'completed', name: 'completed'},
         {id: 'overdue', name: 'overdue', value: "overdue"},
         {id: 'not overdue', name: 'On Schedule', value: "not overdue"},
-        {id: 'myAction', name: 'My Assignments', value: 'my action'},
-        {id: 'notMyAction', name: 'Not My Assignments', value: 'not my action'},
+        {id: 'myAction', name: 'My Assignments', value: 'myAction'},
+        {id: 'notMyAction', name: 'Not My Assignments', value: 'notMyAction'},
         {id: 'onWatch', name: 'On Watch', value: 'onWatch'},
         {id: 'notOnWatch', name: 'Not On Watch', value: 'notOnWatch'}
       ]
@@ -311,8 +306,8 @@ export default new Vuex.Store({
         {id: 'completed', name: 'completed', value: 'completed'},
         {id: 'overdue', name: 'overdue', value: "overdue"},
         {id: 'not overdue', name: 'On Schedule', value: "not overdue"},
-        {id: 'myAction', name: 'My Assignments', value: 'my action'},
-        {id: 'notMyAction', name: 'Not My Assignments', value: 'not my action'},
+        {id: 'myAction', name: 'My Assignments', value: 'myAction'},
+        {id: 'notMyAction', name: 'Not My Assignments', value: 'notMyAction'},
         {id: 'onWatch', name: 'On Watch', value: 'onWatch'},
         {id: 'notOnWatch', name: 'Not On Watch', value: 'notOnWatch'}
       ]
@@ -342,8 +337,6 @@ export default new Vuex.Store({
         ['taskStageFilter', 'Task Stages'],
         ['issueStageFilter', 'Issue Stages'],
         ['taskIssueProgressStatusFilter', 'Action Status'],
-        ['notOnWatchFilter', 'Not On Watch'],
-        ['notMyActionsFilter', 'Not My Assignments'],
         ['taskIssueUserFilter', 'Action Users']
 
       ]
@@ -559,8 +552,6 @@ export default new Vuex.Store({
     taskTypeFilter: state => state.taskTypeFilter,
     taskStageFilter: state => state.taskStageFilter,
     issueStageFilter: state => state.issueStageFilter,
-    notOnWatchFilter: state => state.notOnWatchFilter,
-    notMyActionsFilter: state => state.notMyActionsFilter,
     facilityGroupFilter: state => state.facilityGroupFilter,
     facilityNameFilter: state => state.facilityNameFilter,
     facilityProgressFilter: state => state.facilityProgressFilter,
@@ -726,13 +717,30 @@ export default new Vuex.Store({
               valid = valid && f[k].includes(facility.statusId)
               break
             }
-            case "myActions": {
-              let is_valid = false
-              for (let act of f[k]) {
-                let userIds = act == "notes" ? _.uniq(_.map(facility[act], 'userId')) : _.compact(_.uniq([..._.flatten(_.map(facility[act], 'userIds')), ..._.map(_.flatten(_.map(facility[act], 'checklists')), 'userId')]))
-                is_valid = is_valid || userIds.includes(Vue.prototype.$currentUser.id)
+            case "myAction": {
+              let allUserIds = []
+              let resources = ['notes', 'tasks', 'issues']
+
+              for (let act of resources) {
+                allUserIds = act == "notes" ? _.uniq(_.map(facility[act], 'userId')) : _.compact(_.uniq([..._.flatten(_.map(facility[act], 'userIds')), ..._.map(_.flatten(_.map(facility[act], 'checklists')), 'userId')]))
               }
-              valid = valid && is_valid
+              var myActionFilterNames = _.map(f[k], 'id')
+              console.log('myAction')
+              console.log(f)
+              console.log(f[k])
+
+              console.log(allUserIds)
+
+              if (myActionFilterNames.includes("myAction") && myActionFilterNames.includes("notMyAction")) {
+                valid = valid
+              }else{
+                if (myActionFilterNames.includes("myAction")) {
+                  valid = valid && allUserIds.includes(Vue.prototype.$currentUser.id)
+                }
+                if (myActionFilterNames.includes("notMyAction")) {
+                  valid = valid && !allUserIds.includes(Vue.prototype.$currentUser.id)
+                }
+              }
               break
             }
             case "onWatch": {
@@ -754,7 +762,6 @@ export default new Vuex.Store({
                   valid = valid && _isWatched.includes(false)
                 }
               }
-
               break
             }
             case 'taskIssueProgressStatus':{
@@ -778,7 +785,6 @@ export default new Vuex.Store({
                   valid = _progressStatuses.includes("completed")
                 }
               }
-
               break
             }
             default: {

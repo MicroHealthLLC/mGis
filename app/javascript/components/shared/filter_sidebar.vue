@@ -653,7 +653,7 @@ export default {
       this.updateMapFilters({ key: 'taskIssueUsers', filter: value })
     },
     myActionsFilter(value) {
-      this.updateMapFilters({ key: 'myActions', filter: value, _k: 'value' })
+      this.updateMapFilters({ key: 'myAction', filter: value,same: true })
     },
     onWatchFilter(value) {
       //this.updateMapFilters({ key: 'onWatch', filter: value, _k: 'value' })
