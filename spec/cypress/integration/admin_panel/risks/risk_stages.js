@@ -42,7 +42,7 @@ describe('Admin Panel Risk Stages', function() {
 
   it('Could not Delete Risk Stage of foreign constraint', function() {
     cy.get('#index_table_risk_stages').should('be.visible')
-    cy.get('#index_table_risk_stages > tbody > tr').first().within(() => {
+    cy.get('#index_table_risk_stages > tbody > tr').last().within(() => {
       cy.get('.col-actions').contains('Delete').click()
     })
     cy.get('.flashes').contains('Not able to delete this! Violates foreign key constraint.').should('be.visible')

@@ -10,7 +10,7 @@ describe('Kanban View', function() {
     cy.get('[data-cy=facility_tabs]').within(() => {
       cy.contains('Tasks').should('be.visible')
       cy.contains('Issues').should('be.visible')
-      cy.contains('Risks').should('be.visible')
+      // cy.contains('Risks').should('be.visible')
     })
     cy.logout()
   })

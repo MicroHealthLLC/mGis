@@ -207,3 +207,11 @@ Cypress.Commands.add("openTaskStageAP", () => {
     cy.get('#task_stages').contains('Task Stages').click({force: true})
   })
 })
+
+// Open Role from Admin panel
+Cypress.Commands.add("openRoleAP", () => {
+  cy.get('[data-cy=admin_panel]').click()
+  cy.get('#tabs').within(() => {
+    cy.get('#roles').contains('Roles').click({force: true})
+  })
+})

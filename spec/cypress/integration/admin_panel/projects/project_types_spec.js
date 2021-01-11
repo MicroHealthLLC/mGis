@@ -34,7 +34,7 @@ describe('Admin Panel Project Types', function() {
     cy.get('.action_item > a').contains('New Project Type').click()
     cy.get('#page_title').contains('New Project Type').should('be.visible')
     cy.get('#project_type_submit_action').contains('Create Project type').click()
-    // cy.get('.errors').contains("Name can't be blank")
+    cy.get('.errors').contains("Name can't be blank")
     cy.get('.inline-errors').contains("can't be blank")
     cy.get('#page_title').contains('New Project Type').should('be.visible')
     cy.get('#logout').click()
