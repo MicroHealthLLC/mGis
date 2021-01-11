@@ -30,6 +30,7 @@ else
   Organization.destroy_all if defined?(Organization)
   Setting.destroy_all if defined?(Setting)
   Privilege.destroy_all if defined?(Privilege)
+  Role.destroy_all if defined?(Role)
   User.destroy_all if defined?(User)
 end
 

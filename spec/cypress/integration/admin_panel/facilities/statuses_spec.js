@@ -34,7 +34,7 @@ describe('Admin Panel Statuses', function() {
     cy.get('.action_item > a').contains('New Status').click()
     cy.get('#page_title').contains('New Status').should('be.visible')
     cy.get('#status_submit_action').contains('Create Status').click()
-    // cy.get('.errors').contains("Name can't be blank")
+    cy.get('.errors').contains("Name can't be blank")
     cy.get('.inline-errors').contains("can't be blank")
     cy.get('#page_title').contains('New Status').should('be.visible')
     cy.get('#logout').click()

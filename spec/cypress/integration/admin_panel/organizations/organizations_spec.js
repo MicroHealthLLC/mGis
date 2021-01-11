@@ -30,6 +30,17 @@ describe('Admin Panel Organization', function() {
     cy.get('#logout').click()
   })
 
+  it('Could not create new Organization if title is blank', function() {
+    cy.get('.action_item > a').contains('New Organization').click()
+    cy.get('#page_title').contains('New Organization').should('be.visible')
+    cy.get('#organization_submit_action').contains('Create Organization').click()
+    cy.get('.errors').contains("Title can't be blank")
+    cy.get('.inline-errors').contains("can't be blank")
+    cy.get('#page_title').contains('New Organization').should('be.visible')
+    cy.get('#logout').click()
+  })
+
+
   it('Delete Organization', function() {
     cy.get('#index_table_organizations').should('be.visible')
     cy.get('#index_table_organizations > tbody > tr').first().within(() => {

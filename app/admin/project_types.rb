@@ -26,6 +26,14 @@ ActiveAdmin.register ProjectType do
     end
   end
 
+  form do |f|
+    f.semantic_errors *f.object.errors.keys
+    f.inputs do
+      f.input :name
+    end
+    f.actions
+  end
+
   controller do
     before_action :check_readability, only: [:index, :show]
     before_action :check_order, only: [:index]

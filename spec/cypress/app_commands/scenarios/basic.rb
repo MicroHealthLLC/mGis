@@ -9,22 +9,6 @@ admin.assign_attributes(
   role: "superadmin",
   last_name: 'Admin'
 )
-admin.privilege = Privilege.new(
-  overview: "RWD",
-  tasks: "RWD",
-  notes: "RWD",
-  issues: "RWD",
-  admin: "RWD",
-  map_view: "RWD",
-  gantt_view: "RWD",
-  watch_view: "RWD",
-  documents: "RWD",
-  members: "RWD",
-  facility_manager_view: "R",
-  sheets_view: "R",
-  kanban_view: "R",
-  risks: "R"
-)
 admin.save(validate: false)
 
 client = User.find_or_initialize_by(email: 'client@test.com')
@@ -36,7 +20,38 @@ client.assign_attributes(
   last_name: 'Client',
   role: 'client'
 )
-client.privilege = Privilege.new(
+client.save(validate: false)
+
+Setting.first_or_create(google_map_key: ENV['GOOGLE_MAP_KEY'])
+Organization.find_or_create_by(title: 'Test Organization')
+
+project_type = ProjectType.find_or_create_by(name: 'Test Project Type')
+project = Project.find_or_create_by(
+  name: 'Test Project',
+  description: 'Test project description',
+  project_type_id: project_type.id
+)
+admin_role = Role.find_or_create_by(name: 'superadmin')
+admin_role.privilege = Privilege.new(
+  overview: "RWD",
+  tasks: "RWD",
+  notes: "RWD",
+  issues: "RWD",
+  admin: "RWD",
+  map_view: "RWD",
+  gantt_view: "RWD",
+  watch_view: "RWD",
+  documents: "RWD",
+  members: "RWD",
+  facility_manager_view: "RWD",
+  sheets_view: "RWD",
+  kanban_view: "RWD",
+  risks: "RWD"
+)
+admin_role.save(validate: false)
+
+client_role = Role.find_or_create_by(name: 'client')
+client_role.privilege = Privilege.new(
   overview: "R",
   tasks: "R",
   notes: "R",
@@ -52,18 +67,12 @@ client.privilege = Privilege.new(
   kanban_view: "R",
   risks: "R"
 )
-client.save(validate: false)
+client_role.save(validate: false)
+project_admin_role = ProjectRole.find_or_create_by(role_id: admin_role.id, project_id: project.id)
+project_client_role = ProjectRole.find_or_create_by(role_id: client_role.id, project_id: project.id)
 
-Setting.first_or_create(google_map_key: ENV['GOOGLE_MAP_KEY'])
-Organization.find_or_create_by(title: 'Test Organization')
-
-project_type = ProjectType.find_or_create_by(name: 'Test Project Type')
-project = Project.find_or_create_by(
-  name: 'Test Project',
-  description: 'Test project description',
-  project_type_id: project_type.id
-)
-ProjectUser.find_or_create_by(project_id: project.id, user_id: client.id)
+ProjectUser.find_or_create_by(project_role_id: project_admin_role.id, user_id: admin.id)
+ProjectUser.find_or_create_by(project_role_id: project_client_role.id, user_id: client.id)
 active_status = Status.find_or_create_by(name: 'Active', color: '#0b8e1a')
 inactive_status = Status.find_or_create_by(name: 'InActive', color: '#c90d0d')
 ProjectStatus.find_or_create_by(project_id: project.id, status_id: active_status.id)

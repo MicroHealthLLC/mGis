@@ -26,6 +26,14 @@ ActiveAdmin.register IssueType do
     end
   end
 
+  form do |f|
+    f.semantic_errors *f.object.errors.keys
+    f.inputs do
+      f.input :name
+    end
+    f.actions
+  end
+
   batch_action :destroy, if: proc {current_user.admin_delete?}, confirm: "Are you sure you want to delete these Issue Types?" do |ids|
     deleted = IssueType.where(id: ids).destroy_all
     redirect_to collection_path, notice: "Successfully deleted #{deleted.count} Issue Types"
