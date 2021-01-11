@@ -4,10 +4,11 @@ class User < ApplicationRecord
          :validatable, :omniauthable
 
   has_many :project_users, dependent: :destroy
-  has_many :projects, through: :project_users
+  has_many :project_roles, through: :project_users
+  has_many :projects, through: :project_roles
+  has_many :roles, through: :project_roles
   has_many :facilities
   has_many :risks
-  has_one :privilege, dependent: :destroy
   belongs_to :organization, optional: true
 
   validates :first_name, :last_name, presence: true
@@ -16,10 +17,22 @@ class User < ApplicationRecord
 
   enum role: [:client, :superadmin].freeze
   enum status: [:inactive, :active].freeze
+  ADMIN_PERMISSIONS_ENUM={can_read: 1, can_edit: 2, can_delete: 3}
 
-  scope :admin, -> {joins(:privilege).where("privileges.admin LIKE ? OR role = ?", "%R%", 1).distinct}
+  attr_accessor :current_project
 
-  accepts_nested_attributes_for :privilege, reject_if: :all_blank
+  def privilege
+    return nil unless current_project.present?
+    roles.joins(:project_roles).where('project_roles.project_id = ? ', current_project.id).distinct.first.privilege
+  end
+
+  def admin_permission_ids
+    JSON.parse(admin_permissions) rescue []
+  end
+
+  def admin_permission_vals
+    admin_permission_ids.map{|e| User::ADMIN_PERMISSIONS_ENUM.key(e)}
+  end
 
   def self.from_omniauth(auth)
     if where(email: auth.info.email || "#{auth.uid}@#{auth.provider}.com").present?
@@ -79,33 +92,24 @@ class User < ApplicationRecord
     "You are not allowed to log in!"
   end
 
-  def abilities
-    Ability.new(self).permissions
-  end
-
   def admin?
-    superadmin? || privilege.admin.include?("R")
-  end
-
-  def initialize(*args)
-    privilege ||= Privilege.new
-    super
+    superadmin? || admin_permission_vals.any?
   end
 
   def admin_read?
-    superadmin? || privilege.admin.include?("R")
+    superadmin? || admin_permission_vals.include?(:can_read)
   end
 
   def admin_write?
-    superadmin? || (admin_read? && privilege.admin.include?("W"))
+    superadmin? || admin_permission_vals.include?(:can_edit)
   end
 
   def admin_delete?
-    superadmin? || (admin_read? && privilege.admin.include?("D"))
+    superadmin? || admin_permission_vals.include?(:can_delete)
   end
 
   def admin_privilege
-    superadmin? ? "RWD" : privilege.admin
+    superadmin? ? "RWD" : admin_permission_vals.map(&:to_s).map{|u| u.sub("can_", '').sub("edit", 'W').first.upcase}.join
   end
 
   def download_links?
@@ -121,6 +125,6 @@ class User < ApplicationRecord
   end
 
   def allowed?(view)
-    self.privilege.send(view)&.include?("R")
+    privilege&.send(view)&.include?("R")
   end
 end

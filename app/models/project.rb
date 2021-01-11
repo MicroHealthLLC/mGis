@@ -1,8 +1,6 @@
 class Project < SortableRecord
   default_scope {order(Project.order_humanize)}
   has_many :tasks, through: :facilities
-  has_many :project_users, dependent: :destroy
-  has_many :users, through: :project_users
   has_many :facility_projects, dependent: :destroy
   has_many :facilities, through: :facility_projects
   has_many :facility_groups, through: :facilities
@@ -24,13 +22,15 @@ class Project < SortableRecord
   has_many :issue_severities, through: :project_issue_severities
   has_many :project_task_stages, dependent: :destroy
   has_many :task_stages, through: :project_task_stages
-
   has_many :project_risk_stages, dependent: :destroy
   has_many :risk_stages, through: :project_risk_stages
-
   has_many :project_issue_stages, dependent: :destroy
   has_many :issue_stages, through: :project_issue_stages
 
+  has_many :project_roles, dependent: :destroy
+  has_many :roles, through: :project_roles
+  has_many :project_users, through: :project_roles
+  has_many :users, through: :project_users
 
   enum status: [:inactive, :active].freeze
 
@@ -38,7 +38,7 @@ class Project < SortableRecord
   validates :name, presence: true
 
   before_create :set_uuid
-  after_save :grant_access_to_admins
+  after_save :grant_access_to_super_roles
 
   def as_json(options=nil)
     json = super(options)
@@ -90,8 +90,8 @@ class Project < SortableRecord
       self.uuid = SecureRandom.uuid
     end
 
-    def grant_access_to_admins
-      self.users << User.superadmin.where.not(id: self.users.ids)
+    def grant_access_to_super_roles
+      self.roles << Role.unscoped.system.where.not(id: self.roles.ids)
     end
 
     def include_fp_hash

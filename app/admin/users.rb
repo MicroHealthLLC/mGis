@@ -26,30 +26,13 @@ ActiveAdmin.register User do
       :privileges,
       :country_code,
       :organization_id,
-      project_ids: [],
-      privilege_attributes: [
-        :id,
-        :overview,
-        :tasks,
-        :issues,
-        :notes,
-        :admin,
-        :map_view,
-        :gantt_view,
-        :watch_view,
-        :kanban_view,
-        :documents,
-        :facility_manager_view,
-        :sheets_view,
-        :members,
-        :risks
-      ]
+      project_role_ids: [],
+      admin_permissions: [],
     ]
   end
 
   form(html: {autocomplete: :off}) do |f|
     f.semantic_errors *f.object.errors.keys
-
     tabs do
       tab 'Basic' do
         f.inputs 'Basic Details' do
@@ -70,30 +53,15 @@ ActiveAdmin.register User do
           div id: 'user-gmaps-tab'
           f.input :status, include_blank: false, include_hidden: false, label: "State"
           f.input :organization, input_html: {class: "select2"}, include_blank: true
-          f.inputs for: [:privilege, f.object.privilege || Privilege.new] do |p|
-            p.input :facility_manager_view
-            p.input :sheets_view
-            p.input :map_view
-            p.input :gantt_view
-            p.input :watch_view
-            p.input :kanban_view
-            p.input :overview
-            p.input :tasks
-            p.input :issues
-            p.input :risks
-            p.input :notes
-            p.input :documents
-            p.input :members
-            p.input :admin
-          end
+          f.input :admin_permissions, label: 'Admin Panel Permissions', as: :select, collection: options_for_select(User::ADMIN_PERMISSIONS_ENUM, f.object.admin_permission_ids) , multiple: true, input_html: {class: "select2", "data-close-on-select": false }
         end
-        div id: 'user-role_privilege-tab'
         div id: 'user-password__tab'
       end
 
       tab 'Projects' do
         f.inputs 'Projects Details' do
-          f.input :projects, label: 'Projects', as: :select, include_blank: false
+          f.input :project_roles, label: 'Projects', as: :select, include_blank: false
+          div id: 'user-projects-with-roles'
         end
       end
     end
@@ -164,6 +132,7 @@ ActiveAdmin.register User do
   controller do
     before_action :check_readability, only: [:index, :show]
     before_action :check_writeability, only: [:new, :edit, :update, :create]
+    before_action :normalize_params, only: [:create, :update]
 
     def check_readability
       redirect_to '/not_found' and return unless current_user.admin_read?
@@ -176,6 +145,10 @@ ActiveAdmin.register User do
     def edit
       redirect_to '/not_found' and return if params[:id].to_i == current_user.id
       super
+    end
+
+    def normalize_params
+      resource_params[0]["admin_permissions"] = params[:user][:admin_permissions].reject(&:blank?).map(&:to_i).to_s if params[:user][:admin_permissions].present?
     end
 
     def destroy

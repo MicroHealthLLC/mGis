@@ -7,11 +7,11 @@
 //= require 'node_modules/vue-phone-number-input/dist/vue-phone-number-input.umd.js'
 //= require 'node_modules/vue-multiselect/dist/vue-multiselect.min.js'
 
-function checkRiskProbabilityImpactNumber(element){
-  if($(element).val() > 5){
-    $(element).val(5)
-  }else if($(element).val() < 0){
-    $(element).val(0)
+function checkRiskProbabilityImpactNumber(element) {
+  if ($(element).val() > 5) {
+    $(element).val(5);
+  } else if($(element).val() < 0) {
+    $(element).val(0);
   }
 }
 
@@ -573,20 +573,20 @@ jQuery(function($) {
       },
       methods: {
         writePrivileges() {
-          let overview = $("#user_privilege_attributes_overview").val() || "";
-          let tasks = $("#user_privilege_attributes_tasks").val() || "";
-          let issues = $("#user_privilege_attributes_issues").val() || "";
-          let risks = $("#user_privilege_attributes_risks").val() || "";
-          let notes = $("#user_privilege_attributes_notes").val() || "";
-          let admin = $("#user_privilege_attributes_admin").val() || "";
-          let map_view = $("#user_privilege_attributes_map_view").val() || "";
-          let facility_manager_view = $("#user_privilege_attributes_facility_manager_view").val() || "";
-          let sheets_view = $("#user_privilege_attributes_sheets_view").val() || "";
-          let gantt_view = $("#user_privilege_attributes_gantt_view").val() || "";
-          let watch_view = $("#user_privilege_attributes_watch_view").val() || "";
-          let kanban_view = $("#user_privilege_attributes_kanban_view").val() || "";
-          let documents = $("#user_privilege_attributes_documents").val() || "";
-          let members = $("#user_privilege_attributes_members").val() || "";
+          let overview = $("#role_privilege_attributes_overview").val() || "";
+          let tasks = $("#role_privilege_attributes_tasks").val() || "";
+          let issues = $("#role_privilege_attributes_issues").val() || "";
+          let risks = $("#role_privilege_attributes_risks").val() || "";
+          let notes = $("#role_privilege_attributes_notes").val() || "";
+          let admin = $("#role_privilege_attributes_admin").val() || "";
+          let map_view = $("#role_privilege_attributes_map_view").val() || "";
+          let facility_manager_view = $("#role_privilege_attributes_facility_manager_view").val() || "";
+          let sheets_view = $("#role_privilege_attributes_sheets_view").val() || "";
+          let gantt_view = $("#role_privilege_attributes_gantt_view").val() || "";
+          let watch_view = $("#role_privilege_attributes_watch_view").val() || "";
+          let kanban_view = $("#role_privilege_attributes_kanban_view").val() || "";
+          let documents = $("#role_privilege_attributes_documents").val() || "";
+          let members = $("#role_privilege_attributes_members").val() || "";
           this.overview = {
             read: overview.includes("R"),
             write: overview.includes("W"),
@@ -663,343 +663,343 @@ jQuery(function($) {
         "overview.read"(value) {
           if (this.loading) return;
           if (!value) this.overview.read = true;
-          let v = $("#user_privilege_attributes_overview").val();
+          let v = $("#role_privilege_attributes_overview").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.overview.write = false;
             this.overview.delete = false;
           }
-          $("#user_privilege_attributes_overview").val(v);
+          $("#role_privilege_attributes_overview").val(v);
         },
         "overview.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_overview").val();
+          let v = $("#role_privilege_attributes_overview").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.overview.read = value;
-          $("#user_privilege_attributes_overview").val(v);
+          $("#role_privilege_attributes_overview").val(v);
         },
         "overview.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_overview").val();
+          let v = $("#role_privilege_attributes_overview").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.overview.read = value;
-          $("#user_privilege_attributes_overview").val(v);
+          $("#role_privilege_attributes_overview").val(v);
         },
         "tasks.read"(value) {
           if (this.loading) return;
           if (!value) this.tasks.read = true;
-          let v = $("#user_privilege_attributes_tasks").val();
+          let v = $("#role_privilege_attributes_tasks").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.tasks.write = false;
             this.tasks.delete = false;
           }
-          $("#user_privilege_attributes_tasks").val(v);
+          $("#role_privilege_attributes_tasks").val(v);
         },
         "tasks.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_tasks").val();
+          let v = $("#role_privilege_attributes_tasks").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.tasks.read = value;
-          $("#user_privilege_attributes_tasks").val(v);
+          $("#role_privilege_attributes_tasks").val(v);
         },
         "tasks.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_tasks").val();
+          let v = $("#role_privilege_attributes_tasks").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.tasks.read = value;
-          $("#user_privilege_attributes_tasks").val(v);
+          $("#role_privilege_attributes_tasks").val(v);
         },
         "issues.read"(value) {
           if (this.loading) return;
           if (!value) this.issues.read = true;
-          let v = $("#user_privilege_attributes_issues").val();
+          let v = $("#role_privilege_attributes_issues").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.issues.write = false;
             this.issues.delete = false;
           }
-          $("#user_privilege_attributes_issues").val(v);
+          $("#role_privilege_attributes_issues").val(v);
         },
         "issues.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_issues").val();
+          let v = $("#role_privilege_attributes_issues").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.issues.read = value;
-          $("#user_privilege_attributes_issues").val(v);
+          $("#role_privilege_attributes_issues").val(v);
         },
         "issues.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_issues").val();
+          let v = $("#role_privilege_attributes_issues").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.issues.read = value;
-          $("#user_privilege_attributes_issues").val(v);
+          $("#role_privilege_attributes_issues").val(v);
         },
         "risks.read"(value) {
           if (this.loading) return;
           if (!value) this.risks.read = true;
-          let v = $("#user_privilege_attributes_risks").val();
+          let v = $("#role_privilege_attributes_risks").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.risks.write = false;
             this.risks.delete = false;
           }
-          $("#user_privilege_attributes_risks").val(v);
+          $("#role_privilege_attributes_risks").val(v);
         },
         "risks.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_risks").val();
+          let v = $("#role_privilege_attributes_risks").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.risks.read = value;
-          $("#user_privilege_attributes_risks").val(v);
+          $("#role_privilege_attributes_risks").val(v);
         },
         "risks.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_risks").val();
+          let v = $("#role_privilege_attributes_risks").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.risks.read = value;
-          $("#user_privilege_attributes_risks").val(v);
+          $("#role_privilege_attributes_risks").val(v);
         },
         "notes.read"(value) {
           if (this.loading) return;
           if (!value) this.notes.read = true;
-          let v = $("#user_privilege_attributes_notes").val();
+          let v = $("#role_privilege_attributes_notes").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.notes.write = false;
             this.notes.delete = false;
           }
-          $("#user_privilege_attributes_notes").val(v);
+          $("#role_privilege_attributes_notes").val(v);
         },
         "notes.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_notes").val();
+          let v = $("#role_privilege_attributes_notes").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.notes.read = value;
-          $("#user_privilege_attributes_notes").val(v);
+          $("#role_privilege_attributes_notes").val(v);
         },
         "notes.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_notes").val();
+          let v = $("#role_privilege_attributes_notes").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.notes.read = value;
-          $("#user_privilege_attributes_notes").val(v);
+          $("#role_privilege_attributes_notes").val(v);
         },
         "admin.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_admin").val();
+          let v = $("#role_privilege_attributes_admin").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.admin.write = false;
             this.admin.delete = false;
           }
-          $("#user_privilege_attributes_admin").val(v);
+          $("#role_privilege_attributes_admin").val(v);
         },
         "admin.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_admin").val();
+          let v = $("#role_privilege_attributes_admin").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.admin.read = value;
-          $("#user_privilege_attributes_admin").val(v);
+          $("#role_privilege_attributes_admin").val(v);
         },
         "admin.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_admin").val();
+          let v = $("#role_privilege_attributes_admin").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.admin.read = value;
-          $("#user_privilege_attributes_admin").val(v);
+          $("#role_privilege_attributes_admin").val(v);
         },
         "map_view.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_map_view").val();
+          let v = $("#role_privilege_attributes_map_view").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.map_view.write = false;
             this.map_view.delete = false;
           }
-          $("#user_privilege_attributes_map_view").val(v);
+          $("#role_privilege_attributes_map_view").val(v);
         },
         "map_view.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_map_view").val();
+          let v = $("#role_privilege_attributes_map_view").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.map_view.read = value;
-          $("#user_privilege_attributes_map_view").val(v);
+          $("#role_privilege_attributes_map_view").val(v);
         },
         "map_view.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_map_view").val();
+          let v = $("#role_privilege_attributes_map_view").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.map_view.read = value;
-          $("#user_privilege_attributes_map_view").val(v);
+          $("#role_privilege_attributes_map_view").val(v);
         },
         "gantt_view.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_gantt_view").val();
+          let v = $("#role_privilege_attributes_gantt_view").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.gantt_view.write = false;
             this.gantt_view.delete = false;
           }
-          $("#user_privilege_attributes_gantt_view").val(v);
+          $("#role_privilege_attributes_gantt_view").val(v);
         },
         "gantt_view.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_gantt_view").val();
+          let v = $("#role_privilege_attributes_gantt_view").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.gantt_view.read = value;
-          $("#user_privilege_attributes_gantt_view").val(v);
+          $("#role_privilege_attributes_gantt_view").val(v);
         },
         "gantt_view.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_gantt_view").val();
+          let v = $("#role_privilege_attributes_gantt_view").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.gantt_view.read = value;
-          $("#user_privilege_attributes_gantt_view").val(v);
+          $("#role_privilege_attributes_gantt_view").val(v);
         },
         "facility_manager_view.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_facility_manager_view").val();
+          let v = $("#role_privilege_attributes_facility_manager_view").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.facility_manager_view.write = false;
             this.facility_manager_view.delete = false;
           }
-          $("#user_privilege_attributes_facility_manager_view").val(v);
+          $("#role_privilege_attributes_facility_manager_view").val(v);
         },
         "facility_manager_view.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_facility_manager_view").val();
+          let v = $("#role_privilege_attributes_facility_manager_view").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.facility_manager_view.read = value;
-          $("#user_privilege_attributes_facility_manager_view").val(v);
+          $("#role_privilege_attributes_facility_manager_view").val(v);
         },
         "facility_manager_view.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_facility_manager_view").val();
+          let v = $("#role_privilege_attributes_facility_manager_view").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.facility_manager_view.read = value;
-          $("#user_privilege_attributes_facility_manager_view").val(v);
+          $("#role_privilege_attributes_facility_manager_view").val(v);
         },
         "sheets_view.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_sheets_view").val();
+          let v = $("#role_privilege_attributes_sheets_view").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.sheets_view.write = false;
             this.sheets_view.delete = false;
           }
-          $("#user_privilege_attributes_sheets_view").val(v);
+          $("#role_privilege_attributes_sheets_view").val(v);
         },
         "sheets_view.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_sheets_view").val();
+          let v = $("#role_privilege_attributes_sheets_view").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.sheets_view.read = value;
-          $("#user_privilege_attributes_sheets_view").val(v);
+          $("#role_privilege_attributes_sheets_view").val(v);
         },
         "sheets_view.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_sheets_view").val();
+          let v = $("#role_privilege_attributes_sheets_view").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.sheets_view.read = value;
-          $("#user_privilege_attributes_sheets_view").val(v);
+          $("#role_privilege_attributes_sheets_view").val(v);
         },
         "watch_view.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_watch_view").val();
+          let v = $("#role_privilege_attributes_watch_view").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.watch_view.write = false;
             this.watch_view.delete = false;
           }
-          $("#user_privilege_attributes_watch_view").val(v);
+          $("#role_privilege_attributes_watch_view").val(v);
         },
         "watch_view.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_watch_view").val();
+          let v = $("#role_privilege_attributes_watch_view").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.watch_view.read = value;
-          $("#user_privilege_attributes_watch_view").val(v);
+          $("#role_privilege_attributes_watch_view").val(v);
         },
         "watch_view.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_watch_view").val();
+          let v = $("#role_privilege_attributes_watch_view").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.watch_view.read = value;
-          $("#user_privilege_attributes_watch_view").val(v);
+          $("#role_privilege_attributes_watch_view").val(v);
         },
         "kanban_view.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_kanban_view").val();
+          let v = $("#role_privilege_attributes_kanban_view").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.kanban_view.write = false;
             this.kanban_view.delete = false;
           }
-          $("#user_privilege_attributes_kanban_view").val(v);
+          $("#role_privilege_attributes_kanban_view").val(v);
         },
         "kanban_view.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_kanban_view").val();
+          let v = $("#role_privilege_attributes_kanban_view").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.kanban_view.read = value;
-          $("#user_privilege_attributes_kanban_view").val(v);
+          $("#role_privilege_attributes_kanban_view").val(v);
         },
         "kanban_view.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_kanban_view").val();
+          let v = $("#role_privilege_attributes_kanban_view").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.kanban_view.read = value;
-          $("#user_privilege_attributes_kanban_view").val(v);
+          $("#role_privilege_attributes_kanban_view").val(v);
         },
         "documents.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_documents").val();
+          let v = $("#role_privilege_attributes_documents").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.documents.write = false;
             this.documents.delete = false;
           }
-          $("#user_privilege_attributes_documents").val(v);
+          $("#role_privilege_attributes_documents").val(v);
         },
         "documents.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_documents").val();
+          let v = $("#role_privilege_attributes_documents").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.documents.read = value;
-          $("#user_privilege_attributes_documents").val(v);
+          $("#role_privilege_attributes_documents").val(v);
         },
         "documents.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_documents").val();
+          let v = $("#role_privilege_attributes_documents").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.documents.read = value;
-          $("#user_privilege_attributes_documents").val(v);
+          $("#role_privilege_attributes_documents").val(v);
         },
         "members.read"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_members").val();
+          let v = $("#role_privilege_attributes_members").val();
           v = value ? v + "R" : v.replace("R", "")
           if (!value) {
             this.members.write = false;
             this.members.delete = false;
           }
-          $("#user_privilege_attributes_members").val(v);
+          $("#role_privilege_attributes_members").val(v);
         },
         "members.write"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_members").val();
+          let v = $("#role_privilege_attributes_members").val();
           v = value ? v + "W" : v.replace("W", "")
           if (value) this.members.read = value;
-          $("#user_privilege_attributes_members").val(v);
+          $("#role_privilege_attributes_members").val(v);
         },
         "members.delete"(value) {
           if (this.loading) return;
-          let v = $("#user_privilege_attributes_members").val();
+          let v = $("#role_privilege_attributes_members").val();
           v = value ? v + "D" : v.replace("D", "")
           if (value) this.members.read = value;
-          $("#user_privilege_attributes_members").val(v);
+          $("#role_privilege_attributes_members").val(v);
         }
       },
       template: `<div class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
@@ -1067,12 +1067,6 @@ jQuery(function($) {
               <label class="d-flex align-center" :readOnly="notes.read"><input type="checkbox" v-model="notes.read" :readOnly="notes.read">Read</label>
               <label class="d-flex align-center"><input type="checkbox" v-model="notes.write">Write</label>
               <label class="d-flex align-center"><input type="checkbox" v-model="notes.delete">Delete</label>
-            </li>
-            <li class="choice d-flex">
-              <label>Admin</label>
-              <label class="d-flex align-center"><input type="checkbox" v-model="admin.read">Read</label>
-              <label class="d-flex align-center"><input type="checkbox" v-model="admin.write">Write</label>
-              <label class="d-flex align-center"><input type="checkbox" v-model="admin.delete">Delete</label>
             </li>
           </ol>
         </fieldset>
@@ -1500,7 +1494,6 @@ jQuery(function($) {
       if ($.Vue_task_slider.autoCalculate) $.Vue_task_slider.calculateProgress();
     });
 
-
     // delete comments
     $("body").on("change", ".comments li.boolean input[type=checkbox]", function(e) {
       let confirm = window.confirm(`Are you sure, you want to delete this comment?`)
@@ -1602,7 +1595,7 @@ jQuery(function($) {
       $.Vue_checklists_items.push(item);
     };
 
-    // projects_users tab
+    // projects_users tab in tasks view
     if ($("#projects_users-tab").is(":visible"))
     {
       Vue.component('multiselect', VueMultiselect.Multiselect);
@@ -1668,6 +1661,147 @@ jQuery(function($) {
               </template>
             </multiselect>
           </div>
+        </li>`
+      });
+    }
+
+    // user projects tab
+    if ($("#user-projects-with-roles").css('display') === 'block')
+    {
+      Vue.component('multiselect', VueMultiselect.Multiselect);
+      $.Vue_user_projects_with_roles = new Vue({
+        el: "#user-projects-with-roles",
+        data() {
+          return {
+            loading: true,
+            projectWithRoleSelector: [],
+            selectors: [],
+            projects: [],
+            projectRoles: []
+          }
+        },
+        mounted() {
+          this.projectWithRoleSelector = $("#user_project_role_ids").val();
+          this.fetchProjectWithRoles();
+        },
+        methods: {
+          fetchProjectWithRoles() {
+            $.get(`/api/project_roles.json`, (data) => {
+              this.projects = data.filter(d => d.project_roles.length > 0);
+              this.projectRoles = this.projects.map(p => p.project_roles).filter(Boolean).flat();
+              for (let val of this.projectWithRoleSelector) {
+                let p_role = this.projectRoles.find(p => p.id == Number(val));
+                let project = this.projects.find(p => p.id == p_role.project_id);
+                let role = project.project_roles.map(p => p.role).find(p => p.id == p_role.role_id);
+                this.selectors.push({
+                  project,
+                  role
+                });
+              }
+              this.loading = false;
+            });
+          },
+          addMoreProject() {
+            if (!this.allowMoreProjects) return;
+            this.selectors.push({
+              project: null,
+              role: null
+            });
+          },
+          removeProject(index) {
+            this.selectors.splice(index, 1);
+          }
+        },
+        computed: {
+          filteredProjects() {
+            return sault => {
+              let projectIds = this.selectors.map(s => s.project).filter(Boolean).flat().map(p => p.id);
+              return this.projects.filter(p => !projectIds.includes(p.id) || (sault.project && p.id == sault.project.id));
+            }
+          },
+          filteredRoles() {
+            return sault => {
+              if (!sault.project) return [];
+              return sault.project.project_roles.map(s => s.role);
+            }
+          },
+          allowMoreProjects() {
+            return this.selectors.length !== this.projects.length;
+          }
+        },
+        watch: {
+          selectors: {
+            handler(value) {
+              if (this.loading) return;
+              let targetVal = [];
+              for (let v of value) {
+                if (v.project && v.project.id && v.role && v.role.id) {
+                  let p_role = this.projectRoles.find(p => p.project_id == v.project.id && p.role_id == v.role.id);
+                  targetVal.push(p_role.id.toString());
+                }
+              }
+              $("#user_project_role_ids").val(targetVal);
+            },
+            deep: true
+          }
+        },
+        template: `<li id='userProjectsWithRoleTab'>
+          <ol>
+            <li v-if="!loading" class='select input optional'>
+              <div class='d-flex'>
+                <label class='label'>Assign Projects with Roles</label>
+                <span class='plus-button mln-8' @click="addMoreProject" :class="{'disabled': !allowMoreProjects}"></span>
+              </div>
+              <div v-if="selectors.length > 0" class="select--wrapper select-headings">
+                <div>Project Selector</div>
+                <div>Role Selector</div>
+              </div>
+              <div v-for="(select, i) in selectors">
+                <div class="select--wrapper">
+                  <div class="user_multiselect">
+                    <multiselect
+                      v-model="select.project"
+                      track-by="id"
+                      label="name"
+                      placeholder="Search and select Project"
+                      :options="filteredProjects(select)"
+                      :searchable="true"
+                      :multiple="false"
+                      select-label="Select"
+                      deselect-label="Remove"
+                      >
+                      <template slot="singleLabel" slot-scope="{option}">
+                        <div class="d-flex">
+                          <span class='select__tag-name'>{{option.name}}</span>
+                        </div>
+                      </template>
+                    </multiselect>
+                  </div>
+                  <div class="user_multiselect">
+                    <multiselect
+                      v-model="select.role"
+                      track-by="id"
+                      label="name"
+                      placeholder="Search and select Role"
+                      :options="filteredRoles(select)"
+                      :searchable="true"
+                      :multiple="false"
+                      select-label="Select"
+                      deselect-label="Remove"
+                      :disabled="!select.project"
+                      >
+                      <template slot="singleLabel" slot-scope="{option}">
+                        <div class="d-flex">
+                          <span class='select__tag-name'>{{option.name}}</span>
+                        </div>
+                      </template>
+                    </multiselect>
+                  </div>
+                  <span class='close-icon select-close-icon' @click.prevent="removeProject(i)"></span>
+                </div>
+              </div>
+            </li>
+          </ol>
         </li>`
       });
     }

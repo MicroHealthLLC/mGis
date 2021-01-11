@@ -189,20 +189,20 @@ body {
   #risk_progress_input,
   #task_users_input,
   #issue_users_input,
-  #user_privilege_attributes_overview_input,
-  #user_privilege_attributes_tasks_input,
-  #user_privilege_attributes_notes_input,
-  #user_privilege_attributes_issues_input,
-  #user_privilege_attributes_admin_input,
-  #user_privilege_attributes_facility_manager_view_input,
-  #user_privilege_attributes_map_view_input,
-  #user_privilege_attributes_gantt_view_input,
-  #user_privilege_attributes_watch_view_input,
-  #user_privilege_attributes_kanban_view_input,
-  #user_privilege_attributes_documents_input,
-  #user_privilege_attributes_members_input,
-  #user_privilege_attributes_sheets_view_input,
-  #user_privilege_attributes_risks_input,
+  #role_privilege_attributes_overview_input,
+  #role_privilege_attributes_tasks_input,
+  #role_privilege_attributes_notes_input,
+  #role_privilege_attributes_issues_input,
+  #role_privilege_attributes_admin_input,
+  #role_privilege_attributes_facility_manager_view_input,
+  #role_privilege_attributes_map_view_input,
+  #role_privilege_attributes_gantt_view_input,
+  #role_privilege_attributes_watch_view_input,
+  #role_privilege_attributes_kanban_view_input,
+  #role_privilege_attributes_documents_input,
+  #role_privilege_attributes_members_input,
+  #role_privilege_attributes_sheets_view_input,
+  #role_privilege_attributes_risks_input,
   #task_sub_issues_input,
   #task_sub_tasks_input,
   #task_sub_risks_input,
@@ -214,7 +214,8 @@ body {
   #risk_sub_risks_input,
   #task_task_files,
   #risk_risk_files,
-  #issue_issue_files {
+  #issue_issue_files,
+  #user_project_roles_input {
     display: none;
     width: 0;
   }
@@ -505,7 +506,7 @@ body {
     cursor: pointer;
     border: 2px solid lightgrey;
     background-color: #fff;
-    font-size: 75%;
+    font-size: 0.7rem;
     height: 2.5em;
     width: 2.5em;
     border-radius: 999px;
@@ -536,6 +537,31 @@ body {
     &:hover {
       border-color: black;
     }
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.6;
+      cursor: none !important;
+      border-color: lightgrey;
+    }
+  }
+  .mln-8 {
+    margin-left: -8%;
+  }
+  .select--wrapper {
+    position: relative;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .user_multiselect {
+      width: 46%;
+    }
+  }
+  .select-headings {
+    font-size: 1.5em;
+    > div {
+      margin: 0 auto;
+    }
   }
   .p-0 {
     padding: 0;
@@ -546,6 +572,10 @@ body {
   .close-icon:hover {
     opacity: 1;
     cursor: pointer;
+  }
+  .select-close-icon:before, .select-close-icon:after {
+    top: 1em !important;
+    right: 0 !important;
   }
   .close-icon:before, .close-icon:after {
     position: absolute;

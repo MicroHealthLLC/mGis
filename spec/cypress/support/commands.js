@@ -7,13 +7,13 @@ Cypress.Commands.add("login", (email, password) => {
   cy.get('[data-cy=user_password]').type(password).should('have.value', password)
   cy.get('[data-cy=user_remember_me]').click()
   cy.get('[data-cy=submit]').click()
-  cy.contains('Welcome to MicroHealth Geographical Information System')
+  cy.contains('Welcome to MicroHealth Geographical Information System').should('be.visible')
 })
 
 // Logout Command
 Cypress.Commands.add("logout", () => {
   cy.get('[data-cy=logout]').click()
-  cy.contains('You need to sign in before continuing.')
+  cy.contains('You need to sign in before continuing.', { timeout: 60000 }).should('be.visible')
 })
 
 // Open first Project

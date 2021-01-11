@@ -99,6 +99,7 @@ class ProjectsController < AuthenticatedController
         issue_severities: []
       }
     @project = current_user.projects.includes(projects_include_hash).active.find_by(id: params[:id])
+    current_user.current_project = @project
   end
 
   def check_permit(view)

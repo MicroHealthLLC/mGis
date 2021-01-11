@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_01_112344) do
+ActiveRecord::Schema.define(version: 2021_01_09_103254) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -192,7 +192,6 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
     t.string "notes", default: "R"
     t.string "issues", default: "R"
     t.string "admin", default: ""
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "map_view", default: "R"
@@ -204,7 +203,8 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
     t.string "sheets_view", default: "R"
     t.string "kanban_view", default: "R"
     t.string "risks", default: "R"
-    t.index ["user_id"], name: "index_privileges_on_user_id"
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_privileges_on_role_id"
   end
 
   create_table "project_issue_severities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -239,6 +239,15 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "project_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "role_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_roles_on_project_id"
+    t.index ["role_id"], name: "index_project_roles_on_role_id"
+  end
+
   create_table "project_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "status_id"
     t.bigint "project_id"
@@ -271,11 +280,11 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
   end
 
   create_table "project_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "project_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_users_on_project_id"
+    t.bigint "project_role_id"
+    t.index ["project_role_id"], name: "index_project_users_on_project_role_id"
     t.index ["user_id"], name: "index_project_users_on_user_id"
   end
 
@@ -368,6 +377,14 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
     t.index ["risk_stage_id"], name: "index_risks_on_risk_stage_id"
     t.index ["task_type_id"], name: "index_risks_on_task_type_id"
     t.index ["user_id"], name: "index_risks_on_user_id"
+  end
+
+  create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "system", default: false
   end
 
   create_table "settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -475,6 +492,7 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
     t.string "country_code", default: ""
     t.string "color"
     t.bigint "organization_id"
+    t.text "admin_permissions"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -493,16 +511,18 @@ ActiveRecord::Schema.define(version: 2021_01_01_112344) do
   add_foreign_key "issues", "issue_severities"
   add_foreign_key "issues", "issue_stages"
   add_foreign_key "issues", "issue_types"
-  add_foreign_key "privileges", "users"
+  add_foreign_key "privileges", "roles"
   add_foreign_key "project_issue_severities", "issue_severities"
   add_foreign_key "project_issue_severities", "projects"
   add_foreign_key "project_issue_types", "issue_types"
   add_foreign_key "project_issue_types", "projects"
+  add_foreign_key "project_roles", "projects"
+  add_foreign_key "project_roles", "roles"
   add_foreign_key "project_statuses", "projects"
   add_foreign_key "project_statuses", "statuses"
   add_foreign_key "project_task_types", "projects"
   add_foreign_key "project_task_types", "task_types"
-  add_foreign_key "project_users", "projects"
+  add_foreign_key "project_users", "project_roles"
   add_foreign_key "project_users", "users"
   add_foreign_key "projects", "project_types"
   add_foreign_key "region_states", "facility_groups"

@@ -8,7 +8,6 @@ ActiveAdmin.register Project do
       :description,
       :project_type_id,
       :status,
-      user_ids: [],
       facility_ids: [],
       status_ids: [],
       task_type_ids: [],
@@ -71,7 +70,6 @@ ActiveAdmin.register Project do
 
       tab 'Advanced' do
         f.inputs 'Project Details' do
-          input :users, label: 'Users in Project', as: :select, collection: options_for_select(  User.client.active.map{|u| [u.email, u.id]}, f.object.user_ids ), multiple: true, input_html: {class: "select2", "data-close-on-select" => false }
           input :facilities, label: 'Facilities in Project', as: :select, collection: options_for_select(Facility.active.map{|u| [u.facility_name, u.id]}, f.object.facility_ids) , multiple: true, input_html: {class: "select2", "data-close-on-select" => false }
           input :statuses, label: 'Statuses in Project', as: :select, collection:  options_for_select( Status.all.map{|u| [u.name, u.id]}, f.object.status_ids ), multiple: true, input_html: {class: "select2", "data-close-on-select" => false }
           input :task_stages, label: 'Task Stages in Project', as: :select, collection: options_for_select( TaskStage.all.map{|u| [u.name, u.id]}, f.object.task_stage_ids), multiple: true, input_html: {class: "select2", "data-close-on-select" => false }

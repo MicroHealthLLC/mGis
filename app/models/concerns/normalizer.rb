@@ -10,5 +10,4 @@ module Normalizer
       self[column] = nil if column.include? "id" and self[column] == 0
     end
   end
-
 end

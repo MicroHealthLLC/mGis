@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     resources :task_types, only: [:index]
     resources :facility_groups, only: [:index]
+    resources :project_roles, only: [:index]
     resources :statuses, only: [:index]
     resources :issue_severities, only: [:index]
     resources :issue_types, only: [:index]
