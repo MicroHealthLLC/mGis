@@ -257,6 +257,7 @@
                     <v2-date-picker                    
                       v-model="check.dueDate"
                       :value="check.dueDate" 
+                      :disabled="!_isallowed('write')"
                       @selected="updateCheckItem($event, 'dueDate', index)"
                       :key="`dueDate_${index}`"
                       value-type="YYYY-MM-DD"
@@ -578,9 +579,11 @@
             for (let key in check) {         
               if (key === 'user') key = 'user_id'            
               let value = key == 'user_id' ? check.user ? check.user.id : null : check[key]
-              if (key === "dueDate"){
-                key = "due_date"
-              }
+              // if (key === "dueDate"){
+              //   key = "due_date"
+              // }
+              key = humps.decamelize(key)
+              if(['created_at', 'updated_at'].includes(key)) continue
               formData.append(`task[checklists_attributes][${i}][${key}]`, value)
             }              
           }          
@@ -622,6 +625,7 @@
             this.$emit(callback, humps.camelizeKeys(response.data.task))
           })
           .catch((err) => {
+            // var errors = err.response.data.errors
             console.log(err)
           })
           .finally(() => {
@@ -630,7 +634,8 @@
         })
       },
       addChecks() {
-        this.DV_task.checklists.push({text: '', checked: false})
+        var postion = this.DV_task.checklists.length
+        this.DV_task.checklists.push({text: '', checked: false, position: postion})
       },
       addNote() {
         this.DV_task.notes.unshift({body: '', user_id: '', guid: this.guid()})

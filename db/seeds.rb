@@ -10,7 +10,7 @@ user.assign_attributes(
   role: "superadmin",
   last_name: 'Admin'
 )
-user.privilege = Privilege.new(overview: "RWD", tasks: "RWD", notes: "RWD", issues: "RWD", admin: "RWD", map_view: "RWD", gantt_view: "RWD", watch_view: "RWD", documents: "RWD", members: "RWD")
+user.privileges = Privilege.new(overview: "RWD", tasks: "RWD", notes: "RWD", issues: "RWD", admin: "RWD", map_view: "RWD", gantt_view: "RWD", watch_view: "RWD", documents: "RWD", members: "RWD")
 user.save(validate: false)
 
 puts "superuser created with email: #{user.email}"

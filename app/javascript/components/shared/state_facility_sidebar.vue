@@ -50,7 +50,7 @@
               from="manager_view"
               :facility="currentFacility"
               :note="managerView.note"
-               @close-note-input="newNote=false"
+              @close-note-input="newNote=false"
               @note-created="createdFacilityNote"
               @note-updated="updatedFacilityNote"
             ></notes-form>
@@ -72,7 +72,9 @@
         </div>
       </div>
 
-       <div class="col-md-10 facility-show-tab pr-3" data-cy="sheets_view" style="background-color: solid #ededed 15px" v-if="isSheetsView">
+      <!-- Sheets View starts here -->
+
+       <div class="col-md-10 facility-show-tab px-4" data-cy="sheets_view" style="background-color: solid #ededed 15px" v-if="isSheetsView">
         <div class="mt-3">
           <facility-sheets
             v-if="C_showFacilityTab"
@@ -82,8 +84,47 @@
           ></facility-sheets>
           <facility-rollup v-else></facility-rollup>
         </div>
-
+        <div v-if="isSheetsView">   
+          <sweet-modal
+            class="form_modal"
+            ref="formModals"
+            :hide-close-button="true"
+            :blocking="true"
+            >           
+          <div v-if="managerView.task || managerView.issue || managerView.note" class="w-100" >
+            <task-form
+              v-if="managerView.task"
+              :facility="currentFacility"
+              :task="managerView.task"
+              title="Edit Task"
+              @task-created="updateFacilityTask"
+              @task-updated="updateFacilityTask"
+              class="form-inside-modal"
+            ></task-form>
+            <issue-form
+              v-else-if="managerView.issue"
+              :facility="currentFacility"
+              :issue="managerView.issue"
+              @issue-updated="updateFacilityIssue"
+              @issue-created="updateFacilityIssue"
+              class="form-inside-modal"
+            ></issue-form>
+              <notes-form
+              v-else-if="managerView.note"            
+              :facility="currentFacility"
+              :note="managerView.note"
+              @close-note-input="newNote=false"
+              @note-created="createdFacilityNote"
+              @note-updated="updatedFacilityNote"
+              class="form-inside-modal"
+            ></notes-form>  
+           </div>       
+          </sweet-modal>
+         </div>
+      
       </div>
+
+      <!-- Sheets View ends here -->
 
       <!-- Kanban Starts here -->
        <div class="col-md-10 facility-show-tab pr-3" data-cy="sheets_view" style="background-color: solid #ededed 15px" v-if="isKanbanView" >
@@ -355,7 +396,7 @@
 <script>
   import {mapGetters, mapMutations, mapActions} from "vuex"
   import {SweetModal} from 'sweet-modal-vue'
-   import CustomTabs from './custom-tabs'
+  import CustomTabs from './custom-tabs'
   import FacilityShow from './../dashboard/facilities/facility_show'
   import FacilitySheets from './../dashboard/facilities/facility_sheets'
   import FacilityRollup from './../dashboard/facilities/facility_rollup'
@@ -431,7 +472,7 @@
     computed: {
       ...mapGetters([ 
         'managerView',
-         'getAdvancedFilterOptions',
+        'getAdvancedFilterOptions',
         'filterDataForAdvancedFilter',
         'taskIssueProgressFilter',
         'getTaskIssueUserFilter',
@@ -892,6 +933,15 @@
             this.goBackFromEdits()
           }
         }, deep: true
+      },
+        managerView: {
+        handler(value) {
+          if (value.task || value.issue || value.note) {
+            this.$refs.formModals && this.$refs.formModals.open()
+          } else {
+            this.$refs.formModals && this.$refs.formModals.close()
+          }
+        }, deep: true      
       },
       filteredFacilityGroups: {
         handler(value) {

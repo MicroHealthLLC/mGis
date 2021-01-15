@@ -14,6 +14,7 @@ class TasksController < AuthenticatedController
   def update
     destroy_files_first if destroy_file_ids.present?
     @task.update(task_params)
+    # @task.create_or_update_task(params, current_user)
     render json: {task: @task.to_json}
   end
 
@@ -66,7 +67,10 @@ class TasksController < AuthenticatedController
         :user_id,
         :checked,
         :position,
-        :due_date
+        :due_date,
+        :listable_type,
+        :listable_id,
+        :position
       ],
       notes_attributes: [
         :id,

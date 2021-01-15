@@ -390,6 +390,7 @@
                           v-model="check.dueDate"
                           :value="check.dueDate"
                           @selected="updateCheckItem($event, 'dueDate', index)"
+                          :disabled="!_isallowed('write')"
                           :key="`dueDate_${index}`"
                           value-type="YYYY-MM-DD"
                           format="DD MMM YYYY"

@@ -315,7 +315,7 @@
            {
             label: 'Risks',
             key: 'risks',
-            closable: false,           
+            closable: false,                      
           },
           {
             label: 'Notes',

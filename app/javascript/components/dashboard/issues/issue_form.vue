@@ -311,6 +311,7 @@
                    <br/>
                     <v2-date-picker
                       v-model="check.dueDate"
+                      :disabled="!_isallowed('write')"
                       :value="check.dueDate"
                       @selected="updateCheckItem($event, 'dueDate', index)"
                       :key="`dueDate_${index}`"

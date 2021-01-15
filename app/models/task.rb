@@ -82,7 +82,10 @@ class Task < ApplicationRecord
         :text,
         :user_id,
         :checked,
-        :due_date
+        :due_date,
+        :listable_type,
+        :listable_id,
+        :position
       ],
       notes_attributes: [
         :id,
@@ -105,6 +108,8 @@ class Task < ApplicationRecord
 
     task.attributes = t_params
     task.facility_project_id = facility_project.id
+
+    all_checklists = task.checklists
 
     task.transaction do
       task.save
@@ -136,8 +141,19 @@ class Task < ApplicationRecord
       if checklists_attributes.present?
         checklist_objs = []
         checklists_attributes.each do |key, value|
-          value.delete("_destroy")
-          checklist_objs << Checklist.new(value.merge({listable_id: task.id, listable_type: "Task"}) )
+          if value["id"].present?
+            c = all_checklists.detect{|cc| cc.id == value["id"].to_i}
+            if value["_destroy"].present? && value["_destroy"] == "true"
+              c.destroy
+            else
+              # TODO: Use upsert_all in Rails 6
+              c.attributes = value
+              c.save
+            end
+          else
+            value.delete("_destroy")
+            checklist_objs << Checklist.new(value.merge({listable_id: task.id, listable_type: "Task"}) )
+          end
         end
         Checklist.import(checklist_objs) if checklist_objs.any?
       end
@@ -153,7 +169,7 @@ class Task < ApplicationRecord
 
     end
 
-    task
+    task.reload
   end
 
   def files_as_json
