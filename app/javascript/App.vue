@@ -9,10 +9,10 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import Tabsbar from './../shared/tabsbar'
-  import FilterSidebar from './../shared/filter_sidebar'
-  import StateFacilitySidebar from './../shared/state_facility_sidebar'
-  import Facility_form from './facilities/facility_form.vue'
+  import Tabsbar from './components/shared/tabsbar'
+  import FilterSidebar from './components/shared/filter_sidebar'
+  import StateFacilitySidebar from './components/shared/state_facility_sidebar'
+  import Facility_form from './components/dashboard/facilities/facility_form.vue'
 
   export default {
     name: 'Dashboard',

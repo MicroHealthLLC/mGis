@@ -8,7 +8,7 @@ import Multiselect          from 'vue-multiselect'
 import VModal               from 'vue-js-modal'
 import * as VueGoogleMaps   from 'vue2-google-maps'
 import GmapCustomMarker     from 'vue2-gmap-custom-marker'
-import Dashboard            from 'components/dashboard/index.vue'
+import App                  from '../App.vue'
 import router               from 'routers/dashboard'
 import store                from './../store'
 import utils                from './../mixins/utils'
@@ -69,10 +69,10 @@ Vue.prototype.$currentUser = current_user
 Vue.prototype.$permissions = permissions
 
 // eslint-disable-next-line no-unused-vars
-const dashboardApp = new Vue({
+const mGisApp = new Vue({
   router,
   store,
-  el: '#dashboard',
-  template: '<Dashboard />',
-  components: { Dashboard }
+  el: '#app',
+  template: '<App />',
+  components: { App }
 })
