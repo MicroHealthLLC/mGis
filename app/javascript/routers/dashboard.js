@@ -1,45 +1,45 @@
-import ProjectMapView from './../components/dashboard/map_view'
-import GanttChartView from './../components/dashboard/gantt_view'
-import WatchView from './../components/dashboard/watch_view'
-import MembersView from './../components/dashboard/members_view'
-import FacilityView from './../components/dashboard/facility_view'
-import Sheets from './../components/dashboard/sheets'
-import KanbanView from './../components/dashboard/kanban_view'
+import MapView from './../views/MapView'
+import GanttView from './../views/GanttView'
+import WatchView from './../views/WatchView'
+import MembersView from './../views/MembersView'
+import FacilityManagerView from './../views/FacilityManagerView'
+import SheetsView from './../views/SheetsView'
+import KanbanView from './../views/KanbanView'
 
 export default new VueRouter({
   routes: [
     {
-      name: 'ProjectMapView',
+      name: 'MapView',
       path: '/projects/:projectId',
-      component: ProjectMapView
+      component: MapView
     },
     {
-      name: 'ProjectGanttChart',
+      name: 'GanttChart',
       path: '/projects/:projectId/gantt_chart',
-      component: GanttChartView
+      component: GanttView
     },
     {
-      name: 'ProjectWatchView',
+      name: 'WatchView',
       path: '/projects/:projectId/watch_view',
       component: WatchView
     },
     {
-      name: 'TeamMembersView',
+      name: 'MembersView',
       path: '/projects/:projectId/member_list',
       component: MembersView
     },
     {
       name: 'FacilityManagerView',
       path: '/projects/:projectId/facility_manager',
-      component: FacilityView
+      component: FacilityManagerView
     },
     {
-      name: 'ProjectSheets',
+      name: 'SheetsView',
       path: '/projects/:projectId/sheets',
-      component: Sheets
+      component: SheetsView
     },
     {
-      name: 'ProjectKanbanView',
+      name: 'KanbanView',
       path: '/projects/:projectId/kanban',
       component: KanbanView
     }

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import FacilityShow from './../dashboard/facilities/facility_show'
+  import FacilityShow from '../facilities/facility_show'
   export default {
     name: 'Accordion',
     props: ['facility', 'facilityGroup', 'expanded', 'statuses'],

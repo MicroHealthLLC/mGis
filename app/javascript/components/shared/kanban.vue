@@ -66,9 +66,9 @@
 <script>
 import Draggable from "vuedraggable"
 import {mapActions, mapGetters} from 'vuex'
-import TaskShow from './../dashboard/tasks/task_show'
-import IssueShow from './../dashboard/issues/issue_show'
-import RiskShow from './../dashboard/risks/risk_show'
+import TaskShow from '../tasks/task_show'
+import IssueShow from '../issues/issue_show'
+import RiskShow from '../risks/risk_show'
 
 export default {
   name: "Kanban",

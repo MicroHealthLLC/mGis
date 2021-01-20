@@ -12,7 +12,7 @@
   import Tabsbar from './components/shared/tabsbar'
   import FilterSidebar from './components/shared/filter_sidebar'
   import StateFacilitySidebar from './components/shared/state_facility_sidebar'
-  import Facility_form from './components/dashboard/facilities/facility_form.vue'
+  import Facility_form from './components/facilities/facility_form.vue'
 
   export default {
     name: 'Dashboard',
@@ -35,13 +35,13 @@
         'contentLoaded'
       ]),
       isSheetsView() {
-        return this.$route.name === 'ProjectSheets'
+        return this.$route.name === 'SheetsView'
       },
       isFacilityManagerView() {
         return this.$route.name === 'FacilityManagerView'
       },
       isKanbanView() {
-        return this.$route.name === 'ProjectKanbanView'
+        return this.$route.name === 'KanbanView'
       },
     }
   }
