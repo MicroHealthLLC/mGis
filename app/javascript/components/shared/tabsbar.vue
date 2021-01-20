@@ -31,21 +31,21 @@
     name: 'Tabsbar',
     computed: {
       isSheetsView() {
-        return this.$route.name === 'ProjectSheets'
+        return this.$route.name === 'SheetsView'
       },
       isMapView() {
-        return this.$route.name === 'ProjectMapView'
+        return this.$route.name === 'MapView'
       },
       isGanttView() {
-        return this.$route.name === 'ProjectGanttChart'
+        return this.$route.name === 'GanttView'
       },
       // isWatchView() {
       //   return this.$route.name === 'ProjectWatchView'
       isKanbanView() {
-        return this.$route.name === 'ProjectKanbanView'
+        return this.$route.name === 'KanbanView'
       },
       isMembersView() {
-        return this.$route.name === 'TeamMembersView'
+        return this.$route.name === 'MembersView'
       },
       isFacilityManagerView() {
         return this.$route.name === 'FacilityManagerView'
