@@ -30,17 +30,17 @@ describe('Admin Panel Project', function() {
     cy.get('#logout').click()
   })
 
-  it('Could not Delete Project of foreign constraint', function() {
+  it('Delete existing Project with foreign constraint', function() {
     cy.get('#index_table_projects').should('be.visible')
     cy.get('#index_table_projects > tbody > tr').first().within(() => {
       cy.get('.col-actions').contains('Delete').click()
     })
-    cy.get('.flashes').contains('Not able to delete this! Violates foreign key constraint.').should('be.visible')
-    cy.get('#index_table_projects > tbody > tr').its('length').should('be.eq', 1)
+    cy.get('.flashes').contains('Project was successfully destroyed.').should('be.visible')
+    cy.get('.blank_slate').contains('There are no Projects yet. Create one').should('be.visible')
     cy.get('#logout').click()
   })
 
-  it('Delete Project', function() {
+  it('Delete new Project', function() {
     cy.get('.action_item > a').contains('New Project').click()
     cy.get('#project_name').type('New Test Project').should('have.value', 'New Test Project')
     cy.get('#project_submit_action').contains('Create Project').click()

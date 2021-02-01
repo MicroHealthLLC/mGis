@@ -1,5 +1,6 @@
 # You can setup your Rails state here
 # MyModel.create name: 'something'
+organization = Organization.find_or_create_by(title: 'Test Organization')
 admin = User.find_or_initialize_by(email: 'admin@test.com')
 admin.assign_attributes(
   password: 'T3$tAdmin',
@@ -7,7 +8,9 @@ admin.assign_attributes(
   title: 'Manager',
   first_name: 'Test1',
   role: "superadmin",
-  last_name: 'Admin'
+  last_name: 'Admin',
+  phone_number: '+447400123440',
+  organization_id: organization.id
 )
 admin.save(validate: false)
 
@@ -18,12 +21,13 @@ client.assign_attributes(
   title: 'Mr.',
   first_name: 'Test2',
   last_name: 'Client',
-  role: 'client'
+  role: 'client',
+  phone_number: '+447400123450',
+  organization_id: organization.id
 )
 client.save(validate: false)
 
 Setting.first_or_create(google_map_key: ENV['GOOGLE_MAP_KEY'])
-Organization.find_or_create_by(title: 'Test Organization')
 
 project_type = ProjectType.find_or_create_by(name: 'Test Project Type')
 project = Project.find_or_create_by(
@@ -375,7 +379,14 @@ facility_project_3 = FacilityProject.find_or_create_by(
   due_date: Date.today + 10.days
 )
 
-Task.find_or_create_by(
+Note.find_or_create_by(
+  noteable_type: 'FacilityProject',
+  noteable_id: facility_project_3.id,
+  user_id: admin.id,
+  body: 'Test Note 3'
+)
+
+test_task_3 = Task.find_or_create_by(
   text: 'Test Task 3',
   description: 'Test task 3 description',
   start_date: Date.today - 1.day,
@@ -387,7 +398,24 @@ Task.find_or_create_by(
   progress: 70
 )
 
-Issue.find_or_create_by(
+TaskUser.find_or_create_by(task_id: test_task_3.id, user_id: admin.id)
+TaskUser.find_or_create_by(task_id: test_task_3.id, user_id: client.id)
+
+new_task_3 = Task.find_or_create_by(
+  text: 'New Task 3',
+  description: 'New task 3 description',
+  start_date: Date.today,
+  due_date: Date.today + 5.days,
+  task_type_id: task_type.id,
+  task_stage_id: new_task_stage.id,
+  facility_project_id: facility_project_3.id,
+  watched: true,
+  progress: 70
+)
+
+TaskUser.find_or_create_by(task_id: new_task_3.id, user_id: admin.id)
+
+test_issue_3 = Issue.find_or_create_by(
   title: 'Test Issue 3',
   description: 'Test issue 3 description',
   start_date: Date.today - 1.day,
@@ -401,7 +429,25 @@ Issue.find_or_create_by(
   progress: 70
 )
 
-Risk.find_or_create_by(
+IssueUser.find_or_create_by(issue_id: test_issue_3.id, user_id: admin.id)
+
+new_issue_3 = Issue.find_or_create_by(
+  title: 'New Issue 3',
+  description: 'New issue 3 description',
+  start_date: Date.today + 1.day,
+  due_date: Date.today + 6.days,
+  issue_type_id: issue_type.id,
+  task_type_id: task_type.id,
+  issue_stage_id: new_issue_stage.id,
+  issue_severity_id: issue_severity.id,
+  facility_project_id: facility_project_3.id,
+  watched: true,
+  progress: 40
+)
+
+IssueUser.find_or_create_by(issue_id: new_issue_3.id, user_id: client.id)
+
+test_risk_3 = Risk.find_or_create_by(
   text: 'Test Risk 3',
   risk_description: 'Test Risk 3 description',
   impact_description: 'Test Risk 3 impact description',
@@ -415,6 +461,25 @@ Risk.find_or_create_by(
   watched: true,
   progress: 70
 )
+
+RiskUser.find_or_create_by(risk_id: test_risk_3.id, user_id: admin.id)
+
+new_risk_3 = Risk.find_or_create_by(
+  text: 'New Risk 3',
+  risk_description: 'New Risk 3 description',
+  impact_description: 'New Risk 3 impact description',
+  start_date: Date.today + 1.day,
+  due_date: Date.today + 6.days,
+  risk_approach_description: 'New Risk 3 approach description',
+  user_id: client.id,
+  facility_project_id: facility_project_3.id,
+  task_type_id: task_type.id,
+  risk_stage_id: new_risk_stage.id,
+  watched: true,
+  progress: 40
+)
+
+RiskUser.find_or_create_by(risk_id: new_risk_3.id, user_id: client.id)
 
 facility_4 = Facility.find_or_create_by(
   facility_name: 'Test Facility 4',
@@ -437,7 +502,14 @@ facility_project_4 = FacilityProject.find_or_create_by(
   due_date: Date.today + 10.days
 )
 
-Task.find_or_create_by(
+Note.find_or_create_by(
+  noteable_type: 'FacilityProject',
+  noteable_id: facility_project_4.id,
+  user_id: admin.id,
+  body: 'Test Note 4'
+)
+
+test_task_4 = Task.find_or_create_by(
   text: 'Test Task 4',
   description: 'Test task description',
   start_date: Date.today + 2.days,
@@ -448,7 +520,23 @@ Task.find_or_create_by(
   progress: 100
 )
 
-Issue.find_or_create_by(
+TaskUser.find_or_create_by(task_id: test_task_4.id, user_id: admin.id)
+TaskUser.find_or_create_by(task_id: test_task_4.id, user_id: client.id)
+
+new_task_4 = Task.find_or_create_by(
+  text: 'New Task 4',
+  description: 'New task 4 description',
+  start_date: Date.today,
+  due_date: Date.today + 5.days,
+  task_type_id: task_type.id,
+  task_stage_id: new_task_stage.id,
+  facility_project_id: facility_project_4.id,
+  watched: true,
+  progress: 70
+)
+
+TaskUser.find_or_create_by(task_id: new_task_4.id, user_id: admin.id)
+test_issue_4 = Issue.find_or_create_by(
   title: 'Test Issue 4',
   description: 'Test issue description',
   start_date: Date.today + 2.days,
@@ -461,7 +549,25 @@ Issue.find_or_create_by(
   progress: 100
 )
 
-Risk.find_or_create_by(
+IssueUser.find_or_create_by(issue_id: test_issue_4.id, user_id: admin.id)
+
+new_issue_4 = Issue.find_or_create_by(
+  title: 'New Issue 4',
+  description: 'New issue 4 description',
+  start_date: Date.today + 1.day,
+  due_date: Date.today + 6.days,
+  issue_type_id: issue_type.id,
+  task_type_id: task_type.id,
+  issue_stage_id: new_issue_stage.id,
+  issue_severity_id: issue_severity.id,
+  facility_project_id: facility_project_4.id,
+  watched: true,
+  progress: 40
+)
+
+IssueUser.find_or_create_by(issue_id: new_issue_4.id, user_id: client.id)
+
+test_risk_4 = Risk.find_or_create_by(
   text: 'Test Risk 4',
   risk_description: 'Test Risk 4 description',
   impact_description: 'Test Risk 4 impact description',
@@ -475,3 +581,22 @@ Risk.find_or_create_by(
   watched: true,
   progress: 100
 )
+
+RiskUser.find_or_create_by(risk_id: test_risk_4.id, user_id: admin.id)
+
+new_risk_4 = Risk.find_or_create_by(
+  text: 'New Risk 4',
+  risk_description: 'New Risk 4 description',
+  impact_description: 'New Risk 4 impact description',
+  start_date: Date.today + 1.day,
+  due_date: Date.today + 6.days,
+  risk_approach_description: 'New Risk 4 approach description',
+  user_id: client.id,
+  facility_project_id: facility_project_4.id,
+  task_type_id: task_type.id,
+  risk_stage_id: new_risk_stage.id,
+  watched: true,
+  progress: 40
+)
+
+RiskUser.find_or_create_by(risk_id: new_risk_4.id, user_id: client.id)

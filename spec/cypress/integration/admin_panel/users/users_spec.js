@@ -136,6 +136,22 @@ describe('Admin Panel Users', function() {
     cy.get('#logout').click()
   })
 
+  it('Sort User according to Organization', function() {
+    cy.get('.sortable').contains('Organization').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('Test Organization').should('be.visible')
+    cy.get('#logout').click()
+  })
+
+  it('Sort User according to Phone Number', function() {
+    cy.get('.sortable').contains('Phone Number').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('+447400123450').should('be.visible')
+    cy.get('.sortable').contains('Phone Number').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('+447400123440').should('be.visible')
+    cy.get('.sortable').contains('Phone Number').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('+447400123450').should('be.visible')
+    cy.get('#logout').click()
+  })
+
   it('Search User contains email', function() {
     cy.get('#q_email').type('client@test.com').should('have.value', 'client@test.com')
     cy.get('[type=submit]').first().contains('Filter').click()
@@ -171,11 +187,11 @@ describe('Admin Panel Users', function() {
     cy.get('#logout').click()
   })
 
-  it('Search User by organizations', function() {
+  it('Search User by organization', function() {
     cy.get('#index_table_users').should('be.visible')
     cy.get('#q_organization_id').select('Test Organization')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('.blank_slate').contains('No Users found').should('be.visible')
+    cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 2)
     cy.get('#q_organization_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
     cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 2)
@@ -202,6 +218,27 @@ describe('Admin Panel Users', function() {
     cy.get('h4').contains('Current filters:').should('be.visible')
     cy.get('.current_filter').contains('Last name contains Admin').should('be.visible')
     cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 1)
+    cy.get('.clear_filters_btn').last().contains('Clear Filters').click()
+    cy.get('#logout').click()
+  })
+
+  it('Search User contains Phone number', function() {
+    cy.get('#q_phone_number').type('+447400123450').should('have.value', '+447400123450')
+    cy.get('[type=submit]').first().contains('Filter').click()
+    cy.get('#search_status_sidebar_section').should('be.visible')
+    cy.get('#search_status_sidebar_section > h3').contains('Search status:').should('be.visible')
+    cy.get('h4').contains('Current filters:').should('be.visible')
+    cy.get('.current_filter').contains('Phone number contains +447400123450').should('be.visible')
+    cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 1)
+
+    cy.get('#q_phone_number').clear().type('+447400123440').should('have.value', '+447400123440')
+    cy.get('[type=submit]').first().contains('Filter').click()
+    cy.get('#search_status_sidebar_section').should('be.visible')
+    cy.get('#search_status_sidebar_section > h3').contains('Search status:').should('be.visible')
+    cy.get('h4').contains('Current filters:').should('be.visible')
+    cy.get('.current_filter').contains('Phone number contains +447400123440').should('be.visible')
+    cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 1)
+
     cy.get('.clear_filters_btn').last().contains('Clear Filters').click()
     cy.get('#logout').click()
   })

@@ -30,13 +30,19 @@ describe('Admin Panel Roles', function() {
     cy.get('#logout').click()
   })
 
-  it('Could not Delete Role of foreign constraint', function() {
+  it('Delete Role with foreign constraint', function() {
     cy.get('#index_table_roles').should('be.visible')
     cy.get('#index_table_roles > tbody > tr').first().within(() => {
       cy.get('.col-actions').contains('Delete').click()
     })
-    cy.get('.flashes').contains('Not able to delete this! Violates foreign key constraint.').should('be.visible')
-    cy.get('#index_table_roles > tbody > tr').its('length').should('be.eq', 2)
+    cy.get('.flashes').contains('Role was successfully destroyed.').should('be.visible')
+    cy.get('#index_table_roles > tbody > tr').its('length').should('be.eq', 1)
+
+    cy.get('#index_table_roles > tbody > tr').first().within(() => {
+      cy.get('.col-actions').contains('Delete').click()
+    })
+    cy.get('.flashes').contains('Role was successfully destroyed.').should('be.visible')
+    cy.get('.blank_slate').contains('There are no Roles yet. Create one').should('be.visible')
     cy.get('#logout').click()
   })
 

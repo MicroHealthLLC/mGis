@@ -9,7 +9,7 @@ describe('Admin Panel Risk', function() {
   it('Click on Risks on tabs open Risk information page', function() {
     cy.get('#page_title').contains('Risks').should('be.visible')
     cy.get('#index_table_risks').should('be.visible')
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -43,7 +43,7 @@ describe('Admin Panel Risk', function() {
       cy.get('.col-actions').contains('Delete').click()
     })
     cy.get('.flashes').contains('Risk was successfully destroyed.').should('be.visible')
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 5)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 7)
     cy.get('#logout').click()
   })
 
@@ -53,7 +53,7 @@ describe('Admin Panel Risk', function() {
     cy.get('.dropdown_menu_button').click()
     cy.get('.batch_action').contains('Delete Selected').click()
     cy.get('.ui-dialog-buttonset > :nth-child(1)').contains('OK').click()
-    cy.get('.flashes').contains('Successfully deleted 6 risks').should('be.visible')
+    cy.get('.flashes').contains('Successfully deleted 8 risks').should('be.visible')
     cy.get('.blank_slate').contains('There are no Risks yet.').should('be.visible')
     cy.get('#logout').click()
   })
@@ -177,10 +177,10 @@ describe('Admin Panel Risk', function() {
     cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 4)
     cy.get('#q_risk_stage_id').select('New Risk Stage')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 2)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 4)
     cy.get('#q_risk_stage_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -214,7 +214,7 @@ describe('Admin Panel Risk', function() {
     cy.get('#index_table_risks').should('be.visible')
     cy.get('#q_probability').type(1)
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -222,7 +222,7 @@ describe('Admin Panel Risk', function() {
     cy.get('#index_table_risks').should('be.visible')
     cy.get('#q_impact_level').type(1)
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -230,7 +230,7 @@ describe('Admin Panel Risk', function() {
     cy.get('#index_table_risks').should('be.visible')
     cy.get('#q_risk_approach').select('avoid')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
 
     cy.get('#q_risk_approach').select('mitigate')
     cy.get('[type=submit]').first().contains('Filter').click()
@@ -246,7 +246,7 @@ describe('Admin Panel Risk', function() {
 
     cy.get('#q_risk_approach').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -267,10 +267,10 @@ describe('Admin Panel Risk', function() {
     cy.get('#index_table_risks').should('be.visible')
     cy.get('#q_task_type_id').select('Test Task Type(milestone)')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#q_task_type_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -278,7 +278,7 @@ describe('Admin Panel Risk', function() {
     const start_date = Cypress.moment().add(1, 'day').format('YYYY-MM-DD')
     cy.get('#q_start_date_gteq').type(`${start_date}{enter}`)
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 4)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
     cy.get('#logout').click()
   })
 
@@ -294,7 +294,7 @@ describe('Admin Panel Risk', function() {
     const due_date = Cypress.moment().add(6, 'day').format('YYYY-MM-DD')
     cy.get('#q_due_date_gteq').type(`${due_date}{enter}`)
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 4)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
     cy.get('#logout').click()
   })
 
@@ -310,10 +310,10 @@ describe('Admin Panel Risk', function() {
     cy.get('#index_table_risks').should('be.visible')
     cy.get('#q_facility_project_project_id').select('Test Project')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#q_facility_project_project_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -328,11 +328,11 @@ describe('Admin Panel Risk', function() {
 
     cy.get('#q_facility_project_facility_facility_name').clear().type('Test Facility 3').should('have.value', 'Test Facility 3')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 1)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 2)
 
     cy.get('#q_facility_project_facility_facility_name').clear().type('Test Facility 4').should('have.value', 'Test Facility 4')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 1)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 2)
 
     cy.get('#logout').click()
   })
@@ -345,11 +345,11 @@ describe('Admin Panel Risk', function() {
 
     cy.get('#q_user_id').select('Test2 Client')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 2)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 4)
 
     cy.get('#q_user_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -370,7 +370,7 @@ describe('Admin Panel Risk', function() {
     cy.get('[type=submit]').first().contains('Filter').click()
     cy.get('#search_status_sidebar_section').scrollIntoView()
     cy.get('.current_filter').contains('Progress equals 40').should('be.visible')
-    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 2)
+    cy.get('#index_table_risks > tbody > tr').its('length').should('be.eq', 4)
 
     cy.get('#q_progress').clear().type('70').should('have.value', '70')
     cy.get('[type=submit]').first().contains('Filter').click()

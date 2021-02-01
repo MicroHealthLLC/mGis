@@ -7,6 +7,7 @@ else
   Issue.destroy_all if defined?(Issue)
   Task.destroy_all if defined?(Task)
   Risk.destroy_all if defined?(Risk)
+  Note.destroy_all if defined?(Note)
   FacilityProject.destroy_all if defined?(FacilityProject)
   Facility.destroy_all if defined?(Facility)
   FacilityGroup.destroy_all if defined?(FacilityGroup)
@@ -16,6 +17,9 @@ else
   ProjectIssueSeverity.destroy_all
   ProjectIssueType.destroy_all
   ProjectUser.destroy_all
+  TaskUser.destroy_all
+  IssueUser.destroy_all
+  RiskUser.destroy_all
   ProjectStatus.destroy_all
   Project.destroy_all if defined?(Project)
   ProjectType.destroy_all

@@ -12,7 +12,7 @@ Cypress.Commands.add("facilityRollup", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('5 Tasks').should('be.visible')
+      cy.contains('7 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -20,7 +20,7 @@ Cypress.Commands.add("facilityRollup", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('5 Issues').should('be.visible')
+      cy.contains('7 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })
@@ -49,7 +49,7 @@ Cypress.Commands.add("activeProjectStatus", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('3 Tasks').should('be.visible')
+      cy.contains('4 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -57,7 +57,7 @@ Cypress.Commands.add("activeProjectStatus", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('3 Issues').should('be.visible')
+      cy.contains('4 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })
@@ -86,7 +86,7 @@ Cypress.Commands.add("inActiveProjectStatus", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('3 Tasks').should('be.visible')
+      cy.contains('4 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -94,7 +94,7 @@ Cypress.Commands.add("inActiveProjectStatus", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('3 Issues').should('be.visible')
+      cy.contains('4 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })
@@ -182,7 +182,7 @@ Cypress.Commands.add("facilityNameFilter", () => {
 Cypress.Commands.add("facilityClientFilter", () => {
   cy.get('[data-cy=facility_rollup]').within(() => {
     cy.contains('Facility Project Status').should('be.visible')
-    cy.contains('2 Facilities').should('be.visible')
+    cy.contains('4 Facilities').should('be.visible')
 
     cy.get('[data-cy=date_set_filter]').within(() => {
       cy.contains('Data Set Filters').should('be.visible')
@@ -191,7 +191,7 @@ Cypress.Commands.add("facilityClientFilter", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('2 Tasks').should('be.visible')
+      cy.contains('4 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -199,7 +199,7 @@ Cypress.Commands.add("facilityClientFilter", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('4 Issues').should('be.visible')
+      cy.contains('8 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })
@@ -233,7 +233,7 @@ Cypress.Commands.add("testTaskStageFilter", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('6 Issues').should('be.visible')
+      cy.contains('8 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })
@@ -286,7 +286,7 @@ Cypress.Commands.add("testNewTaskStageFilter", () => {
 Cypress.Commands.add("issueUserFilter", () => {
   cy.get('[data-cy=facility_rollup]').within(() => {
     cy.contains('Facility Project Status').should('be.visible')
-    cy.contains('2 Facilities').should('be.visible')
+    cy.contains('4 Facilities').should('be.visible')
 
     cy.get('[data-cy=date_set_filter]').within(() => {
       cy.contains('Data Set Filters').should('be.visible')
@@ -295,7 +295,7 @@ Cypress.Commands.add("issueUserFilter", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('4 Tasks').should('be.visible')
+      cy.contains('8 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -303,7 +303,7 @@ Cypress.Commands.add("issueUserFilter", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('2 Issues').should('be.visible')
+      cy.contains('4 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })
@@ -329,7 +329,7 @@ Cypress.Commands.add("testIssueStageFilter", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('6 Tasks').should('be.visible')
+      cy.contains('8 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -391,7 +391,7 @@ Cypress.Commands.add("taskCategoryAndIssueTypeFilter", () => {
   cy.get('[data-cy=facility_rollup]').within(() => {
     cy.contains('Project Type: Test Project Type').should('be.visible')
     cy.contains('Facility Project Status').should('be.visible')
-    cy.contains('3 Facilities').should('be.visible')
+    cy.contains('4 Facilities').should('be.visible')
 
     cy.get('[data-cy=date_set_filter]').within(() => {
       cy.contains('Data Set Filters').should('be.visible')
@@ -400,7 +400,7 @@ Cypress.Commands.add("taskCategoryAndIssueTypeFilter", () => {
     // Display task summary
     cy.get('[data-cy=tasks_summary]').scrollIntoView()
     cy.get('[data-cy=tasks_summary]').within(() => {
-      cy.contains('5 Tasks').should('be.visible')
+      cy.contains('7 Tasks').should('be.visible')
       cy.contains('Task Categories').should('be.visible')
       cy.contains('Test Task Type(milestone)').should('be.visible')
     })
@@ -408,7 +408,7 @@ Cypress.Commands.add("taskCategoryAndIssueTypeFilter", () => {
     // Display Issues summary
     cy.get('[data-cy=issues_summary]').scrollIntoView()
     cy.get('[data-cy=issues_summary]').within(() => {
-      cy.contains('5 Issues').should('be.visible')
+      cy.contains('7 Issues').should('be.visible')
       cy.contains('Issue Types').should('be.visible')
       cy.contains('Test Issue Type').should('be.visible')
     })

@@ -9,7 +9,7 @@ describe('Admin Panel Task', function() {
   it('Click on Tasks on tabs open Task information page', function() {
     cy.get('#page_title').contains('Tasks').should('be.visible')
     cy.get('#index_table_tasks').should('be.visible')
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -26,7 +26,7 @@ describe('Admin Panel Task', function() {
       cy.get('.col-actions').contains('Delete').click()
     })
     cy.get('.flashes').contains('Task was successfully destroyed.').should('be.visible')
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 5)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 7)
     cy.get('#logout').click()
   })
 
@@ -36,7 +36,7 @@ describe('Admin Panel Task', function() {
     cy.get('.dropdown_menu_button').click()
     cy.get('.batch_action').contains('Delete Selected').click()
     cy.get('.ui-dialog-buttonset > :nth-child(1)').contains('OK').click()
-    cy.get('.flashes').contains('Successfully deleted 6 Tasks').should('be.visible')
+    cy.get('.flashes').contains('Successfully deleted 8 Tasks').should('be.visible')
     cy.get('.blank_slate').contains('There are no Tasks yet.').should('be.visible')
     cy.get('#logout').click()
   })
@@ -137,10 +137,10 @@ describe('Admin Panel Task', function() {
     cy.get('#index_table_tasks').should('be.visible')
     cy.get('#q_task_type_id').select('Test Task Type(milestone)')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#q_task_type_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -151,10 +151,10 @@ describe('Admin Panel Task', function() {
     cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 4)
     cy.get('#q_task_stage_id').select('New Task Stage')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 2)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 4)
     cy.get('#q_task_stage_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -170,7 +170,7 @@ describe('Admin Panel Task', function() {
     const start_date = Cypress.moment().format('YYYY-MM-DD')
     cy.get('#q_start_date_lteq').type(`${start_date}{enter}`)
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 3)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 5)
     cy.get('#logout').click()
   })
 
@@ -186,7 +186,7 @@ describe('Admin Panel Task', function() {
     const completion_date = Cypress.moment().add(5, 'day').format('YYYY-MM-DD')
     cy.get('#q_due_date_lteq').type(`${completion_date}{enter}`)
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 3)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 5)
     cy.get('#logout').click()
   })
 
@@ -194,10 +194,10 @@ describe('Admin Panel Task', function() {
     cy.get('#index_table_tasks').should('be.visible')
     cy.get('#q_facility_project_project_id').select('Test Project')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#q_facility_project_project_id').select('Any')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 6)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 8)
     cy.get('#logout').click()
   })
 
@@ -212,11 +212,11 @@ describe('Admin Panel Task', function() {
 
     cy.get('#q_facility_project_facility_facility_name').clear().type('Test Facility 3').should('have.value', 'Test Facility 3')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 1)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 2)
 
     cy.get('#q_facility_project_facility_facility_name').clear().type('Test Facility 4').should('have.value', 'Test Facility 4')
     cy.get('[type=submit]').first().contains('Filter').click()
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 1)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 2)
 
     cy.get('#logout').click()
   })
@@ -244,7 +244,7 @@ describe('Admin Panel Task', function() {
     cy.get('[type=submit]').first().contains('Filter').click()
     cy.get('#search_status_sidebar_section').scrollIntoView()
     cy.get('.current_filter').contains('Progress equals 70').should('be.visible')
-    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 2)
+    cy.get('#index_table_tasks > tbody > tr').its('length').should('be.eq', 4)
 
     cy.get('#logout').click()
   })

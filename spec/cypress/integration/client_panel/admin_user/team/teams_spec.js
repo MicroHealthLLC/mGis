@@ -63,6 +63,32 @@ describe('Teams List', function() {
     cy.logout()
   })
 
+  it('Sort Team according to Position', function() {
+    cy.get('.has-gutter > tr > .el-table_1_column_4 > .cell').contains('Position').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_4 > .cell').first().contains('Manager').should('be.visible')
+    cy.get('.has-gutter > tr > .el-table_1_column_4 > .cell').contains('Position').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_4 > .cell').first().contains('Mr.').should('be.visible')
+    cy.get('.has-gutter > tr > .el-table_1_column_4 > .cell').contains('Position').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_4 > .cell').first().contains('Manager').should('be.visible')
+    cy.logout()
+  })
+
+  it('Sort Team according to Organization', function() {
+    cy.get('.has-gutter > tr > .el-table_1_column_5 > .cell').contains('Organization').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_5 > .cell').first().contains('Test Organization').should('be.visible')
+    cy.logout()
+  })
+
+  it('Sort Team according to Phone Number', function() {
+    cy.get('.has-gutter > tr > .el-table_1_column_6 > .cell').contains('Phone Number').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_6 > .cell').first().contains('+447400123440').should('be.visible')
+    cy.get('.has-gutter > tr > .el-table_1_column_6 > .cell').contains('Phone Number').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_6 > .cell').first().contains('+447400123450').should('be.visible')
+    cy.get('.has-gutter > tr > .el-table_1_column_6 > .cell').contains('Phone Number').click()
+    cy.get('tbody > :nth-child(1) > .el-table_1_column_6 > .cell').first().contains('+447400123440').should('be.visible')
+    cy.logout()
+  })
+
   it('Sort Team according to Email', function() {
     cy.get('.has-gutter > tr > .el-table_1_column_7 > .cell').contains('Email').click()
     cy.get('tbody > :nth-child(1) > .el-table_1_column_7 > .cell').first().contains('admin@test.com').should('be.visible')
