@@ -10,6 +10,7 @@ admin.assign_attributes(
   role: "superadmin",
   last_name: 'Admin',
   phone_number: '+447400123440',
+  address: '38 Wiltshire Rd, Leicester LE4 0JT, UK',
   organization_id: organization.id
 )
 admin.save(validate: false)
@@ -23,6 +24,7 @@ client.assign_attributes(
   last_name: 'Client',
   role: 'client',
   phone_number: '+447400123450',
+  address: '56 Second Ave, Pensnett Trading Estate, Kingswinford DY6 7XN, UK',
   organization_id: organization.id
 )
 client.save(validate: false)

@@ -152,6 +152,16 @@ describe('Admin Panel Users', function() {
     cy.get('#logout').click()
   })
 
+  it('Sort User according to Address', function() {
+    cy.get('.sortable').contains('Address').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('56 Second Ave, Pensnett Trading Estate, Kingswinford DY6 7XN, UK').should('be.visible')
+    cy.get('.sortable').contains('Address').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('38 Wiltshire Rd, Leicester LE4 0JT, UK').should('be.visible')
+    cy.get('.sortable').contains('Address').click()
+    cy.get('#index_table_users > tbody > tr').first().contains('56 Second Ave, Pensnett Trading Estate, Kingswinford DY6 7XN, UK').should('be.visible')
+    cy.get('#logout').click()
+  })
+
   it('Search User contains email', function() {
     cy.get('#q_email').type('client@test.com').should('have.value', 'client@test.com')
     cy.get('[type=submit]').first().contains('Filter').click()
@@ -237,6 +247,27 @@ describe('Admin Panel Users', function() {
     cy.get('#search_status_sidebar_section > h3').contains('Search status:').should('be.visible')
     cy.get('h4').contains('Current filters:').should('be.visible')
     cy.get('.current_filter').contains('Phone number contains +447400123440').should('be.visible')
+    cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 1)
+
+    cy.get('.clear_filters_btn').last().contains('Clear Filters').click()
+    cy.get('#logout').click()
+  })
+
+  it('Search User contains Address', function() {
+    cy.get('#q_address').type('56 Second Ave, Pensnett Trading Estate, Kingswinford DY6 7XN, UK').should('have.value', '56 Second Ave, Pensnett Trading Estate, Kingswinford DY6 7XN, UK')
+    cy.get('[type=submit]').first().contains('Filter').click()
+    cy.get('#search_status_sidebar_section').should('be.visible')
+    cy.get('#search_status_sidebar_section > h3').contains('Search status:').should('be.visible')
+    cy.get('h4').contains('Current filters:').should('be.visible')
+    cy.get('.current_filter').contains('Address contains 56 Second Ave, Pensnett Trading Estate, Kingswinford DY6 7XN, UK').should('be.visible')
+    cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 1)
+
+    cy.get('#q_address').clear().type('38 Wiltshire Rd, Leicester LE4 0JT, UK').should('have.value', '38 Wiltshire Rd, Leicester LE4 0JT, UK')
+    cy.get('[type=submit]').first().contains('Filter').click()
+    cy.get('#search_status_sidebar_section').should('be.visible')
+    cy.get('#search_status_sidebar_section > h3').contains('Search status:').should('be.visible')
+    cy.get('h4').contains('Current filters:').should('be.visible')
+    cy.get('.current_filter').contains('Address contains 38 Wiltshire Rd, Leicester LE4 0JT, UK').should('be.visible')
     cy.get('#index_table_users > tbody > tr').its('length').should('be.eq', 1)
 
     cy.get('.clear_filters_btn').last().contains('Clear Filters').click()
