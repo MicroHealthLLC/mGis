@@ -2,7 +2,7 @@
 <template>
   <div id="task-sheets">
     <table class="table table-sm table-bordered table-striped">
-      <tr v-if="!loading" class="mx-3 mb-3 mt-2 py-4 edit-action" @click.prevent="editTask" data-cy="task_row">
+      <tr v-if="!loading" class="mx-3 mb-3 mt-2 py-4 edit-action" @click.prevent="editTask" data-cy="task_row" @mouseup.right="openContextMenu" @contextmenu.prevent="">
         <td class="sixteen">{{task.text}}</td>
         <td class="ten">{{task.taskType}}</td>
         <td class="eight">{{formatDate(task.startDate)}}</td>
@@ -20,6 +20,16 @@
         </td>
         <td v-else class="twenty">No Updates</td>
       </tr>
+      <!-- The context-menu appears only if table row is right-clicked -->
+      <context-menu :display="showContextMenu" ref="menu">
+        <el-menu>
+          <el-menu-item id="first-menu-item">Move to...</el-menu-item>
+          <hr>
+          <div class="dropdown-context-menu">
+            <el-menu-item v-for="(facility, index) in facilities" :key="index" :title="facility.facility.facilityName">{{ facility.facility.facilityName }}</el-menu-item>
+          </div>         
+        </el-menu>
+      </context-menu>
     </table>
 
     <sweet-modal
@@ -57,6 +67,7 @@
   import {SweetModal} from 'sweet-modal-vue'
   import TaskForm from "./task_form"
   import IssueForm from "./../issues/issue_form"
+  import ContextMenu from "../../shared/ContextMenu"
   import moment from 'moment'
   Vue.prototype.moment = moment
 
@@ -66,6 +77,7 @@
       TaskForm,
       IssueForm,
       SweetModal,
+      ContextMenu
     },
     props: {
       fromView: {
@@ -81,7 +93,8 @@
         DV_task: {},
         DV_edit_task: {},
         DV_edit_issue: {},
-        has_task: false
+        has_task: false,
+        showContextMenu: false
       }
     },
     mounted() {
@@ -154,6 +167,10 @@
       },
       getIssue(issue) {
         return this.currentIssues.find(t => t.id == issue.id) || {}
+      },
+      openContextMenu(e) {
+        e.preventDefault()
+        this.$refs.menu.open(e);
       }
     },
     computed: {
@@ -263,6 +280,32 @@
       form {
         position: inherit !important;
       }
+    }
+  }
+  hr {
+    margin: 0;
+  }
+  .dropdown-context-menu {
+    max-height: 200px;
+    max-width: 200px;
+    overflow-y:scroll;
+  }
+  .el-menu-item {
+    padding: 10px;
+    line-height: unset;
+    height: unset;
+    text-align: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &:hover {
+      background-color: rgba(91, 192, 222, 0.3);
+    }
+  }
+  #first-menu-item {
+    font-weight: bold;
+    &:hover {
+      background-color: unset;
     }
   }
 </style>
