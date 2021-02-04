@@ -31,14 +31,14 @@
     .badge {
       cursor: pointer;
       padding: 7px 10px;
-      border-radius: .10rem;
+      border-radius: .10rem;      
       font-weight: 500;
       letter-spacing: 0.12em;
       margin: 4px 7px;
       transition: auto;
       &.active {
-        color: #fff;
-        background-color: #383838;
+        color: #fff !important;
+        background-color: #383838 !important;
       }
       &.disabled {
         pointer-events: none;

@@ -356,6 +356,7 @@
           :fixed-stage="fixedStageId"
           @on-close-form="onCloseForm"
           @task-created="handleNewTask"
+          @create-duplicate-task="createDuplicateTask"
           class="form-inside-modal"
         ></task-form>
 

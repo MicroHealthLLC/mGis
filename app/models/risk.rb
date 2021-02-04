@@ -84,6 +84,13 @@ class Risk < ApplicationRecord
     end
     fp = self.facility_project
     users = self.users.active
+
+    resource_users = self.risk_users.where(user_id: users.map(&:id) )
+    accountable_user_ids = resource_users.map{|ru| ru.user_id if ru.accountable? }.compact
+    responsible_user_ids = resource_users.map{|ru| ru.user_id if ru.responsible? }.compact
+    counsulted_user_ids = resource_users.map{|ru| ru.user_id if ru.counsulted? }.compact
+    informed_user_ids = resource_users.map{|ru| ru.user_id if ru.informed? }.compact
+
     sub_tasks = self.sub_tasks
     sub_issues = self.sub_issues
     sub_risks = self.sub_risks
@@ -104,10 +111,18 @@ class Risk < ApplicationRecord
       checklists: checklists.as_json,
       facility_id: fp.try(:facility_id),
       facility_name: fp.try(:facility)&.facility_name,
+      # Remove this
       user_ids: users.map(&:id).compact.uniq,
       risk_owners: users.map(&:full_name).compact.join(", "),
       users: users.as_json(only: [:id, :full_name, :title, :phone_number, :first_name, :last_name, :email]),
       user_names: users.map(&:full_name).compact.join(", "),
+
+      # Add accountable users
+      accountable_user_ids: accountable_user_ids,
+      responsible_user_ids: responsible_user_ids,
+      counsulted_user_ids: counsulted_user_ids,
+      informed_user_ids: informed_user_ids,
+
       notes: notes.as_json,
       project_id: fp.try(:project_id),
       sub_tasks: sub_tasks.as_json(only: [:text, :id]),

@@ -239,8 +239,7 @@
        <div class="form-group user-select ml-1 mr-4 w-100">
         <label class="font-sm mb-0">Accountable:</label>
         <multiselect
-          v-model="accountableRiskUsers"   
-          disabled     
+          v-model="accountableRiskUsers"              
           track-by="id"
           label="fullName"
           placeholder="Search and select users"
@@ -914,8 +913,7 @@
     components: {
       AttachmentInput,
       CustomTabs,
-      Draggable
-       
+      Draggable       
     },
     
     data() {
@@ -1007,6 +1005,9 @@
           dueDate: '',
           autoCalculate: true,
           userIds: [],
+          accountableUserIds:[],
+          consultedUserIds:[],
+          informedUserIds:[],
           riskFiles: [],
           subTaskIds: [],
           subIssueIds: [],
@@ -1049,7 +1050,8 @@
         this.DV_risk = {...this.DV_risk, ..._.cloneDeep(risk)}
         this.selectedFacilityProject = this.getFacilityProjectOptions.find(t => t.id === this.DV_risk.facilityProjectId)
         this.riskUsers = _.filter(this.activeProjectUsers, u => this.DV_risk.userIds.includes(u.id))
-        // this.accountableRiskUsers = _.filter(this.activeProjectUsers, u => this.DV_risk.userIds.includes(u.id))
+        // debugger;
+        this.accountableUsers = _.filter(this.activeProjectUsers, u => this.DV_risk.accountableUserIds.includes(u.id))
         // this.consultedRiskUsers = _.filter(this.activeProjectUsers, u => this.DV_risk.userIds.includes(u.id))
         // this.informedRiskUsers = _.filter(this.activeProjectUsers, u => this.DV_risk.userIds.includes(u.id))
         this.relatedIssues = _.filter(this.currentIssues, u => this.DV_risk.subIssueIds.includes(u.id))
@@ -1132,13 +1134,22 @@
           formData.append('risk[auto_calculate]', this.DV_risk.autoCalculate)
           formData.append('risk[destroy_file_ids]', _.map(this.destroyedFiles, 'id'))
 
-         if (this.DV_risk.userIds.length) {
-            for (let u_id of this.DV_risk.userIds) {
-              formData.append('risk[user_ids][]', u_id)
+         // if (this.DV_risk.userIds.length) {
+         //    for (let u_id of this.DV_risk.userIds) {
+         //      formData.append('risk[user_ids][]', u_id)
+         //    }
+         //  }
+         //  else {
+         //    formData.append('risk[user_ids][]', [])
+         //  }
+
+         if (this.DV_risk.accountableUserIds.length) {
+            for (let u_id of this.DV_risk.accountableUserIds) {
+              formData.append('accountable_user_ids[]', u_id)
             }
           }
           else {
-            formData.append('risk[user_ids][]', [])
+            formData.append('accountable_user_ids[]', [])
           }
 
           if (this.DV_risk.subTaskIds.length) {
@@ -1300,7 +1311,7 @@
         'getFacilityProjectOptions',
         'currentProject',
         'projectUsers',
-        'accountableUsers',
+        // 'accountableUsers',
         'consultedUsers',
         'informedUsers',
         'activeProjectUsers',
@@ -1525,21 +1536,21 @@
           if (value) this.DV_risk.userIds = _.uniq(_.map(value, 'id'))
         }, deep: true
       },
-       accountableRiskUsers: {
+     accountableRiskUsers: {
         handler: function(value) {
-          if (value) this.DV_risk.userIds = _.uniq(_.map(value, 'id'))
+          if (value) this.DV_risk.accountableUserIds = [value.id]
         }, deep: true
       },
-        consultedRiskUsers: {
-        handler: function(value) {
-          if (value) this.DV_risk.userIds = _.uniq(_.map(value, 'id'))
-        }, deep: true
-      },
-      informedRiskUsers: {
-        handler: function(value) {
-          if (value) this.DV_risk.userIds = _.uniq(_.map(value, 'id'))
-        }, deep: true
-      },
+      //   consultedRiskUsers: {
+      //   handler: function(value) {
+      //     if (value) this.DV_risk.userIds = _.uniq(_.map(value, 'id'))
+      //   }, deep: true
+      // },
+      // informedRiskUsers: {
+      //   handler: function(value) {
+      //     if (value) this.DV_risk.userIds = _.uniq(_.map(value, 'id'))
+      //   }, deep: true
+      // },
       relatedIssues: {
         handler: function(value) {
           if (value) this.DV_risk.subIssueIds = _.uniq(_.map(value, 'id'))

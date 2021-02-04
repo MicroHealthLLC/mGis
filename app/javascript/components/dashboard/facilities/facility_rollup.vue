@@ -79,7 +79,7 @@
 <!-- This is the 3nd row, the task-issue-risk-row -->
 
     <div class="row row-2 mt-2 task-issue-risk-row">
-      <div class="col-md-12 col-lg-12 col-sm-12 pl-0" data-cy="tasks_summary">
+      <div class="col-md-6 pl-0" data-cy="tasks_summary">
          <el-card class="box-card" style="background-color:#fff">
 
             <div class="row">
@@ -134,6 +134,24 @@
          </el-card>
    
        </div>     
+        <div class="col-md-6 pl-0" data-cy="date_set_filter">         
+          <el-card class="box-card" style="background-color:rgb(92,184,92);color:#fff">
+            <div class="row">
+              <div class="col">
+                 <h5 class="d-inline">Filters</h5>               
+                <hr>
+              </div>             
+            </div>
+
+            <div v-for="filterArray in getAllFilterNames">
+              <div class="row">
+                <div class="col" v-if="getFilterValue(filterArray[0])">                                         
+                            <b class="mr-1">{{filterArray[1]}}:</b> {{getFilterValue(filterArray[0])}}                     
+                </div>
+              </div>
+            </div>                    
+         </el-card>     
+       </div>  
 
     </div>
 

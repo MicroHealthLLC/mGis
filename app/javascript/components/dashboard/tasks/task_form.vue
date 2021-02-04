@@ -31,6 +31,15 @@
           >
           Close
         </button>
+        <button
+          class="btn btn-sm sticky-btn btn-warning ml-2"
+          @click.prevent="createDuplicate"
+          data-cy="task_close_btn"
+          :load="log(task)"
+          v-if="DV_task.id"
+        >
+          Duplicate
+        </button>
         <!-- <div class="btn-group">
            <button  
           v-if="_isallowed('write')"       
@@ -59,7 +68,7 @@
           Delete
         </button>
       </div>
-      <div v-if="_isallowed('read')" class="d-flex form-grouppt-1 mb-1 justify-content-start">
+      <div v-if="_isallowed('read')" class="d-flex form-group pt-1 mb-1 justify-content-start">
           
       <custom-tabs :current-tab="currentTab" :tabs="tabs" @on-change-tab="onChangeTab" class="custom-tab" />       
       
@@ -117,7 +126,7 @@
   <!-- Row begins -->
        <div  class="w-100 d-flex mb-0 form-group">
          <div class="simple-select form-group w-100 ml-4">
-        <label class="font-sm">*Facility:</label>
+        <label class="font-sm">*Project:</label>
         <multiselect
           v-model="selectedFacilityProject"
           v-validate="'required'"
@@ -414,13 +423,17 @@
 
 
   <!-- UPDATE TAB 5 -->
-  <div v-if="currentTab == 'tab5'" class="paperLookTab tab5">
-        
-      <div class="form-group mx-4 paginated-updates">
-      <div class="form-group mx-4">
+  <div v-if="currentTab == 'tab5'" class="paperLookTab tab5">       
+     
+      <div class="form-group pt-3 mx-4">
         <label class="font-sm mb-0">Progress: (in %)</label>
         <span class="ml-3">
-          <label class="font-sm mb-0 d-inline-flex align-items-center"><input type="checkbox" v-model="DV_task.autoCalculate" :disabled="!_isallowed('write')" :readonly="!_isallowed('write')"><span>&nbsp;&nbsp;Auto Calculate Progress</span></label>
+          <label class="font-sm mb-0 d-inline-flex align-items-center">
+            <input type="checkbox" 
+            v-model="DV_task.autoCalculate" 
+            :disabled="!_isallowed('write')" 
+            :readonly="!_isallowed('write')">
+            <span>&nbsp;&nbsp;Auto Calculate Progress</span></label>
         </span>
         <vue-slide-bar
           v-model="DV_task.progress"
@@ -428,10 +441,10 @@
           :is-disabled="!_isallowed('write') || DV_task.autoCalculate"
           :draggable="_isallowed('write') && !DV_task.autoCalculate"
         ></vue-slide-bar>
-      </div>
-      
-        <hr class="my-4"/>
-        <label class="font-sm mb-2">Updates:</label>
+      </div>      
+    
+     <div class="form-group mx-4 paginated-updates">
+        <label class="font-sm">Updates:</label>
         <span class="ml-2 clickable" v-if="_isallowed('write')" @click.prevent="addNote">
           <i class="fas fa-plus-circle"></i>
         </span>
@@ -446,7 +459,7 @@
             <textarea class="form-control" v-model="note.body" rows="3" placeholder="your note comes here." :readonly="!allowEditNote(note)"></textarea>
           </div>
         </paginate>
-      </div>         
+      </div>       
      </div>
      <!-- closing div for tab5 -->
   </div>
@@ -581,6 +594,8 @@
           notes: []
         }
       },
+      log(e){
+      },
       scrollToChecklist(){
         this.$refs.addCheckItem.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
         this.DV_task.checklists.push({text: '', checked: false})
@@ -657,6 +672,35 @@
       cancelSave() {
         this.$emit('on-close-form')
         this.setTaskForManager({key: 'task', value: null})
+      },
+      createDuplicate(){
+
+        let url = `/projects/${this.currentProject.id}/facilities/${this.facility.id}/tasks/${this.DV_task.id}/create_duplicate.json`
+        let method = "POST"
+        let callback = "task-created"
+
+        this.loading = true
+        let formData = new FormData()
+        formData.append('id', this.DV_task.id)
+
+        axios({
+          method: method,
+          url: url,
+          data: formData,
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
+          }
+        })
+        .then((response) => {
+          this.$emit(callback, humps.camelizeKeys(response.data.task))
+        })
+        .catch((err) => {
+          // var errors = err.response.data.errors
+          console.log(err)
+        })
+        .finally(() => {
+          this.loading = false
+        })
       },
       saveTask() {
         if (!this._isallowed('write')) return
@@ -1091,10 +1135,6 @@
     width: min-content;
     background-color: #fafafa;
     box-shadow: 0 2.5px 5px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
-  }
-  .tab2, .tab3, .tab4, .tab5 {
-    min-height: 500px;
-    background-color: #fff;
   }
 
 </style>

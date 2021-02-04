@@ -215,7 +215,7 @@
      </div>
     <!-- Tab 1 Row ends here -->
     <!-- Tab 1 Row begins here -->
-     <div class="d-flex ml-4">
+     <div class="d-flex mx-4">
        <div class="simple-select form-group w-100 mx-1">
           <label class="font-sm">*Issue Severity:</label>
           <multiselect
@@ -267,8 +267,13 @@
             </template>
           </multiselect>
         </div>
-     
-          <div class="form-group mx-1 w-100">
+     </div>   
+
+
+<!-- 
+Tab 1 Row Begins here -->
+<div  class="d-flex mb-0 mx-4 form-group">
+      <div class="form-group mx-1 w-75">
             <label class="font-sm">*Start Date:</label>
             <v2-date-picker
               v-validate="'required'"
@@ -289,7 +294,7 @@
               {{ errors.first("Start Date") }}
             </div>
           </div>
-          <div class="form-group w-100 ml-1 mr-4">
+          <div class="form-group w-75 ml-1">
             <label class="font-sm">*Estimated Completion Date:</label>
             <v2-date-picker
               v-validate="'required'"
@@ -315,9 +320,11 @@
               {{ errors.first("Estimated Completion Date") }}
             </div>
           </div>
+</div>
+         
 
 <!-- Next Row in Tab 1 -->
-        </div>
+       
           <div class="form-group user-select mx-4">
           <label class="font-sm mb-0">Assign Users:</label>
           <multiselect
@@ -1332,7 +1339,7 @@ ul {
  }
 
 .tab2, .tab3, .tab4, .tab5 {
-  min-height: 500px;
+  min-height: 400px;
   background-color: #fff;
   }
 </style>

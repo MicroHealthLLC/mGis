@@ -1,6 +1,6 @@
 class TasksController < AuthenticatedController
   before_action :set_resources
-  before_action :set_task, only: [:show, :update, :destroy]
+  before_action :set_task, only: [:show, :update, :destroy, :create_duplicate]
 
   def index
     render json: {tasks: @facility_project.tasks.map(&:to_json)}
@@ -16,6 +16,13 @@ class TasksController < AuthenticatedController
     @task.update(task_params)
     # @task.create_or_update_task(params, current_user)
     render json: {task: @task.reload.to_json}
+  end
+
+  def create_duplicate
+    duplicate_task = @task.amoeba_dup
+    duplicate_task.save
+    # @task.create_or_update_task(params, current_user)
+    render json: {task: duplicate_task.reload.to_json}
   end
 
   def show

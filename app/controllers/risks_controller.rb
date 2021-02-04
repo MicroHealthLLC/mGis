@@ -14,6 +14,36 @@ class RisksController < AuthenticatedController
   def update
     destroy_files_first if destroy_file_ids.present?
     @risk.update(risk_params)
+    risk_users = []
+    
+    if params[:accountable_user_ids].present?
+      params[:accountable_user_ids].each do |uid|
+        risk_users << RiskUser.new(user_id: uid, risk_id: @risk.id, user_type: 'accountable')
+      end
+    end
+
+    if params[:responsible_user_ids].present?
+      params[:responsible_user_ids].each do |uid|
+        risk_users << RiskUser.new(user_id: uid, risk_id: @risk.id, user_type: 'responsible')
+      end
+    end
+
+    if params[:counsulted_user_ids].present?
+      params[:counsulted_user_ids].each do |uid|
+        risk_users << RiskUser.new(user_id: uid, risk_id: @risk.id, user_type: 'counsulted')
+      end
+    end
+
+    if params[:informed_user_ids].present?
+      params[:informed_user_ids].each do |uid|
+        risk_users << RiskUser.new(user_id: uid, risk_id: @risk.id, user_type: 'informed')
+      end
+    end
+    if risk_users.any?
+      @risk.risk_users.destroy_all
+      RiskUser.import(risk_users)
+    end
+
     render json: {risk: @risk.reload.to_json}
   end
 

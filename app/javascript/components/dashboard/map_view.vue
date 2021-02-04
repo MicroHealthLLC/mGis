@@ -2,7 +2,7 @@
   <div id="_wrapper" data-cy="map_view">
     <div class="col p-0">
       <div class="row m-0 mw-100">
-        <div id="map-wrap" class="col-8 p-0">
+        <div id="map-wrap" class="col-7 p-0">
           <div class="regions-bar">
             <facility-group-bar
               v-if="contentLoaded"
@@ -68,7 +68,7 @@
             </GmapInfoWindow>
           </GmapMap>
         </div>
-        <div id="rollup-sidebar" class="col-4 p-0" :style="rollupStyle">
+        <div id="rollup-sidebar" class="col-5 p-0" :style="rollupStyle">
           <div style="margin-left: 20px">
             <div>
               <FacilityRollup v-show="!openSidebar"></FacilityRollup>
@@ -88,7 +88,7 @@
                   <button
                     v-if="currentFacility && currentFacility.id"
                     class="knocker btn btn-sm text-light p-1"
-                    @click="toggleOpenSideBar"
+                    @click="resetView"
                   >
                     <small
                       ><span class="pr-1"><i class="fas fa-building"></i></span
@@ -429,11 +429,12 @@ export default {
   height: calc(100vh - 94px);
   overflow: auto;
   background: white;
-  padding: 10px;
+  padding: 5px;
 }
 .knocker_side {
   position: absolute;
-  width: 95%;
+  width: 100%;
+  padding: 3px;
   top: 0;
   transition: 0.3s ease;
   height: 100%;

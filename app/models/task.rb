@@ -15,6 +15,11 @@ class Task < ApplicationRecord
   before_update :update_progress_on_stage_change, if: :task_stage_id_changed?
   before_save :init_kanban_order, if: Proc.new {|task| task.task_stage_id_was.nil?}
 
+  amoeba do
+    enable
+    append :text => " - Copy"
+  end
+
   def to_json
     attach_files = []
     tf = self.task_files

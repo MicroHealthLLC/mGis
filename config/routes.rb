@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       end
       resources :tasks do
         post :batch_update, on: :collection
+        post :create_duplicate, on: :member
       end
     end
   end
