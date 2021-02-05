@@ -21,14 +21,23 @@
         <td v-else class="twenty">No Updates</td>
       </tr>
       <!-- The context-menu appears only if table row is right-clicked -->
-      <context-menu :display="showContextMenu" ref="menu">
-        <el-menu>
-          <el-menu-item id="first-menu-item">Move to...</el-menu-item>
+      <context-menu ref="menu">
+        <el-menu v-show="getShowContextMenu" collapse>
+          <el-menu-item @click="editTask">Open</el-menu-item>
           <hr>
-          <div class="dropdown-context-menu">
-            <el-menu-item v-for="(facility, index) in facilities" :key="index" :title="facility.facility.facilityName">{{ facility.facility.facilityName }}</el-menu-item>
-          </div>         
-        </el-menu>
+          <el-submenu index="1">
+            <template slot="title">Move to</template>
+            <div class="dropdown-context-menu">
+              <el-menu-item v-for="facility in facilities" :key="facility.facilityId" @click="saveTask(facility.facilityId)" :title="facility.facility.facilityName">{{ facility.facility.facilityName}}</el-menu-item>
+            </div>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">Duplicate to</template>
+            <div class="dropdown-context-menu">
+              <el-menu-item v-for="facility in facilities" :key="facility.facilityId" @click="duplicateTask" :title="facility.facility.facilityName">{{ facility.facility.facilityName }}</el-menu-item>
+            </div>          
+          </el-submenu>
+        </el-menu>       
       </context-menu>
     </table>
 
@@ -69,6 +78,9 @@
   import IssueForm from "./../issues/issue_form"
   import ContextMenu from "../../shared/ContextMenu"
   import moment from 'moment'
+  import axios from 'axios'
+  import humps from 'humps'
+
   Vue.prototype.moment = moment
 
   export default {
@@ -93,8 +105,7 @@
         DV_task: {},
         DV_edit_task: {},
         DV_edit_issue: {},
-        has_task: false,
-        showContextMenu: false
+        has_task: false
       }
     },
     mounted() {
@@ -170,7 +181,126 @@
       },
       openContextMenu(e) {
         e.preventDefault()
-        this.$refs.menu.open(e);
+        this.$refs.menu.open(e)
+      },
+      closeContextMenu() {
+        this.$refs.menu.close();
+      },
+      saveTask(facilityId) {
+        if (!this._isallowed('write')) return
+        this.$validator.validate().then((success) =>
+        {
+          if (!success || this.loading) {
+            this.showErrors = !success
+            return;
+          }
+
+          this.loading = true
+          let formData = new FormData()
+          formData.append('task[text]', this.DV_task.text)
+          formData.append('task[due_date]', this.DV_task.dueDate)
+          formData.append('task[start_date]', this.DV_task.startDate)
+          formData.append('task[task_type_id]', this.DV_task.taskTypeId)
+          formData.append('task[task_stage_id]', this.DV_task.taskStageId)
+          formData.append('task[progress]', this.DV_task.progress)
+          formData.append('task[auto_calculate]', this.DV_task.autoCalculate)
+          formData.append('task[description]', this.DV_task.description)
+          formData.append('task[facility_project_id]', facilityId)
+          formData.append('task[destroy_file_ids]', _.map(this.destroyedFiles, 'id'))
+
+          if (this.DV_task.userIds.length) {
+            for (let u_id of this.DV_task.userIds) {
+              formData.append('task[user_ids][]', u_id)
+            }
+          }
+          else {
+            formData.append('task[user_ids][]', [])
+          }
+
+          if (this.DV_task.subTaskIds.length) {
+            for (let u_id of this.DV_task.subTaskIds) {
+              formData.append('task[sub_task_ids][]', u_id)
+            }
+          }
+          else {
+            formData.append('task[sub_task_ids][]', [])
+          }
+
+          if (this.DV_task.subIssueIds.length) {
+            for (let u_id of this.DV_task.subIssueIds) {
+              formData.append('task[sub_issue_ids][]', u_id)
+            }
+          }
+          else {
+            formData.append('task[sub_issue_ids][]', [])
+          }
+
+          for (let i in this.DV_task.checklists) {
+            let check = this.DV_task.checklists[i]
+            if (!check.text && !check._destroy) continue
+            for (let key in check) {         
+              if (key === 'user') key = 'user_id'            
+              let value = key == 'user_id' ? check.user ? check.user.id : null : check[key]
+              // if (key === "dueDate"){
+              //   key = "due_date"
+              // }
+              key = humps.decamelize(key)
+              if(['created_at', 'updated_at'].includes(key)) continue
+              formData.append(`task[checklists_attributes][${i}][${key}]`, value)
+            }              
+          }          
+
+          for (let i in this.DV_task.notes) {
+            let note = this.DV_task.notes[i]
+            if (!note.body && !note._destroy) continue
+            for (let key in note) {
+              let value = key == 'user_id' ? note.user_id ? note.user_id : this.$currentUser.id : note[key]
+              formData.append(`task[notes_attributes][${i}][${key}]`, value)
+            }
+          }
+
+          for (let file of this.DV_task.taskFiles) {
+            if (!file.id) {
+              formData.append('task[task_files][]', file)
+            }
+          }
+
+          let url = `/projects/${this.currentProject.id}/facilities/${this.facility.id}/tasks.json`
+          let method = "POST"
+          let callback = "task-created"
+
+          if (this.task && this.task.id) {
+            url = `/projects/${this.currentProject.id}/facilities/${this.task.facilityId}/tasks/${this.task.id}.json`
+            method = "PUT"
+            callback = "task-updated"
+          }
+
+          var beforeSaveTask = this.task
+
+          axios({
+            method: method,
+            url: url,
+            data: formData,
+            headers: {
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
+            }
+          })
+          .then((response) => {
+            if(beforeSaveTask.facilityId && beforeSaveTask.projectId )
+              this.$emit(callback, humps.camelizeKeys(beforeSaveTask))
+            this.$emit(callback, humps.camelizeKeys(response.data.task))
+          })
+          .catch((err) => {
+            // var errors = err.response.data.errors
+            console.log(err)
+          })
+          .finally(() => {
+            this.loading = false
+          })
+        })
+      },
+      duplicateTask() {
+        console.log("Duplicate task")
       }
     },
     computed: {
@@ -180,7 +310,9 @@
         'managerView',
         'currentTasks',
         'currentIssues',
-        'viewPermit'
+        'currentProject',
+        'viewPermit',
+        'getShowContextMenu'
       ]),
       _isallowed() {
         return salut => this.$currentUser.role == "superadmin" || this.$permissions.tasks[salut]
@@ -298,14 +430,18 @@
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    &:hover {
-      background-color: rgba(91, 192, 222, 0.3);
-    }
+    // &:hover {
+    //   background-color: rgba(91, 192, 222, 0.3);
+    // }
   }
   #first-menu-item {
     font-weight: bold;
     &:hover {
       background-color: unset;
     }
+  }
+  .el-menu {
+    min-width: 150px;
+    text-align: center;
   }
 </style>

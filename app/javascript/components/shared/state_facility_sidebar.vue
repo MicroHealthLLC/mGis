@@ -1,5 +1,5 @@
 <template>
-  <div id="facility_sidebar">
+  <div id="facility_sidebar" @click="checkContextMenu">
     <div class="row">
       <div class="col-md-2 facility-groups-tab">
         <facility-sidebar
@@ -519,7 +519,8 @@
         'facilityGroupFacilities',
         'taskTypes',
         'issueTypes',
-        'issueSeverities'
+        'issueSeverities',
+        'getShowContextMenu'
       ]),
        filteredTasks() {
         let typeIds = _.map(this.C_taskTypeFilter, 'id')
@@ -868,7 +869,8 @@
         'setIssueSeverityFilter',
         'setIssueTypeFilter',
         'setTaskTypeFilter',
-        'updateTasksHash',               
+        'updateTasksHash',
+        'setShowContextMenu'               
       ]),
       ...mapActions([
         'taskUpdated'
@@ -978,6 +980,11 @@
           this.searchIssuesQuery = $(searchElement).val()
         }
       },
+      checkContextMenu() {
+        if (this.getShowContextMenu) {
+          this.setShowContextMenu(false)
+        }
+      }
     },
     watch: {
       currentFacility: {

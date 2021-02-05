@@ -106,7 +106,8 @@ export default new Vuex.Store({
       note: null,
       risk: null
     },
-    mapZoomFilter: new Array
+    mapZoomFilter: new Array,
+    showContextMenu: false
   },
 
   mutations: {
@@ -298,7 +299,8 @@ export default new Vuex.Store({
         state.managerView[k] = k == key ? value : null
       }
     },
-    setMapZoomFilter: (state, filteredIds) => state.mapZoomFilter = filteredIds    
+    setMapZoomFilter: (state, filteredIds) => state.mapZoomFilter = filteredIds,  
+    setShowContextMenu: (state, open) => state.showContextMenu = open
   },
 
   getters: {
@@ -1446,7 +1448,8 @@ export default new Vuex.Store({
     impactLevelNames: () => {
       return ["1 - Negligible", "2 - Minor", "3 - Moderate", "4 - Major", "5 - Catastrophic"]
     },
-    getMapZoomFilter: (state) => state.mapZoomFilter
+    getMapZoomFilter: (state) => state.mapZoomFilter,
+    getShowContextMenu: (state) => state.showContextMenu
   },
 
   actions: {

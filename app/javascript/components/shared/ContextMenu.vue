@@ -1,11 +1,10 @@
 <template>
   <div
     class="context-menu"
-    v-show="show"
+    :v-show="getShowContextMenu"
     :style="style"
     ref="context"
     tabindex="0"
-    @mouseleave="close"
   >
     <slot></slot>
   </div>
@@ -13,20 +12,18 @@
 
 <script>
 import Vue from "vue";
+import { mapGetters, mapMutations } from "vuex"
 
 export default {
   name: "ContextMenu",
-  props: {
-    display: Boolean, // prop detect if we should show context menu
-  },
   data() {
     return {
       left: 0, // left position
       top: 0, // top position
-      show: false, // affect display of context menu
     };
   },
   computed: {
+    ...mapGetters(['getShowContextMenu']),
     // get position of context menu
     style() {
       return {
@@ -36,12 +33,7 @@ export default {
     },
   },
   methods: {
-    // closes context menu
-    close() {
-      this.show = false;
-      this.left = 0;
-      this.top = 0;
-    },
+    ...mapMutations(['setShowContextMenu']),
     open(evt) {
       // updates position of context menu
       this.left = evt.pageX || evt.clientX;
@@ -49,8 +41,13 @@ export default {
       // make element focused
       // @ts-ignore
       Vue.nextTick(() => this.$el.focus());
-      this.show = true;
+      this.setShowContextMenu(true)
     },
+    close() {
+      this.setShowContextMenu(false);
+      this.left = 0;
+      this.top = 0;
+    }
   },
 };
 </script>
