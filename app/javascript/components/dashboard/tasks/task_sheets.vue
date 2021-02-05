@@ -28,7 +28,7 @@
           <el-submenu index="1">
             <template slot="title">Move to</template>
             <div class="dropdown-context-menu">
-              <el-menu-item v-for="facility in facilities" :key="facility.facilityId" @click="saveTask(facility.facilityId)" :title="facility.facility.facilityName">{{ facility.facility.facilityName}}</el-menu-item>
+              <el-menu-item v-for="facility in facilities" :key="facility.facilityId" @click="moveTask(facility.facilityId)" :title="facility.facility.facilityName">{{ facility.facility.facilityName}}</el-menu-item>
             </div>
           </el-submenu>
           <el-submenu index="2">
@@ -186,7 +186,7 @@
       closeContextMenu() {
         this.$refs.menu.close();
       },
-      saveTask(facilityId) {
+      moveTask(facilityId) {
         if (!this._isallowed('write')) return
         this.$validator.validate().then((success) =>
         {
@@ -197,73 +197,8 @@
 
           this.loading = true
           let formData = new FormData()
-          formData.append('task[text]', this.DV_task.text)
-          formData.append('task[due_date]', this.DV_task.dueDate)
-          formData.append('task[start_date]', this.DV_task.startDate)
-          formData.append('task[task_type_id]', this.DV_task.taskTypeId)
-          formData.append('task[task_stage_id]', this.DV_task.taskStageId)
-          formData.append('task[progress]', this.DV_task.progress)
-          formData.append('task[auto_calculate]', this.DV_task.autoCalculate)
-          formData.append('task[description]', this.DV_task.description)
+
           formData.append('task[facility_project_id]', facilityId)
-          formData.append('task[destroy_file_ids]', _.map(this.destroyedFiles, 'id'))
-
-          if (this.DV_task.userIds.length) {
-            for (let u_id of this.DV_task.userIds) {
-              formData.append('task[user_ids][]', u_id)
-            }
-          }
-          else {
-            formData.append('task[user_ids][]', [])
-          }
-
-          if (this.DV_task.subTaskIds.length) {
-            for (let u_id of this.DV_task.subTaskIds) {
-              formData.append('task[sub_task_ids][]', u_id)
-            }
-          }
-          else {
-            formData.append('task[sub_task_ids][]', [])
-          }
-
-          if (this.DV_task.subIssueIds.length) {
-            for (let u_id of this.DV_task.subIssueIds) {
-              formData.append('task[sub_issue_ids][]', u_id)
-            }
-          }
-          else {
-            formData.append('task[sub_issue_ids][]', [])
-          }
-
-          for (let i in this.DV_task.checklists) {
-            let check = this.DV_task.checklists[i]
-            if (!check.text && !check._destroy) continue
-            for (let key in check) {         
-              if (key === 'user') key = 'user_id'            
-              let value = key == 'user_id' ? check.user ? check.user.id : null : check[key]
-              // if (key === "dueDate"){
-              //   key = "due_date"
-              // }
-              key = humps.decamelize(key)
-              if(['created_at', 'updated_at'].includes(key)) continue
-              formData.append(`task[checklists_attributes][${i}][${key}]`, value)
-            }              
-          }          
-
-          for (let i in this.DV_task.notes) {
-            let note = this.DV_task.notes[i]
-            if (!note.body && !note._destroy) continue
-            for (let key in note) {
-              let value = key == 'user_id' ? note.user_id ? note.user_id : this.$currentUser.id : note[key]
-              formData.append(`task[notes_attributes][${i}][${key}]`, value)
-            }
-          }
-
-          for (let file of this.DV_task.taskFiles) {
-            if (!file.id) {
-              formData.append('task[task_files][]', file)
-            }
-          }
 
           let url = `/projects/${this.currentProject.id}/facilities/${this.facility.id}/tasks.json`
           let method = "POST"
