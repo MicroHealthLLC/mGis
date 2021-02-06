@@ -167,7 +167,13 @@ ActiveAdmin.register Risk do
       build_resource
       handle_files
       resource.user = current_user
-      super
+      # super
+      resource.validate
+      if resource.save
+        redirect_to admin_risks_path , notice: "Risk created Successfully"
+      else
+        render :new
+      end
     end
 
     def update

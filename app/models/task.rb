@@ -8,6 +8,9 @@ class Task < ApplicationRecord
   has_many :users, through: :task_users
   has_many_attached :task_files, dependent: :destroy
   has_many :notes, as: :noteable, dependent: :destroy
+  has_one :responsible, dependent: :destroy, class_name: 'User', foreign_key: 'responsible_id'
+  has_one :accountable, dependent: :destroy, class_name: 'User', foreign_key: 'accountable_id'
+  has_many :informed_users, dependent: :destroy, class_name: 'TaskUser'
 
   validates :text, :start_date, :due_date, presence: true
   accepts_nested_attributes_for :notes, reject_if: :all_blank, allow_destroy: true

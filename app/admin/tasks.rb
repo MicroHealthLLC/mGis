@@ -19,9 +19,12 @@ ActiveAdmin.register Task do
       :task_type_id,
       :task_stage_id,
       :start_date,
+      :responsible_id,
+      :accountable_id,
       :auto_calculate,
       task_files: [],
       user_ids: [],
+      informed_user_ids: [],
       sub_task_ids: [],
       sub_issue_ids: [],
       sub_risk_ids: [],
@@ -115,7 +118,12 @@ ActiveAdmin.register Task do
       f.input :task_stage, label: 'Stage', input_html: {class: "select2"}, include_blank: true
       f.input :start_date, as: :datepicker
       f.input :due_date, as: :datepicker
-      f.input :users, label: 'Assigned Users', as: :select, collection: User.active.map{|u| [u.full_name, u.id]}
+      # f.input :users, label: 'Assigned Users', as: :select, collection: User.active.map{|u| [u.full_name, u.id]}
+      f.input :responsible_id, label: 'Responsible', as: :select, collection: User.active.map{|u| [u.full_name, u.id]}
+      f.input :accountable_id, label: 'Accountable', as: :select, collection: User.active.map{|u| [u.full_name, u.id]}
+      f.input :users, label: 'Consulted Users', as: :select, collection: User.active.map{|u| [u.full_name, u.id]}
+      # f.input :informed_users, label: 'Informed Users', as: :select, collection: User.active.map{|u| [u.full_name, u.id]}
+      # div id: 'informed_users-tab'
       div id: 'projects_users-tab'
       f.input :progress
       div id: 'progress_slider-tab'
@@ -179,7 +187,13 @@ ActiveAdmin.register Task do
     def create
       build_resource
       handle_files
-      super
+      # super
+      resource.validate
+      if resource.save
+        redirect_to admin_tasks_path , notice: "Task created Successfully"
+      else
+        render :new
+      end
     end
 
     def update

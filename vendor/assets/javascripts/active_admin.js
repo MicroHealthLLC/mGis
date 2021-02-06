@@ -44,13 +44,13 @@ jQuery(function($) {
     this.parentElement.classList.add(`status_${$(this).text()}`);
   });
 
-  //risk probability level labels 
+  //risk probability level labels
   $('#risk_probability_text').append(
-    '<div class="risk_prob_level"><span id="riskText">Probability Levels:</span> <div class="risk_probability">1 - Rare</div><div class="risk_probability bg-danger">2 - Unlikely</div><div class="risk_probability">3 - Possible</div> <div class="risk_probability">4 - Likely</div><div class="risk_probability">5 - Almost Certain</div></div');    
+    '<div class="risk_prob_level"><span id="riskText">Probability Levels:</span> <div class="risk_probability">1 - Rare</div><div class="risk_probability bg-danger">2 - Unlikely</div><div class="risk_probability">3 - Possible</div> <div class="risk_probability">4 - Likely</div><div class="risk_probability">5 - Almost Certain</div></div');
 
   $('#risk_impact_text').append(
       '<div class="risk_prob_level"><span id="riskText">Impact Levels:</span> <div class="risk_probability">1 - Negligible</div><div class="risk_probability">2 - Minor</div><div class="risk_probability">3 - Moderate</div> <div class="risk_probability">4 - Major</div><div class="risk_probability">5 - Catastrophic</div></div')
- 
+
       // direct file-upload for tasks/issues
   $.directFileUpload = (file) => {
     const url = $("#direct-upload-url").data('directUploadUrl');
@@ -1641,6 +1641,75 @@ jQuery(function($) {
         },
         template: `<li class='select input optional d-flex' id='task_users_input_multiple'>
           <label for='task_users_input_multiple' class='label'>Assigned Users</label>
+          <div v-if="!loading" class="user_multiselect">
+            <multiselect
+              v-model="task_users"
+              track-by="id"
+              label="full_name"
+              placeholder="Search and select users"
+              :options="project_users"
+              :searchable="true"
+              :multiple="true"
+              select-label="Select"
+              deselect-label="Remove"
+              :close-on-select="false"
+              >
+              <template slot="singleLabel" slot-scope="{option}">
+                <div class="d-flex">
+                  <span class='select__tag-name'>{{option.full_name}}</span>
+                </div>
+              </template>
+            </multiselect>
+          </div>
+        </li>`
+      });
+    }
+
+    if ($("#informed_users-tab").is(":visible"))
+    {
+      Vue.component('multiselect', VueMultiselect.Multiselect);
+      $.Vue_projects_users_select = new Vue({
+        el: "#informed_users-tab",
+        data() {
+          return {
+            loading: true,
+            project_id: '',
+            type: '',
+            task_users: [],
+            project_users: [],
+            u_ids: []
+          }
+        },
+        mounted() {
+          this.setProjectConsts();
+        },
+        methods: {
+          setProjectConsts() {
+            this.type = $('form').attr('id').split('_').pop();
+            this.project_id = $(`#${this.type}_facility_project_attributes_project_id`).val();
+            this.u_ids = $(`#${this.type}_user_ids`).val().map(Number);
+          },
+          fetchProjectUsers() {
+            $.get(`/api/users.json?project_id=${this.project_id}`, (data) => {
+              this.project_users = data.filter(u => u.status == "active");
+              this.task_users = this.project_users.filter(u => this.u_ids.includes(u.id));
+              this.loading = false;
+            });
+          }
+        },
+        watch: {
+          project_id(value) {
+            if (value) this.fetchProjectUsers();
+          },
+          task_users: {
+            handler(value) {
+              this.u_ids = value.map(u => u.id);
+              if (value) $(`#${this.type}_user_ids`).val(this.u_ids);
+            }, deep: true
+          }
+        },
+        template: `<li class='select input optional d-flex' id='task_users_input_multiple'>
+          <label for='task_users_input_multiple' class='label'>Informed Users</label>
           <div v-if="!loading" class="user_multiselect">
             <multiselect
               v-model="task_users"
