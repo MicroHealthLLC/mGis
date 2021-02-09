@@ -380,9 +380,9 @@ export default {
         bounds.extend(location);
       }
 
-      this.$refs.googlemap.fitBounds(bounds);
+      this.$refs.googlemap.fitBounds(bounds, 0);
       this.$refs.googlemap.panToBounds(bounds);
-      this.$refs.googlemap.fitBounds(bounds);
+      this.$refs.googlemap.fitBounds(bounds, 0);
     },
   },
   beforeDestroy() {
