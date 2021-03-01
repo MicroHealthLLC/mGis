@@ -480,6 +480,9 @@
       _isallowed() {
         return salut => this.$currentUser.role == "superadmin" || this.$permissions.tasks[salut]
       },
+      isMapView() {
+        return this.$route.name === 'ProjectMapView'
+     },
       is_overdue() {
         return this.DV_task.progress !== 100 && new Date(this.DV_task.dueDate).getTime() < new Date().getTime()
       },
@@ -611,6 +614,10 @@
     font-size: 14px;
     text-align: center;
     margin-top: 10px;
+  }
+  .map-v {
+    width:31vw;
+    // float:right;
   }
 </style>
 

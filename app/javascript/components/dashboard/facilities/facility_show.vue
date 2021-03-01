@@ -1,7 +1,7 @@
 <!--  NOTE: This file is used in Sheets view as overview tab -->
 <template>
-  <div id="facility-show"  data-cy="facility_sheets" class="px-3"  v-loading="!contentLoaded" >
-    <div  class="position-sticky" v-if="!loading">
+  <div id="facility-show"  data-cy="facility_sheets" class="px-3"  v-loading="!contentLoaded"  >
+    <div  class="position-sticky" v-if="!loading" :class="{'map-v': isMapView}">
       <div class="d-flex align-items-center my-2">
         <span class="fbody-icon"><i class="fas fa-building"></i></span>
         <h4 class="f-head mb-0">{{DV_facility.facilityName}}</h4>
@@ -411,20 +411,11 @@
                 </div>
             </div>
           
-  </el-collapse-item>
-              </el-collapse>
-
- </div>
-          
-             
-           
-
-   
-
-            </div>             
-
-              
-           </el-card>     
+            </el-collapse-item>
+      </el-collapse>
+    </div>
+         </div>              
+ </el-card>     
           </div> 
         </div>           
             </div>
@@ -432,8 +423,9 @@
           </div>
         
         </div>
-
-        <div v-if="currentTab == 'notes'">
+        
+      </div>
+      <div v-if="currentTab == 'notes'">
           <notes-index
             :facility="DV_facility"
             :from="from"
@@ -461,9 +453,7 @@
             @refresh-facility="refreshFacility"
           ></risk-index>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -678,6 +668,9 @@
           return valid
         })
       },
+      isMapView() {
+        return this.$route.name === 'ProjectMapView'
+     },
       taskStats() {
         let tasks = new Array
         let group = _.groupBy(this.filteredTasks, 'taskType')
@@ -1019,6 +1012,10 @@
       margin-bottom: 8px;
       background-color: #fff;
       box-shadow: 0 5px 5px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+  }
+   .map-v {
+    width:34vw;  
+    float:right;
   }
 
 </style>

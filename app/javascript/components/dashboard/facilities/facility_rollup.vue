@@ -1,6 +1,6 @@
 <!--  NOTE: This File is used in Map view right side bard -->
 <template>
-  <div class="container-fluid m-2" data-cy="facility_rollup">
+  <div class="container-fluid m-1" data-cy="facility_rollup" :class="{'map-v': isMapView}">
       <div class="row">
         <div class="col pl-0">
           <h3 class="d-inline mr-2"> <b>PROJECTS</b></h3>
@@ -732,6 +732,11 @@ export default {
   }
   .grey2 {
     border-radius: 3px;
+  }
+
+  .map-v {
+    width:34vw; 
+    float:right;
   }
   // .fac-proj-status:hover, .tasks:hover, .issues:hover, .fac-groups:hover {
   //  background-color: #fff;

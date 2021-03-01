@@ -3,7 +3,8 @@
     <div v-if="showDetails">
       <div>
         <task-index
-          v-if="currentProject"
+         :class="{'map-v': isMapView}"
+           v-if="currentProject"
           :facility="facility"
           :from="from"
           @show-hide="detailShowHide"
@@ -12,6 +13,7 @@
     </div>
     <div v-else-if="from != 'manager_view'">
       <task-form
+        :class="{'map-form': isMapView}"
         :facility="facility"
         :task="currentTask"
         :title="taskFormTitle"
@@ -88,7 +90,10 @@
       ]),
       taskFormTitle() {
         return this.currentTask ? "Edit Task" : "Add a new Task"
-      }
+      },
+     isMapView() {
+    return this.$route.name === 'ProjectMapView'
+   },
     },
     watch: {
       showDetails(value) {
@@ -132,5 +137,16 @@
   }
   .progress-wrapper {
     position: inherit;
+  }
+
+ .map-form {
+    width:83vw; 
+
+  }
+
+  .map-v {
+    width:34vw; 
+    // float: right; 
+    margin-left: auto;
   }
 </style>

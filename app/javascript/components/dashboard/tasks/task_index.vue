@@ -1,5 +1,5 @@
 <template>
-  <div id="tasks-index" class="mt-2" data-cy="task_list">
+  <div id="tasks-index" class="mt-2" data-cy="task_list" :class="{'map-v p-2': isMapView}">
     <div v-if="_isallowed('read')">
 
        <div class="d-flex align-item-center justify-content-between w-100 mb-1">        
@@ -196,6 +196,9 @@ computed: {
   _isallowed() {
     return salut => this.$currentUser.role == "superadmin" || this.$permissions.tasks[salut]
   },
+   isMapView() {
+    return this.$route.name === 'ProjectMapView'
+   },
   filteredTasks() {
     let typeIds = _.map(this.C_taskTypeFilter, 'id')
     let stageIds = _.map(this.taskStageFilter, 'id')
@@ -378,4 +381,8 @@ input[type=search] {
 #taskHover {
  box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);
 }
+  // .map-v {
+  //   // width:31vw;
+  //   // float:right;
+  
 </style>

@@ -822,10 +822,10 @@
                       <input type="checkbox" name="check" :checked="check.checked" @change="updateCheckItem($event, 'check', index)" :key="`check_${index}`" :disabled="!_isallowed('write') || !check.text.trim()">
                       <input :value="check.text" name="text" @input="updateCheckItem($event, 'text', index)" :key="`text_${index}`" placeholder="Checkpoint name here"  type="text" class="checklist-text pl-1" :readonly="!_isallowed('write')">
                      </div>
-                 <div v-if="isSheetsView" class="col-1 pl-0 pr-0">
+                 <div v-if="isSheetsView || isKanbanView" class="col-1 pl-0 pr-0">
                    <span class="font-sm dueDate">Due Date:</span>
                  </div>
-                  <div v-if="isSheetsView" class="col-3 pl-0" style="margin-left:-25px">
+                  <div v-if="isSheetsView || isKanbanView" class="col-3 pl-0" style="margin-left:-25px">
                     <v2-date-picker
                     v-model="check.dueDate"
                     :value="check.dueDate"

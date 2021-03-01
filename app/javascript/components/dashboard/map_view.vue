@@ -1,8 +1,8 @@
 <template>
   <div id="_wrapper" data-cy="map_view">
-    <div class="col p-0">
-      <div class="row m-0 mw-100">
-        <div id="map-wrap" class="col-7 p-0">
+    <div class="container-fluid">    
+        <div id="map-wrap" class="row">
+          <div class="col-md-12">
           <div class="regions-bar">
             <facility-group-bar
               v-if="contentLoaded"
@@ -75,13 +75,18 @@
               {{ tooltip.content }}
             </GmapInfoWindow>
           </GmapMap>
+          
+          
+         
+          
+          </div>
         </div>
-        <div id="rollup-sidebar" class="col-5 p-0" :style="rollupStyle">
-          <div style="margin-left: 5px">
+           <div class="container-fluid project-sum pr-0" id="rollup-sidebar">
+          <div>
             <div>
               <FacilityRollup v-show="!openSidebar"></FacilityRollup>
 
-              <div class="knocker_side" :style="knockerStyle">
+              <div class="knocker_side" >
                 <!-- <button
                   v-if="currentFacility && currentFacility.id"
                   class="knocker btn btn-sm text-light p-1"
@@ -92,7 +97,7 @@
                     >FACILITY SUMMARY</small
                   >
                 </button> -->
-                <div class="knocker_side" :style="knockerStyle">
+                <div class="knocker_side">
                   <!-- <button
                     v-if="currentFacility && currentFacility.id"
                     class="knocker btn btn-sm text-light p-1"
@@ -103,7 +108,7 @@
                       >PROJECT SUMMARY</small
                     >
                   </button> -->
-                  <div id="map-sidebar" class="shadow-sm mr-2">
+                  <div id="map-sidebar" class="shadow-sm">
                     <facility-show
                       v-loading="!contentLoaded"
                       v-if="currentFacility && currentFacility.id"
@@ -181,8 +186,9 @@
             </div>
           </sweet-modal>
         </div>
+        <!-- BELOW THIS IS FAC VIEW -->
+      
       </div>
-    </div>
   </div>
 </template>
 
@@ -253,14 +259,14 @@ export default {
       "getUnfilteredFacilities",
       "getNewSession",
     ]),
-    knockerStyle() {
-      return this.openSidebar
-        ? {}
-        : { transform: "translateX(calc(105% - 20px))" };
-    },
-    rollupStyle() {
-      return this.openSidebar ? { right: "12px" } : { right: "0" };
-    },
+    // knockerStyle() {
+    //   return this.openSidebar
+    //     ? {}
+    //     : { transform: "translateX(calc(105% - 20px))" };
+    // },
+    // rollupStyle() {
+    //   return this.openSidebar ? { right: "12px" } : { right: "0" };
+    // },
   },
   methods: {
     ...mapMutations([
@@ -492,33 +498,40 @@ export default {
 }
 #map-wrap {
   height: calc(100vh - 94px);
-  width: 69vw;
+  width: 66vw;
+  z-index: 1;
+  position: relative;
 }
-#rollup-sidebar {
-  > div {
-    height: calc(100vh - 94px);
-    z-index: 1000;
-  }
-  position: absolute;
-  top: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+.project-sum {
+  position:absolute;
+  z-index: 0;
+  top:11%;  
 }
-#map-sidebar {
-  z-index: 1000;
-  height: calc(100vh - 94px);
-  overflow: auto;
-  background: white;
-  padding: 5px;
-}
-.knocker_side {
-  position: absolute;
-  width: 100%;
-  padding: 3px;
-  top: 0;
-  transition: 0.3s ease;
-  height: 100%;
-}
+// #rollup-sidebar {
+//   > div {
+//     height: calc(100vh - 94px);
+//     z-index: 1000;
+//   }
+//   position: absolute;
+//   top: 0;
+//   overflow-x: hidden;
+//   overflow-y: auto;
+// }
+// #map-sidebar {
+//   z-index: 1000;
+//   height: calc(100vh - 94px);
+//   overflow: auto;
+//   background: white;
+//   padding: 5px;
+// }
+// .knocker_side {
+//   position: absolute;
+//   width: 100%;
+//   padding: 3px;
+//   top: 0;
+//   transition: 0.3s ease;
+//   height: 100%;
+// }
 .knocker {
   cursor: pointer;
   z-index: 1000 !important;
