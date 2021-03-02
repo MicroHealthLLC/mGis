@@ -1,5 +1,5 @@
 <template>
-  <div class="notes-form">
+  <div class="notes-form"  :class="{'fixed-form-mapView':isMapView}">
        <div class="d-flex form-group sticky mb-2">
         <button
           :disabled="!readyToSave || loading"
@@ -241,6 +241,9 @@
           // this.exists(this.DV_note.facilityProjectId)
         )
       },
+      isMapView() {
+        return this.$route.name === 'ProjectMapView'
+      },     
       titleText() {
         return _.isEmpty(this.note) ? "Add Note" : "Edit Note"
       },
@@ -324,4 +327,10 @@
     background-color: rgba(237, 237, 237, 0.85);
     box-shadow: 0 10px 20px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
   }
+  .fixed-form-mapView {
+   width: 83.33%;
+   position: absolute;
+   left:16%;
+  }
+
 </style>

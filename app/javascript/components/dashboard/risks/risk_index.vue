@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading" class="mt-2 risks-index px-0" data-cy="risk_list">
+  <div v-if="!loading" class="risks-index px-0" :class="{'map-v': isMapView}" data-cy="risk_list">
     <div v-if="newRisk && from != 'manager_view'">
       <risk-form
         :facility="facility"
@@ -283,6 +283,9 @@
       _isallowed() {
         return salut => this.$currentUser.role == "superadmin" || this.$permissions.risks[salut]
       },
+      isMapView() {
+        return this.$route.name === 'ProjectMapView'
+      },
       filteredRisks() {
 
         let milestoneIds = _.map(this.C_taskTypeFilter, 'id')
@@ -426,4 +429,8 @@
   .riskHover {
     box-shadow: 0 2.5px 5px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
   }
+  .map-v {
+    width:34vw;
+    margin-left: auto !important;
+ }
 </style>

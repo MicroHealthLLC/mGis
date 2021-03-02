@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2">
+  <div>
     <div v-if="showDetails">
       <div>
         <task-index
@@ -12,8 +12,7 @@
       </div>
     </div>
     <div v-else-if="from != 'manager_view'">
-      <task-form
-        :class="{'map-form': isMapView}"
+      <task-form       
         :facility="facility"
         :task="currentTask"
         :title="taskFormTitle"
@@ -138,12 +137,6 @@
   .progress-wrapper {
     position: inherit;
   }
-
- .map-form {
-    width:83vw; 
-
-  }
-
   .map-v {
     width:34vw; 
     // float: right; 

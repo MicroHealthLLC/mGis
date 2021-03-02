@@ -1,5 +1,5 @@
 <template>
-  <div id="tasks-index" class="mt-2" data-cy="task_list" :class="{'map-v p-2': isMapView}">
+  <div id="tasks-index" data-cy="task_list" :class="{'map-v': isMapView}">
     <div v-if="_isallowed('read')">
 
        <div class="d-flex align-item-center justify-content-between w-100 mb-1">        
@@ -56,7 +56,17 @@
       </div>
       <div v-if="filteredTasks.length > 0">
         <hr />
-        <task-show v-for="(task, i) in filteredTasks" id="taskHover" :load="log(task)" :class="{'b_border': !!filteredTasks[i+1]}" :key="task.id" :task="task" :from-view="from" @edit-task="editTask"></task-show>
+        <task-show 
+          v-for="(task, i) in filteredTasks" 
+          id="taskHover" 
+          :load="log(task)" 
+          :class="{'b_border': 
+          !!filteredTasks[i+1]}" 
+          :key="task.id" 
+          :task="task" 
+          :from-view="from" 
+          @edit-task="editTask">
+        </task-show>
       </div>
       <div v-else>
         <br />
@@ -381,6 +391,7 @@ input[type=search] {
 #taskHover {
  box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);
 }
+
   // .map-v {
   //   // width:31vw;
   //   // float:right;

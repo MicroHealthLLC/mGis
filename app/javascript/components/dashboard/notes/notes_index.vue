@@ -1,5 +1,5 @@
 <template>
-  <div id="notes-index" data-cy="note_list" class="px-3">
+  <div id="notes-index" data-cy="note_list" class="notes-index px-3" :class="{'map-v': isMapView}">
     <div v-if="_isallowed('write') && newNote" class="mb-3">
       <notes-form
         title="Add Note"
@@ -112,6 +112,9 @@
           return valid
         })
       },
+       isMapView() {
+        return this.$route.name === 'ProjectMapView'
+      },
       _isallowed() {
         return salut => this.$currentUser.role == "superadmin" || this.$permissions.notes[salut]
       },
@@ -162,5 +165,15 @@
     box-shadow: 0.5px 0.5px 1px 1px rgba(56,56, 56,0.29), 0 2px 2px rgba(56,56,56,0.23);
     background-color: rgba(91, 192, 222, 0.3);
     border-left: solid rgb(91, 192, 222);
+  }
+.fixed-form-mapView {
+   width: 83.33%;
+   position: absolute;
+   left:16%;
+  }
+
+  .map-v {
+    width:34vw;
+    margin-left: auto !important;
   }
 </style>

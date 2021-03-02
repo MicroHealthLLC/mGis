@@ -1,8 +1,8 @@
 <template>
-  <div id="_wrapper" data-cy="map_view">
+  <div id="_wrapper" data-cy="map_view" class="p-0">
     <div class="container-fluid">    
         <div id="map-wrap" class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 px-0">
           <div class="regions-bar">
             <facility-group-bar
               v-if="contentLoaded"
@@ -108,7 +108,7 @@
                       >PROJECT SUMMARY</small
                     >
                   </button> -->
-                  <div id="map-sidebar" class="shadow-sm">
+                  <div id="map-sidebar" class="pt-2">
                     <facility-show
                       v-loading="!contentLoaded"
                       v-if="currentFacility && currentFacility.id"
@@ -216,6 +216,7 @@ export default {
     return {
       center: { lat: 20, lng: 0 },
       zoom: 0,
+      message: "it works",
       openSidebar: false,
       expandedFacility: {},
       tooltip: {
@@ -282,6 +283,7 @@ export default {
     getLatLngForFacility(facility) {
       return { lat: Number(facility.lat), lng: Number(facility.lng) };
     },
+
     showFacility(facility) {
       this.openSidebar = true;
       if(this.currentFacility && !this.currentFacilityGroup){
@@ -471,6 +473,8 @@ export default {
           // );
           // this.setCurrentFacilityGroup(fg)
           console.log("facilitiesSet")
+          
+          
           console.log(this.filteredFacilityGroups)
           // Highlight preferred facility in right panel
           this.setCurrentFacility(ff);
@@ -483,6 +487,7 @@ export default {
         }
 
       }
+     
     },
   },
 };
@@ -498,13 +503,12 @@ export default {
 }
 #map-wrap {
   height: calc(100vh - 94px);
-  width: 66vw;
+  width: 64.5vw;
   z-index: 1;
   position: relative;
 }
 .project-sum {
   position:absolute;
-  z-index: 0;
   top:11%;  
 }
 // #rollup-sidebar {
@@ -524,6 +528,10 @@ export default {
 //   background: white;
 //   padding: 5px;
 // }
+#map-sidebar {
+  height: calc(100vh - 94px);
+   overflow-y: auto;
+}
 // .knocker_side {
 //   position: absolute;
 //   width: 100%;

@@ -52,6 +52,9 @@ input[type=button]:focus {
     color: #383838
   }
 }
+.issues-index, .risks-index, .notes-index, .task-index {
+  float:none !important;
+}
 .show-all {
   display: none;
  }

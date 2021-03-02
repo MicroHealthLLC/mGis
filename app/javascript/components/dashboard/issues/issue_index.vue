@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading" class="mt-2 issues-index px-0" data-cy="issue_list">
+  <div v-if="!loading" class="issues-index px-0" data-cy="issue_list" :class="{'map-v': isMapView}">
     <div v-if="newIssue && from != 'manager_view'">
       <issue-form :facility="facility" :issue="currentIssue" @on-close-form="newIssue=false" @issue-created="issueCreated" @issue-updated="issueUpdated" class="issue-form-modal" />
     </div>
@@ -254,6 +254,9 @@ computed: {
   _isallowed() {
     return salut => this.$currentUser.role == "superadmin" || this.$permissions.issues[salut]
   },
+   isMapView() {
+    return this.$route.name === 'ProjectMapView'
+   },
   filteredIssues() {
     let typeIds = _.map(this.C_issueTypeFilter, 'id')
     let taskTypeIds = _.map(this.C_taskTypeFilter, 'id')
@@ -430,4 +433,8 @@ input[type=search] {
 #issueHover {
   box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);
 }
+.map-v {
+    width:34vw;
+    margin-left: auto !important;
+ }
 </style>

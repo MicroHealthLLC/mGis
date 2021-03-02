@@ -2230,8 +2230,10 @@
    padding-bottom: 20px;
   }
   .fixed-form-mapView {
-   width: 100%;
-   position: absolute !important;
+   width: 83.33%;
+   position: absolute;
+   left:16%;
+   border-left: dotted 2px #d9534f;
   }
  .display-length {
    border-radius: 0.15rem;
