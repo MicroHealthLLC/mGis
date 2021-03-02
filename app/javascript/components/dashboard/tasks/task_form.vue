@@ -326,10 +326,10 @@
                 <input type="checkbox" name="check" :checked="check.checked" @change="updateCheckItem($event, 'check', index)" :key="`check_${index}`" :disabled="!_isallowed('write') || !check.text.trim()">
                 <input :value="check.text" name="text" @input="updateCheckItem($event, 'text', index)" :key="`text_${index}`" placeholder="Checkpoint name here" type="text" class="checklist-text pl-1" maxlength="80" :readonly="!_isallowed('write')">
               </div>
-                 <div v-if="isSheetsView" class="col-1 pl-0 pr-0">
+                 <div class="col-1 pl-0 pr-0">
                    <span class="font-sm dueDate">Due Date:</span>                
                 </div>
-                 <div v-if="isSheetsView" class="col-3 pl-0" style="margin-left:-25px">                   
+                 <div class="col-3 pl-0" style="margin-left:-25px">                   
                     <v2-date-picker                    
                     v-model="check.dueDate"
                     :value="check.dueDate" 
@@ -349,26 +349,7 @@
 
             <!-- Collpase section begins here -->
          <el-collapse id="roll_up" style="background-color:#fafafa">
-       <el-collapse-item title="Details" name="1" style="background-color:#fafafa">
-          <div v-if="isMapView" class="row justify-content-end pt-2 pb-5" style="background-color:#fafafa;position:relative">          
-            <div  class="d-flex col mb-0" style="position:absolute">
-              Due Date:
-                <v2-date-picker                    
-                    v-model="check.dueDate"
-                    :value="check.dueDate" 
-                    :disabled="!_isallowed('write') || !check.text"
-                    @selected="updateCheckItem($event, 'dueDate', index)"
-                    :key="`dueDate_${index}`"
-                    value-type="YYYY-MM-DD"
-                    format="DD MMM YYYY"
-                    placeholder="DD MM YYYY"
-                    name="dueDate"
-                    class="w-100 vue2-datepicker d-flex ml-auto"
-                    :disabled-date="disabledDateRange"
-                    :class="{ disabled: disabledDateRange }"          
-                  />            
-              </div>
-          </div>
+       <el-collapse-item title="Details" name="1" style="background-color:#fafafa">         
             <div class="row justify-content-end pt-2" style="background-color:#fafafa;position:inherit">               
               <div class="simple-select d-flex form-group col mb-0" style="position:absolute">
                <div class="d-flex w-100" style="padding-left:4.5rem">
@@ -1496,8 +1477,7 @@
   }
   .fixed-form-mapView {
    width: 83.33%;
-   position: absolute;
-   left:16%;
+   left:17%;
    border-left: dotted 2px #d9534f;
   }
 

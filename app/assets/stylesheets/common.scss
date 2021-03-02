@@ -52,6 +52,17 @@ input[type=button]:focus {
     color: #383838
   }
 }
+
+.prog-update {
+  .el-collapse-item__header {
+    float:right;
+    margin-top: -37px;
+    font: small;
+    color: #d9534f !important;
+    border-bottom: none !important;
+    background-color: #fafafa !important;
+  }
+}
 .issues-index, .risks-index, .notes-index, .task-index {
   float:none !important;
 }

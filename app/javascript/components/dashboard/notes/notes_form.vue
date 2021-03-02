@@ -1,5 +1,5 @@
 <template>
-  <div class="notes-form"  :class="{'fixed-form-mapView':isMapView}">
+  <div class="notes-form mt-2"  :class="{'fixed-form-mapView':isMapView}">
        <div class="d-flex form-group sticky mb-2">
         <button
           :disabled="!readyToSave || loading"
@@ -303,8 +303,7 @@
   .formTitle {
     padding-top: 25px;
   }
-  .paperLook {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  .paperLook {    
     padding-bottom: 20px;
     margin-bottom: 10px;
     position: relative;
@@ -331,6 +330,10 @@
    width: 83.33%;
    position: absolute;
    left:16%;
+   top:0;
+   border-bottom: dotted 2px #d9534f;
+   border-left: dotted 2px #d9534f;
+
   }
 
 </style>

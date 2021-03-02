@@ -15,7 +15,7 @@
 
       <div class="d-flex align-item-center font-sm justify-content-between mt-2 w-100">
        <div class="simple-select w-50 mr-1 font-sm">
-          <multiselect v-model="C_taskTypeFilter" track-by="name" label="name" placeholder="Filter by Task Category" :options="taskTypes" :searchable="false" :multiple="true" select-label="Select" deselect-label="Remove">
+          <multiselect v-model="C_taskTypeFilter" track-by="name" label="name" placeholder="Filter by Category" :options="taskTypes" :searchable="false" :multiple="true" select-label="Select" deselect-label="Remove">
             <template slot="singleLabel" slot-scope="{option}">
               <div class="d-flex">
                 <span class='select__tag-name'>{{option.name}}</span>

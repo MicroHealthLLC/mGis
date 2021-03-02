@@ -46,7 +46,7 @@
             v-model="C_taskTypeFilter"
             track-by="name"
             label="name"
-            placeholder="Filter by Task Category"
+            placeholder="Filter by Category"
             :options="taskTypes"
             :searchable="false"
             :multiple="true"
