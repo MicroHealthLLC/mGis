@@ -5,7 +5,10 @@
         <div
           v-for="column in columns"
           :key="column.title"
-          class="rounded-lg kan-col py-2 mt-4 mb-2 mr-4"
+          :log="log(column)"
+          class="rounded-lg kan-col py-2 mt-4 mb-2 mr-4"        
+          :class="{'no-stage': column.stage.id == null}"
+          :style="`${ column.stage.id == null ? 'width:1rem' : 'min-width:18.5rem'  }`"
           data-cy="kanban_col"
           >
           <div>
@@ -32,7 +35,7 @@
                 :key="`${task.id}_${column.stage.id}`"
                 :task="task"
                 :issue="task"
-                :risk="task"
+                :risk="task"             
                 fromView="kanban_view"
                 class="mr-auto mb-3 task-card"
               ></div>
@@ -95,6 +98,11 @@ export default {
     },
     setupColumns(cards) {
       this.stageId = `${this.kanbanType.slice(0, -1)}StageId`
+      this.columns.push({
+        stage: {id: null},
+        title: "No stage",
+        tasks: []
+      })
       for (let stage of this.stages) {
         this.columns.push({
           stage: stage,
@@ -102,6 +110,7 @@ export default {
           tasks: _.filter(cards, c => c[this.stageId] == stage.id)
         })
       }
+
     },
     handleMove(item) {
       this.movingSlot = item.relatedContext.component.$vnode.key
@@ -116,7 +125,12 @@ export default {
           data[this.kanbanType][task.id] = {}
           data[this.kanbanType][task.id].kanbanOrder = tasks.indexOf(task)
           if ('added' in item) {
-            data[this.kanbanType][task.id][this.stageId] = this.stages.find(s => s.name == this.movingSlot).id
+            var s = this.stages.find(s => s.name == this.movingSlot)
+            if(s){
+              data[this.kanbanType][task.id][this.stageId] = s.id
+            }else{
+              data[this.kanbanType][task.id][this.stageId] = null
+            }            
           }
         }
         this.updateKanbanTaskIssues({projectId, facilityId, data, type: this.kanbanType})
@@ -184,14 +198,15 @@ export default {
     background-color: #ededed;
     box-shadow: 0 5px 10px rgba(56,56, 56,0.19), 0 6px 6px rgba(56,56,56,0.23);
     position: relative;
-    overflow: hidden;
-    min-width: 18.5rem;
+    overflow: hidden; 
     padding-left: .76rem;
-    padding-right: .76rem;
-    width: 18.5rem;
+    padding-right: .76rem;  
     height: 73vh;
     border-radius: .15rem;
   }
+.kan-has-stage {
+     min-width: 18.5rem;
+}
   .kan-body {
     max-height: 73vh;
     overflow-y: auto;
@@ -213,4 +228,19 @@ export default {
     position: absolute;
     right: 10%;
   }
+  .no-stage {
+    background: #fff;
+    border-right: dotted 1px #ededed;
+    margin-top: 0 !important;
+    height: auto;
+    box-shadow: none;
+    width: .5rem !important;
+    div.badge {
+      display: none;
+    }
+  }
+  .no-stage:hover {
+     border-right: dotted 1px rgba(255, 0, 0, 0.5) !important;
+  }
+
 </style>
