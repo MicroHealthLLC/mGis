@@ -5,7 +5,7 @@
         <i class="fas fa-long-arrow-alt-right"></i>
       </div>
     </div>
-    <div v-if="!loading" class="mx-3 mb-1 mt-1 py-1" @click.prevent="editTask">
+    <div v-if="!loading" class="mx-0 px-1 mb-1 mt-1 py-1" @click.prevent="editTask">
      
      <!-- ROW 1 -->
      <div class="row">
@@ -77,13 +77,13 @@
       </div>
     </div>
 
-     <sweet-modal
+     <!-- <sweet-modal
       class="task_form_modal"
       ref="taskFormModal"
       :hide-close-button="true"
       :blocking="true"
-      >
-      <div v-if="has_task" class="w-100">
+      > -->
+      <div v-if="has_task" class="w-100 action-form-overlay">
         <task-form
           v-if="Object.entries(DV_edit_task).length"
           :facility="facility"
@@ -91,7 +91,7 @@
           title="Edit Task"
           @task-updated="updateRelatedTaskIssue"
           @on-close-form="onCloseForm"
-          class="form-inside-modal"
+          class="form-inside-modal action-form-overlay"
         ></task-form>
 
         <issue-form
@@ -103,7 +103,7 @@
           class="form-inside-modal"
         ></issue-form>
       </div>
-    </sweet-modal> 
+    <!-- </sweet-modal>  -->
     <!-- The context-menu appears only if table row is right-clicked -->
     <context-menu :display="showContextMenu" ref="menu">
       <el-menu collapse>
@@ -615,6 +615,12 @@
     text-align: center;
     margin-top: 10px;
   }
+  .action-form-overlay {
+    top: 11.9% !important;
+    form {
+        position: inherit !important;
+      }
+ } 
   .map-v {
     width:31vw;
     // float:right;

@@ -53,16 +53,30 @@ input[type=button]:focus {
   }
 }
 
+.riskMatrix {
+  .el-collapse-item__header {
+    width: max-content;
+    margin-left: auto;
+    padding: 1em;
+    font-size: small;
+    color: #d9534f !important;
+    border-bottom: none !important;
+  }
+}
+
 .prog-update {
   .el-collapse-item__header {
+    background-color: #fafafa !important;
+  }
+  .el-collapse-item__header {
     float:right;
-    margin-top: -37px;
+    margin-top: -32px;
     font: small;
     color: #d9534f !important;
     border-bottom: none !important;
-    background-color: #fafafa !important;
   }
 }
+
 .issues-index, .risks-index, .notes-index, .task-index {
   float:none !important;
 }
@@ -218,9 +232,6 @@ input[type=button]:focus {
   background-color: #fff;
   position:fixed;
   height: 100vh;
-}
-.kanban-form {   
-  width: 100%;   
 }
 .warning-icon {
   font-size: 16px;

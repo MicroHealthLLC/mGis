@@ -84,7 +84,7 @@
            <div class="container-fluid project-sum pr-0" id="rollup-sidebar">
           <div>
             <div>
-              <FacilityRollup v-show="!openSidebar"></FacilityRollup>
+              <FacilityRollup v-show="!openSidebar"  v-if="!currentFacility || !currentFacility.id"></FacilityRollup>
 
               <div class="knocker_side" >
                 <!-- <button
@@ -260,14 +260,14 @@ export default {
       "getUnfilteredFacilities",
       "getNewSession",
     ]),
-    // knockerStyle() {
-    //   return this.openSidebar
-    //     ? {}
-    //     : { transform: "translateX(calc(105% - 20px))" };
-    // },
-    // rollupStyle() {
-    //   return this.openSidebar ? { right: "12px" } : { right: "0" };
-    // },
+    knockerStyle() {
+      return this.openSidebar
+        ? {}
+        : { transform: "translateX(calc(105% - 20px))" };
+    },
+    rollupStyle() {
+      return this.openSidebar ? { right: "1px" } : { right: "0" };
+    },
   },
   methods: {
     ...mapMutations([

@@ -6,9 +6,9 @@
         <i class="fas fa-long-arrow-alt-right"></i>
       </div>
     </div>
-    <div v-if="!loading" class="notes_show mb-5 mx-2">
+    <div v-if="!loading" class="notes_show mb-5 mx-0">
       <div v-if="show">
-        <div class="crud-actions mx-3 float-right">
+        <div class="crud-actions mx-0 float-right">
           <span v-if="permitted('write')" class="mr-2 font-sm edit-action" @click.stop="editNoteMode" data-cy="note_edit_icon">
             <i class="fas fa-edit"></i>
           </span>

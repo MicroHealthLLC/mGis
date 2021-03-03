@@ -736,7 +736,7 @@ export default {
 
   .map-v {
     width:34vw; 
-    float:right;
+    float:right;    
   }
   // .fac-proj-status:hover, .tasks:hover, .issues:hover, .fac-groups:hover {
   //  background-color: #fff;

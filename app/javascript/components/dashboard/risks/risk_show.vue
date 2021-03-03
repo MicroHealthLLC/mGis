@@ -5,7 +5,7 @@
         <i class="fas fa-long-arrow-alt-right"></i>
       </div>
     </div>
-    <div v-if="!loading" class="risk_show mx-3 mb-1 mt-1 py-1" @click.prevent="editRisk">
+    <div v-if="!loading" class="risk_show mx-0 mb-1 mt-1 py-1" @click.prevent="editRisk">
       <div v-if="show">
        
        <!-- ROW 1 -->
@@ -84,13 +84,13 @@
     </div>
     
   
-
+<!-- 
     <sweet-modal
       class="risk_form_modal"
       ref="riskFormModal"
       :hide-close-button="true"
       :blocking="true"
-      >
+      > -->
       <div v-if="has_risk" class="w-100">
         <task-form
           v-if="Object.entries(DV_edit_task).length"
@@ -120,7 +120,7 @@
           class="form-inside-modal"
         ></risk-form>
       </div>
-    </sweet-modal>
+    <!-- </sweet-modal> -->
   </div>
 </template>
 

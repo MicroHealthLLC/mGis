@@ -67,15 +67,16 @@
           <font-awesome-icon icon="file-excel" />
         </button>
         <div v-if="_isallowed('read')">
-          <div v-if="filteredIssues.length > 0">
-            <!-- <button
-              disabled
-              id="printBtn"
-              class="btn btn-sm btn-outline-dark ml-2">
-              Export to Excel
-            </button> -->
+          <div v-if="filteredIssues.length > 0" style="height:53vh; overflow-y:auto" >         
             <hr />
-            <issue-show v-for="(issue, i) in filteredIssues" id="issueHover" :class="{'b_border': !!filteredIssues[i+1]}" :key="issue.id" :issue="issue" :from-view="from" @issue-edited="issueEdited" />
+            <issue-show 
+            v-for="issue in filteredIssues" 
+            id="issueHover"  
+            class="px-3"         
+            :key="issue.id" 
+            :issue="issue" 
+            :from-view="from" 
+            @issue-edited="issueEdited" />
           </div>
           <div v-else>
             <br />
@@ -431,7 +432,8 @@ input[type=search] {
 }
 
 #issueHover {
-  box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);
+   box-shadow: 1px 2.5px 5px rgba(56, 56, 56, 0.19), 1px 1.5px 1.5px rgba(56, 56, 56, 0.23);
+ border-left: solid 1.5px #fafafa;
 }
 .map-v {
     width:34vw;

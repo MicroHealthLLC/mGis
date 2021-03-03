@@ -5,9 +5,8 @@
         <i class="fas fa-long-arrow-alt-right"></i>
       </div>
     </div>
-    <div v-if="!loading" class="issues_show mx-3 mb-1 mt-1 py-1" @click.prevent="editIssue">
+    <div v-if="!loading" class="issues_show mx-0 px-1 mb-1 mt-1 py-1" @click.prevent="editIssue">
       <div v-if="show">    
-
            <!-- ROW 1 -->
         <div class="row">            
               <div class=" col-md-9 mb-1 font-lg d-flex mb-1 kanban-text">
@@ -94,13 +93,7 @@
         </div>
       </div>
   
-      </div>
-    <sweet-modal
-      class="issue_form_modal"
-      ref="issueFormModal"
-      :hide-close-button="true"
-      :blocking="true"
-      >
+      </div>  
       <div v-if="has_issue" class="w-100">
         <task-form
           v-if="Object.entries(DV_edit_task).length"
@@ -121,7 +114,7 @@
           class="form-inside-modal"
         ></issue-form>
       </div>
-    </sweet-modal>
+ 
   </div>
 </template>
 

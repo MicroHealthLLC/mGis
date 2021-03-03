@@ -460,7 +460,7 @@
     </div>
 
     <div class="container mx-2 my-0 justify-content-center text-center">
-      <el-collapse accordion>
+      <el-collapse accordion class="riskMatrix">
         <el-collapse-item title="Click to see Priority Level Risk Matrix" name="1">
           <div>
             <!-- Risk Matrix begins here -->
@@ -846,26 +846,7 @@
             <!-- Collpase section begins here -->
          <el-collapse id="roll_up" class="prog-update" style="background-color:#fafafa">
             <el-collapse-item title="Details" name="1" style="background-color:#fafafa">
-            <!-- <div v-if="isMapView" class="row justify-content-end pt-2 pb-5" style="background-color:#fafafa;position:relative">
-            <div  class="d-flex col mb-0" style="position:absolute">
-                    Due Date:
-                <v2-date-picker
-                    v-model="check.dueDate"
-                    :value="check.dueDate"
-                    :disabled="!_isallowed('write') || !check.text"
-                    @selected="updateCheckItem($event, 'dueDate', index)"
-                    :key="`dueDate_${index}`"
-                    value-type="YYYY-MM-DD"
-                    format="DD MMM YYYY"
-                    placeholder="DD MM YYYY"
-                    name="dueDate"
-                    class="w-100 vue2-datepicker d-flex ml-auto"
-                    :disabled-date="disabledDateRange"
-                    :class="{ disabled: disabledDateRange }"
-                  />
-              </div>
-            </div> -->
-            <div class="row justify-content-end pt-2" style="background-color:#fafafa;position:inherit">
+              <div class="row justify-content-end pt-2" style="background-color:#fafafa;position:inherit">
               <div class="simple-select d-flex form-group col mb-0" style="position:absolute">
                <div class="d-flex w-100" style="padding-left:4.5rem">
                 <span class="font-sm pt-2 pr-2 m">Assigned To:</span>
@@ -1970,8 +1951,11 @@
     z-index: 10;
     width: 83.1%;
   }
-  .kanban-form {
-    width: 100%;
+  .kanban-form {   
+    left: 16.4%;
+    width: 83.33%;  
+    z-index: 100;
+    top:11.8%
   }
   .form-control.error {
     border-color: #E84444;
@@ -2041,11 +2025,6 @@
     padding: 6px;
     background-color: rgba(237, 237, 237, 0.85);
     box-shadow: 0 10px 20px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
-  }
-   .sticky-kanban {
-    position: sticky;
-    position: -webkit-sticky;
-    margin-bottom: -2.5rem;
   }
   .check-due-date {
     text-align: end;
@@ -2242,14 +2221,6 @@
   .red-border {
     border: solid .5px red;
   }
-  /deep/.el-collapse-item__header {
-    width: max-content;
-    margin-left: auto;
-    padding: 1em;
-    font-size: small;
-    color: #d9534f !important;
-    border-bottom: none !important;
-  }
    /deep/ .el-collapse {
     border-top: none !important;
     border-bottom: none !important;
@@ -2261,6 +2232,5 @@
  /deep/.mx-input-wrapper {
     position: absolute;
   }
-
 
 </style>

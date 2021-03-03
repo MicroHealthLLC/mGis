@@ -36,8 +36,8 @@
         </div>
       </div>
       <hr/>
-      <div v-if="_isallowed('read')" >
-        <div v-if="filteredNotes.length > 0" v-for="note in filteredNotes" :key="note.id" class="mb-2">
+      <div v-if="_isallowed('read')" style="height:55vh; overflow-y:auto" >
+        <div v-if="filteredNotes.length > 0" v-for="note in filteredNotes" :key="note.id" class="mb-2"  >
           <notes-show
             :facility="DV_facility"
             :note="note"
@@ -160,6 +160,10 @@
   .notes{
     padding:8px;
     box-shadow: 0 5px 10px rgba(56,56, 56,0.19), 0 1px 1px rgba(56,56,56,0.23);
+  }
+  #notesHover{
+    box-shadow: 1px 2.5px 5px rgba(56, 56, 56, 0.19), 1px 1.5px 1.5px rgba(56, 56, 56, 0.23);
+    border-left: solid 1.5px #fafafa;
   }
   #notesHover:hover {
     box-shadow: 0.5px 0.5px 1px 1px rgba(56,56, 56,0.29), 0 2px 2px rgba(56,56,56,0.23);

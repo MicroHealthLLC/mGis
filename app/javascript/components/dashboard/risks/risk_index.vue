@@ -100,11 +100,11 @@
           <font-awesome-icon icon="file-excel" />
         </button>
         <div v-if="_isallowed('read')">
-          <div v-if="filteredRisks.length > 0">
+          <div style="height:50vh; overflow-y:auto" v-if="filteredRisks.length > 0">
             <hr/>
             <risk-show
               v-for="(risk, i) in filteredRisks"         
-              class="riskHover"        
+              class="riskHover px-3"        
               :class="{'b_border': !!filteredRisks[i+1]}"
               :key="risk.id"
               :risk="risk"
@@ -427,7 +427,8 @@
   .export2pdf,
   .exportBtns,
   .riskHover {
-    box-shadow: 0 2.5px 5px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
+     box-shadow: 1px 2.5px 5px rgba(56, 56, 56, 0.19), 1px 1.5px 1.5px rgba(56, 56, 56, 0.23);
+     border-left: solid 1.5px #fafafa;
   }
   .map-v {
     width:34vw;

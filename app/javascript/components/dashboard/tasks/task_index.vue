@@ -54,14 +54,13 @@
           <font-awesome-icon icon="file-excel" />
         </button>
       </div>
-      <div v-if="filteredTasks.length > 0">
+      <div style="height:55vh; overflow-y:auto" v-if="filteredTasks.length > 0">
         <hr />
         <task-show 
           v-for="(task, i) in filteredTasks" 
           id="taskHover" 
           :load="log(task)" 
-          :class="{'b_border': 
-          !!filteredTasks[i+1]}" 
+          class="px-3"
           :key="task.id" 
           :task="task" 
           :from-view="from" 
@@ -389,7 +388,8 @@ input[type=search] {
 }
 
 #taskHover {
- box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);
+ box-shadow: 1px 2.5px 5px rgba(56, 56, 56, 0.19), 1px 1.5px 1.5px rgba(56, 56, 56, 0.23);
+ border-left: solid 1.5px #fafafa;
 }
 
   // .map-v {

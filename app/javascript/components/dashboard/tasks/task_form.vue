@@ -1310,7 +1310,10 @@
     width: 83.1%;   
   } 
   .kanban-form {   
-    width: 100%;   
+    left: 16.4%;
+    width: 83.33%;  
+    z-index: 100;
+    top: 11.98%;
   }
   td, th {
     border: solid 1px #ededed;
@@ -1442,12 +1445,6 @@
     background-color: rgba(237, 237, 237, 0.85);
     box-shadow: 0 10px 20px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
   }
-  .sticky-kanban {
-    position: sticky;
-    position: -webkit-sticky;
-    margin-bottom: -2.5rem;    
-  }
-
   .scrollToChecklist, .addCheckProgBtn, .check-items {    
     box-shadow: 0 2.5px 5px rgba(56,56, 56,0.19), 0 1px 1px rgba(56,56,56,0.23);
   }

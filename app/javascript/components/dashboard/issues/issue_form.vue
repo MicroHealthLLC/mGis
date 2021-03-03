@@ -64,7 +64,7 @@
         </button>
       </div>
        <div v-if="_isallowed('read')" class="d-flex form-group pt-1 mb-1 justify-content-start">          
-          <custom-tabs :current-tab="currentTab" :tabs="tabs" @on-change-tab="onChangeTab" class="custom-tab pl-2" :class="{'font-sm':isMapView}" />       
+          <custom-tabs :current-tab="currentTab" :tabs="tabs" @on-change-tab="onChangeTab" class="custom-tab pl-2"/>       
       </div>
 
 <!-- fixed-form class covers entire tab form.  CSS properties can be found in app/assets/stylesheets/common.scss file -->
@@ -1592,7 +1592,10 @@ export default {
   width: 83.1%;
 }
 .kanban-form {   
-  width: 100%;   
+    left: 16.4%;
+    width: 83.33%;  
+    z-index: 100;
+    top: 11.98%;
 }
 .form-control.error {
   border-color: #e84444;
@@ -1667,11 +1670,6 @@ ul {
   box-shadow: 0 10px 20px rgba(56, 56, 56, 0.19),
     0 3px 3px rgba(56, 56, 56, 0.23);
 }
-.sticky-kanban {
-    position: sticky;
-    position: -webkit-sticky;
-    margin-bottom: -2.5rem;    
- }
 .scrollToChecklist {
   box-shadow: 0 5px 10px rgba(56, 56, 56, 0.19),
     0 1px 1px rgba(56, 56, 56, 0.23);
