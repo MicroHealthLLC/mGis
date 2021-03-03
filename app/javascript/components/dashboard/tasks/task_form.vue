@@ -1312,8 +1312,7 @@
   .kanban-form {   
     left: 16.4%;
     width: 83.33%;  
-    z-index: 100;
-    top: 11.98%;
+    z-index: 100;   
   }
   td, th {
     border: solid 1px #ededed;

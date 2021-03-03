@@ -139,18 +139,20 @@
         'taskUpdated',
         'updateWatchedRisks'
       ]),
-      editRisk() {     
+      editRisk() {
+        // Conditional view statements commented out Mar 3 2021 in an effort to create on consistent edit/create form throughout Client Panel
+        //...Delete after 30 days if no issues reported
         if (this.fromView == 'map_view') {
           this.$emit('risk-edited', this.risk)
         }
         // else if (this.fromView == 'manager_view') {
         //   this.setTaskForManager({key: 'risk', value: this.DV_risk})
         // }
-        else {
+        // else {
           this.DV_edit_risk = this.DV_risk
           this.has_risk = Object.entries(this.DV_risk).length > 0
           this.$refs.riskFormModal && this.$refs.riskFormModal.open()
-        }
+        // }
       },
       openSubTask(subTask) {
         let task = this.currentTasks.find(t => t.id == subTask.id)
@@ -263,6 +265,13 @@
       cursor: pointer;
     }  
   }
+
+   .form-inside-modal {
+      form {
+        position: inherit !important;
+      }
+    }
+
   .action-form-overlay {
     position: absolute;
     top:0; 

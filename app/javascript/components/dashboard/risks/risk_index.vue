@@ -108,8 +108,7 @@
               :class="{'b_border': !!filteredRisks[i+1]}"
               :key="risk.id"
               :risk="risk"
-              :from-view="from"
-              @risk-edited="riskEdited"
+              :from-view="from"            
             ></risk-show>
           </div>
           <div v-else>
@@ -239,10 +238,10 @@
         var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
         window.location.href = this.uri + this.base64(this.format(this.template, ctx))
       },
-      riskEdited(risk) {
-        this.currentRisk = risk
-        this.newRisk = true
-      },
+      // riskEdited(risk) {
+      //   this.currentRisk = risk
+      //   this.newRisk = true
+      // },
       addNewRisk() {
         if (this.from == "manager_view") {
           this.setTaskForManager({key: 'risk', value: {}})

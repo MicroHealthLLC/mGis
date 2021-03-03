@@ -202,10 +202,11 @@ export default {
     padding-left: .76rem;
     padding-right: .76rem;  
     height: 73vh;
+ 
     border-radius: .15rem;
   }
 .kan-has-stage {
-     min-width: 18.5rem;
+     max-width: 18.5rem;
 }
   .kan-body {
     max-height: 73vh;

@@ -1954,8 +1954,7 @@
   .kanban-form {   
     left: 16.4%;
     width: 83.33%;  
-    z-index: 100;
-    top:12.15%
+    z-index: 100;    
   }
   .form-control.error {
     border-color: #E84444;
@@ -2015,7 +2014,9 @@
     margin-bottom: 5px;
     box-shadow: 0 5px 10px rgba(56,56, 56,0.19), 0 1px 1px rgba(56,56,56,0.23);
   }
-  .rmBtn, .clearBtn { box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);}
+  .rmBtn, .clearBtn { 
+    box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19), 0 3px 3px rgba(56, 56, 56, 0.23);    
+  }
   .sticky {
     justify-content: center;
     z-index: 1000;

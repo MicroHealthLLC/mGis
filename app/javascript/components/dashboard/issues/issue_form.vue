@@ -1595,7 +1595,6 @@ export default {
     left: 16.4%;
     width: 83.33%;  
     z-index: 100;
-    top: 11.98%;
 }
 .form-control.error {
   border-color: #e84444;
