@@ -26,7 +26,9 @@
       this.fetchDashboardData({id})
       // Prevent right-click context-menu from appearing accross whole app
       window.oncontextmenu = (e) => {
-        e.preventDefault()
+        if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
+          e.preventDefault()
+        }   
       }
     },
     methods: {
