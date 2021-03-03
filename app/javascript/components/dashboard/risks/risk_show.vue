@@ -5,12 +5,12 @@
         <i class="fas fa-long-arrow-alt-right"></i>
       </div>
     </div>
-    <div v-if="!loading" class="risk_show mx-0 mb-1 mt-1 py-1" @click.prevent="editRisk">
+    <div v-if="!loading" class="risk_show mx-0 mb-1 mt-1 px-2 py-1" @click.prevent="editRisk">
       <div v-if="show">
        
        <!-- ROW 1 -->
        <div class="row" >
-          <div class="col-md-9 font-lg d-flex mb-1 kanban-text">                       
+          <div class="col-md-9 font-lg d-flex kanban-text">                       
                <b>{{DV_risk.text}}</b>                      
           </div>
           <div class="col-md-3">
@@ -27,7 +27,7 @@
 
 
          <!-- ROW 2 -->
-           <div class="row my-2">
+           <div class="row my-1">
                 <div class="font-sm col-md-12">
                   <span class="mr-2">
                   <span class="fbody-icon mr-0">
@@ -49,7 +49,7 @@
                 </div>               
               </div>
 
-              <div class="row mb-2 d-flex">           
+              <div class="row mb-1 d-flex">           
                 <div class="font-sm col">
                   <span class="mr-1"><b>Approach:</b></span>
                   <span class="upperCase">{{DV_risk.riskApproach}}</span>
@@ -66,51 +66,16 @@
                       <span v-if="(DV_risk.priorityLevelName) == 'Extreme'" class="red1"> {{DV_risk.priorityLevelName}}</span> 
                        </span>
                     </div>
-                 </div>
-              
-            
-          
-        
-         
-              <div class="font-sm col mt-3 p-0">
+              </div>  
+
+              <div class="font-sm col mt-1 p-0">
                 <div class="progress pg-content" :class="{'progress-0': DV_risk.progress <= 0}">
                   <div class="progress-bar bg-info" :style="`width: ${DV_risk.progress}%`">{{DV_risk.progress}}%</div>
                 </div>
-              </div>
-        
-      </div>
-
-       
+              </div>      
+      </div>      
     </div>
-    
-  
-<!-- 
-    <sweet-modal
-      class="risk_form_modal"
-      ref="riskFormModal"
-      :hide-close-button="true"
-      :blocking="true"
-      > -->
-      <div v-if="has_risk" class="w-100">
-        <task-form
-          v-if="Object.entries(DV_edit_task).length"
-          :facility="facility"
-          :task="DV_edit_task"
-          title="Edit Task"
-          @task-updated="updateRelatedTaskIssue"
-          @on-close-form="onCloseForm"
-          class="form-inside-modal"
-        ></task-form>
-
-        <issue-form
-          v-if="Object.entries(DV_edit_issue).length"
-          :facility="facility"
-          :issue="DV_edit_issue"
-          @issue-updated="updateRelatedTaskIssue"
-          @on-close-form="onCloseForm"
-          class="form-inside-modal"
-        ></issue-form>
-
+      <div v-if="has_risk" class="w-100 action-form-overlay">
         <risk-form
           v-if="Object.entries(DV_edit_risk).length"
           :facility="facility"
@@ -120,7 +85,7 @@
           class="form-inside-modal"
         ></risk-form>
       </div>
-    <!-- </sweet-modal> -->
+
   </div>
 </template>
 
@@ -174,13 +139,13 @@
         'taskUpdated',
         'updateWatchedRisks'
       ]),
-      editRisk() {
+      editRisk() {     
         if (this.fromView == 'map_view') {
           this.$emit('risk-edited', this.risk)
         }
-        else if (this.fromView == 'manager_view') {
-          this.setTaskForManager({key: 'risk', value: this.DV_risk})
-        }
+        // else if (this.fromView == 'manager_view') {
+        //   this.setTaskForManager({key: 'risk', value: this.DV_risk})
+        // }
         else {
           this.DV_edit_risk = this.DV_risk
           this.has_risk = Object.entries(this.DV_risk).length > 0
@@ -296,13 +261,12 @@
       right: 30px;
       font-size: 20px;
       cursor: pointer;
-    }
-    .form-inside-modal {
-      form {
-        position: inherit !important;
-      }
-    }
+    }  
   }
+  .action-form-overlay {
+    position: absolute;
+    top:0; 
+  } 
   .red1 {
     background-color: #d9534f;
   }

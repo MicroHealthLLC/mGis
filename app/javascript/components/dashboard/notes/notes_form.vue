@@ -279,6 +279,7 @@
     z-index: 10;
     width: 100%;
     background-color: #fff;
+    border-bottom: dotted 2px #d9534f;
   }
   .notes_input {
     border: 1px solid #ccc;
@@ -320,7 +321,7 @@
     margin-bottom: -2.5rem;
     z-index: 1000;
     left: 15;
-    top: 0;
+    top: auto;
     width: 100%;
     padding: 6px;
     background-color: rgba(237, 237, 237, 0.85);
@@ -330,8 +331,7 @@
    width: 83.33%;
    position: absolute;
    left:16%;
-   top:0;
-   border-bottom: dotted 2px #d9534f;
+   top:0;  
    border-left: dotted 2px #d9534f;
 
   }

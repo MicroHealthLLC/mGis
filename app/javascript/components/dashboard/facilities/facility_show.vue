@@ -1,6 +1,6 @@
 <!--  NOTE: This file is used in Sheets view as overview tab -->
 <template>
-  <div id="facility-show"  data-cy="facility_sheets" class="px-3"  v-loading="!contentLoaded"  >
+  <div id="facility-show"  data-cy="facility_sheets" class="pr-4"  v-loading="!contentLoaded"  >
     <div  class="position-sticky" v-if="!loading" :class="{'map-v': isMapView}">
       <div class="d-flex align-items-center my-2">
         <span class="fbody-icon"><i class="fas fa-building"></i></span>

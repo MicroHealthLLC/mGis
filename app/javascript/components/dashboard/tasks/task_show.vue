@@ -9,7 +9,7 @@
      
      <!-- ROW 1 -->
      <div class="row">
-        <div class="col-md-9 font-lg d-flex mb-1 kanban-text">         
+        <div class="col-md-9 font-lg d-flex kanban-text">         
            {{task.text}}       
         </div>
           <div class="col-md-3">
@@ -26,7 +26,7 @@
       </div>
       
      <!-- ROW 2 -->
-         <div class="row my-2">
+         <div class="row mb-2 mt-1">
              <div class="font-sm col-md-12">
                <span class="mr-2">
                  <span class="fbody-icon mr-0"><i class="fas fa-calendar-alt"></i></span>
@@ -40,14 +40,14 @@
              </div>
           </div>     
          
-          <div class="row d-flex mb-1">
+          <div class="row d-flex">
             <div class="font-sm col-md-12">
               <span class="fbody-icon"><i class="fas fa-tasks"></i></span>
               <span v-tooltip="`Category`">{{task.taskType}}</span>
             </div>
           </div>
 
-        <div class="row d-flex mt-2">
+        <div class="row d-flex mt-1">
             <div class="font-sm col">
            <div class="progress pg-content" :class="{'progress-0': task.progress <= 0}">
             <div class="progress-bar bg-info" :style="`width: ${task.progress}%`">{{task.progress}}%</div>
@@ -76,13 +76,6 @@
         </div>
       </div>
     </div>
-
-     <!-- <sweet-modal
-      class="task_form_modal"
-      ref="taskFormModal"
-      :hide-close-button="true"
-      :blocking="true"
-      > -->
       <div v-if="has_task" class="w-100 action-form-overlay">
         <task-form
           v-if="Object.entries(DV_edit_task).length"
@@ -93,17 +86,9 @@
           @on-close-form="onCloseForm"
           class="form-inside-modal action-form-overlay"
         ></task-form>
-
-        <issue-form
-          v-if="Object.entries(DV_edit_issue).length"
-          :facility="facility"
-          :issue="DV_edit_issue"
-          @issue-updated="updateRelatedTaskIssue"
-          @on-close-form="onCloseForm"
-          class="form-inside-modal"
-        ></issue-form>
+      
       </div>
-    <!-- </sweet-modal>  -->
+ 
     <!-- The context-menu appears only if table row is right-clicked -->
     <context-menu :display="showContextMenu" ref="menu">
       <el-menu collapse>
@@ -240,9 +225,9 @@
         if (this.fromView == 'map_view') {
           this.$emit('edit-task', this.DV_task)
         }
-        else if (this.fromView == 'manager_view') {
-          this.setTaskForManager({key: 'task', value: this.DV_task})
-        }
+        // else if (this.fromView == 'manager_view') {
+        //   this.setTaskForManager({key: 'task', value: this.DV_task})
+        // }
         else {
           this.has_task = Object.entries(this.DV_task).length > 0
           this.DV_edit_task = this.DV_task
@@ -616,7 +601,8 @@
     margin-top: 10px;
   }
   .action-form-overlay {
-    top: 11.9% !important;
+    position: absolute;
+    top:0;   
     form {
         position: inherit !important;
       }

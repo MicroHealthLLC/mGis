@@ -100,7 +100,7 @@
           <font-awesome-icon icon="file-excel" />
         </button>
         <div v-if="_isallowed('read')">
-          <div style="height:50vh; overflow-y:auto" v-if="filteredRisks.length > 0">
+          <div style="height:52vh; overflow-y:auto" v-if="filteredRisks.length > 0">
             <hr/>
             <risk-show
               v-for="(risk, i) in filteredRisks"         
@@ -397,7 +397,8 @@
 
 <style lang="scss" scoped>
   .risks-index {
-    height: 465px;
+     z-index: 100;
+    height: 500px
   }
   .riskHover:hover {
     cursor: pointer;

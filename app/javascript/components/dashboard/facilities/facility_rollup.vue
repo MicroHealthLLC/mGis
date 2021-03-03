@@ -1,6 +1,6 @@
 <!--  NOTE: This File is used in Map view right side bard -->
 <template>
-  <div class="container-fluid m-1" data-cy="facility_rollup" :class="{'map-v pl-0 mt-4 mr-2': isMapView}">
+  <div class="m-1" data-cy="facility_rollup" :class="{'map-v pl-0 mt-4 mr-2 pr-4': isMapView, 'px-3':isSheetsView}">
       <div class="row">
         <div class="col pl-0">
           <h3 class="d-inline mr-2"> <b>PROJECTS</b></h3>
@@ -85,9 +85,9 @@
 
               <div class="row">
                 <div class="col-7 mb-2 pl-2 pr-0">
-                    <span class="badge badge-pill font-sm" :class="{'badge-success': facilityGroup.status == 'active', 'badge-danger': facilityGroup.status == 'inactive'}">
+                    <!-- <span class="badge badge-pill font-sm" :class="{'badge-success': facilityGroup.status == 'active', 'badge-danger': facilityGroup.status == 'inactive'}">
                     {{facilityGroup.status}}
-                    </span>
+                    </span> -->
                     <span v-if="isMapView" class="font-sm">{{facilityGroup.name}}</span>
                     <span v-else>{{facilityGroup.name}}</span>
                     <span class="badge badge-secondary badge-pill">{{facilityGroupFacilities(facilityGroup).length}}</span>
@@ -491,6 +491,9 @@ export default {
     isMapView() {
         return this.$route.name === 'ProjectMapView'
      },
+    isSheetsView() {
+        return this.$route.name === 'ProjectSheets'
+     },
     filteredTasks() {
       let typeIds = _.map(this.taskTypeFilter, 'id')
       let stageIds = _.map(this.taskStageFilter, 'id')
@@ -736,7 +739,9 @@ export default {
 
   .map-v {
     width:34vw; 
-    float:right;    
+    float:right;  
+    
+
   }
   // .fac-proj-status:hover, .tasks:hover, .issues:hover, .fac-groups:hover {
   //  background-color: #fff;

@@ -1,5 +1,5 @@
 <template>
-  <div id="tasks-index" data-cy="task_list" :class="{'map-v': isMapView}">
+  <div id="tasks-index" data-cy="task_list" class="px-0" :class="{'map-v': isMapView}">
     <div v-if="_isallowed('read')">
 
        <div class="d-flex align-item-center justify-content-between w-100 mb-1">        
@@ -20,7 +20,7 @@
        </div>
 
 
-        <div class="w-100 font-sm d-flex my-2">
+        <div class="w-100 font-sm d-flex">
           <div class="simple-select w-50 font-sm mr-1">            
           <multiselect v-model="C_taskTypeFilter" style="min-height:30px" track-by="name" label="name" placeholder="Filter by Category" :options="taskTypes" :searchable="false" :multiple="true" select-label="Select" deselect-label="Remove">
             <template slot="singleLabel" slot-scope="{option}">
@@ -42,7 +42,7 @@
             </div>
         </div>   
 
-      <div class="mb-3 d-flex">
+      <div class="mb-3 mt-1 d-flex">
         <button v-if="_isallowed('write')" class="btn btn-md btn-primary mr-3 addTaskBtn" @click.prevent="addNewTask">
           <font-awesome-icon icon="plus-circle" data-cy="new_task" />
           Add Task
@@ -57,7 +57,7 @@
       <div style="height:55vh; overflow-y:auto" v-if="filteredTasks.length > 0">
         <hr />
         <task-show 
-          v-for="(task, i) in filteredTasks" 
+          v-for="task in filteredTasks" 
           id="taskHover" 
           :load="log(task)" 
           class="px-3"
@@ -392,8 +392,8 @@ input[type=search] {
  border-left: solid 1.5px #fafafa;
 }
 
-  // .map-v {
-  //   // width:31vw;
-  //   // float:right;
-  
+.map-v {
+    width:34vw;
+    margin-left: auto !important;
+ }
 </style>

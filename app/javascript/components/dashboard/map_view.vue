@@ -84,7 +84,7 @@
            <div class="container-fluid project-sum pr-0" id="rollup-sidebar">
           <div>
             <div>
-              <FacilityRollup v-show="!openSidebar"  v-if="!currentFacility || !currentFacility.id"></FacilityRollup>
+              <FacilityRollup id="fac-rollup" v-show="!openSidebar"  v-if="!currentFacility || !currentFacility.id"></FacilityRollup>
 
               <div class="knocker_side" >
                 <!-- <button
@@ -111,6 +111,7 @@
                   <div id="map-sidebar" class="pt-2">
                     <facility-show
                       v-loading="!contentLoaded"
+                        element-loading-spinner="el-icon-loading" 
                       v-if="currentFacility && currentFacility.id"
                       :facility="currentFacility"
                       :facility-group="currentFacilityGroup"
@@ -503,7 +504,7 @@ export default {
 }
 #map-wrap {
   height: calc(100vh - 94px);
-  width: 64.5vw;
+  width: 64vw;
   z-index: 1;
   position: relative;
 }
@@ -528,9 +529,10 @@ export default {
 //   background: white;
 //   padding: 5px;
 // }
-#map-sidebar {
+#map-sidebar,  #rollup-sidebar {
   height: calc(100vh - 94px);
-   overflow-y: auto;
+  overflow-y: auto;
+   
 }
 // .knocker_side {
 //   position: absolute;

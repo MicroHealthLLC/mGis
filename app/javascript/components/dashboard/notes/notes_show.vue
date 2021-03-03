@@ -8,13 +8,13 @@
     </div>
     <div v-if="!loading" class="notes_show mb-5 mx-0">
       <div v-if="show">
-        <div class="crud-actions mx-0 float-right">
-          <span v-if="permitted('write')" class="mr-2 font-sm edit-action" @click.stop="editNoteMode" data-cy="note_edit_icon">
-            <i class="fas fa-edit"></i>
+        <div class="crud-actions mx-0 float-right">        
+          <span v-if="permitted('write')" class="mr-2 edit-action" @click.stop="editNoteMode" data-cy="note_edit_icon">
+             <font-awesome-icon icon="ellipsis-h" /> 
           </span>
-          <span v-if="permitted('delete')" class="font-sm delete-action" @click.stop="deleteNote" data-cy="note_delete_icon">
+          <!-- <span v-if="permitted('delete')" class="font-sm delete-action" @click.stop="deleteNote" data-cy="note_delete_icon">
             <i class="fas fa-trash-alt"></i>
-          </span>
+          </span> -->
         </div>
         <div class="note_by my-2">
           <!-- <span class="badge badge-secondary">Note by</span> -->
@@ -144,6 +144,14 @@
     border-radius: 5px;
     padding: 15px;
   }
+  //   .action-form-overlay {
+  //   position: absolute;
+  //   top:0; 
+  
+  //   form {
+  //       position: inherit !important;
+  //     }
+  // }
   .note_body {
     padding-top: 10px;
     word-break: break-word;

@@ -1,5 +1,5 @@
 <template>
-  <div id="notes-index" data-cy="note_list" class="notes-index px-3" :class="{'map-v': isMapView}">
+  <div id="notes-index" data-cy="note_list" class="notes-index" :class="{'map-v': isMapView}">
     <div v-if="_isallowed('write') && newNote" class="mb-3">
       <notes-form
         title="Add Note"
@@ -159,7 +159,8 @@
   }
   .notes{
     padding:8px;
-    box-shadow: 0 5px 10px rgba(56,56, 56,0.19), 0 1px 1px rgba(56,56,56,0.23);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .10);
+    border: 1px solid #EBEEF5;
   }
   #notesHover{
     box-shadow: 1px 2.5px 5px rgba(56, 56, 56, 0.19), 1px 1.5px 1.5px rgba(56, 56, 56, 0.23);

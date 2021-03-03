@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div v-if="showDetails">
-      <div>
+    <div v-if="showDetails">  
         <task-index
          :class="{'map-v': isMapView}"
            v-if="currentProject"
@@ -9,7 +8,7 @@
           :from="from"
           @show-hide="detailShowHide"
         ></task-index>
-      </div>
+      
     </div>
     <div v-else-if="from != 'manager_view'">
       <task-form       
