@@ -290,22 +290,10 @@
                       </template>
                     </multiselect>
                   </div>
-                <!-- <div class="mx-2 mb-3 font-sm">
-                  <div class="form-check my-4 pl-0" data-cy="search_risk_total">
-                    <label class="form-check-label text-primary">
-                      <h5>Total: {{filteredRisks.length}}</h5>
-                    </label>
-                  </div>
-                </div>         -->
+            
+               </div>
               </div>
-              </div>
-         <!-- <sweet-modal
-          class="form_modal"
-          ref="newFormModal"
-          :hide-close-button="true"
-          :blocking="true"
-          v-if="viewPermit(currentTab, 'write')"
-         > -->
+      
       <div v-if="currentFacility && ('id' in currentFacility) && fixedStageId && viewPermit(currentTab, 'write')" class="w-100">
         <task-form
           v-if="currentTab === 'tasks'"
@@ -330,12 +318,11 @@
           v-if="currentTab === 'risks'"
           :facility="currentFacility"
           :fixed-stage="fixedStageId"
-          @risk-created="handleNewRisk"
+          @risk-created="handleNewRisk"         
           @on-close-form="onCloseForm"
           class="form-inside-modal"
         ></risk-form>
-      </div>
-    <!-- </sweet-modal> -->
+      </div> 
     
       <div class="kanban-tab">
         <!-- <div v-if="currentFacilityGroup && ('id' in currentFacilityGroup)">         

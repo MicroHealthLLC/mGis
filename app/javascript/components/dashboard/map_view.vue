@@ -86,7 +86,7 @@
             <div>
               <FacilityRollup id="fac-rollup" v-show="!openSidebar"  v-if="!currentFacility || !currentFacility.id"></FacilityRollup>
 
-              <div class="knocker_side" >
+         
                 <!-- <button
                   v-if="currentFacility && currentFacility.id"
                   class="knocker btn btn-sm text-light p-1"
@@ -97,7 +97,7 @@
                     >FACILITY SUMMARY</small
                   >
                 </button> -->
-                <div class="knocker_side">
+          
                   <!-- <button
                     v-if="currentFacility && currentFacility.id"
                     class="knocker btn btn-sm text-light p-1"
@@ -114,14 +114,12 @@
                         element-loading-spinner="el-icon-loading" 
                       v-if="currentFacility && currentFacility.id"
                       :facility="currentFacility"
-                      :facility-group="currentFacilityGroup"
-                      from="map_view"
+                      :facility-group="currentFacilityGroup"                  
                       @close-side-bar="closeSidebar"
                       @facility-update="updateFacility"
                     />
                   </div>
-                </div>
-              </div>
+           
             </div>
           </div>
 

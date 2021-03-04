@@ -1,13 +1,11 @@
 
 <template>
   <div id="task-sheets">
-    <table class="table table-sm table-bordered table-striped p-3">
+    <table class="table table-sm table-bordered table-striped">
       <tr v-if="!loading" class="mx-3 mb-3 mt-2 py-4 edit-action" @click.prevent="editTask" data-cy="task_row" @mouseup.right="openContextMenu" @contextmenu.prevent="">
-        <td class="sixteen">{{task.text}}</td>
-        <td v-if="isSheetsView"  class="ten">{{task.taskType}}</td>
-        <td v-if="isSheetsView"  class="eight">{{formatDate(task.startDate)}}</td>
-        <td v-if="isSheetsView" class="eight">{{formatDate(task.dueDate)}}</td>
-        <td class="fort" >
+        <td>{{task.text}}</td>    
+     
+        <td >
           <span v-if="(task.responsibleUsers.length) > 0"> <span class="badge mr-1 font-sm badge-secondary badge-pill">R</span>{{task.responsibleUsers[0].name}} <br></span> 
           <span v-if="(task.accountableUsers.length) > 0"> <span class="badge mr-1 font-sm badge-secondary badge-pill">A</span>{{task.accountableUsers[0].name}}<br></span>   
           <!-- Consulted Users and Informed Users are toggle values         -->
@@ -15,17 +13,13 @@
              <span v-if="(task.consultedUsers.length) > 0"> <span class="badge mr-1 font-sm badge-secondary badge-pill">C</span>{{JSON.stringify(task.consultedUsers.map(consultedUsers => (consultedUsers.name))).replace(/]|[['"]/g, '')}}<br></span> 
              <span v-if="(task.informedUsers.length) > 0"> <span class="badge font-sm badge-secondary mr-1 badge-pill">I</span>{{JSON.stringify(task.informedUsers.map(informedUsers => (informedUsers.name))).replace(/]|[['"]/g, '')}}</span>      
          </span>        
-        </td>
-        <td v-if="isSheetsView" class="eight">{{task.progress + "%"}}</td>
-        <td v-if="isSheetsView && (task.dueDate) <= now"  class="eight"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-        <td class="eight" v-if="isSheetsView && task.watched == true"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-        <td class="twenty" v-if="(task.notes.length) > 0">
+        </td>  
+       
+        <td v-if="(task.notes.length) > 0">
            <span class="toolTip" v-tooltip="('By: ' + task.notes[0].user.fullName)">              
            {{ moment(task.notes[0].createdAt).format('DD MMM YYYY, h:mm a') }}</span><br> {{task.notes[0].body}}
         </td>       
-        <td v-else class="twenty">No Updates</td>
+        <td v-else>No Updates</td>
       </tr>
       <!-- The context-menu appears only if table row is right-clicked -->
       <context-menu :display="showContextMenu" ref="menu">
@@ -107,7 +101,7 @@ import humps from "humps";
 Vue.prototype.moment = moment;
 
 export default {
-  name: "TaskSheets",
+  name: "TaskShowMap",
   components: {
     TaskForm,
     IssueForm,
@@ -509,21 +503,7 @@ table {
   margin-bottom: 0 !important;
   overflow: auto;
 }
-.eight {
-  width: 8%;
-}
-.ten {
-  width: 10%;
-}
-.fort {
-  width: 14%;
-}
-.sixteen {
-  width: 16%;
-}
-.twenty {
-  width: 20%;
-}
+
 .pg-content {
   width: 100%;
   height: 20px;

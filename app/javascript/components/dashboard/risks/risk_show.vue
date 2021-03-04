@@ -75,23 +75,28 @@
               </div>      
       </div>      
     </div>
+
       <div v-if="has_risk" class="w-100 action-form-overlay">
+        <!-- <div style="position:relative">
+          <div class="action-form-overlay"> -->
         <risk-form
           v-if="Object.entries(DV_edit_risk).length"
           :facility="facility"
           :risk="DV_edit_risk"
+           title="Edit Risk"
           @risk-updated="updateRelatedTaskIssue"
           @on-close-form="onCloseForm"
           class="form-inside-modal"
         ></risk-form>
-      </div>
+          <!-- </div>
+        </div>   -->
+    </div>
 
   </div>
 </template>
 
 <script>
   import {mapGetters, mapMutations, mapActions} from "vuex"
-  import {SweetModal} from 'sweet-modal-vue'
   import IssueForm from "./../issues/issue_form"
   import TaskForm from "./../tasks/task_form"
   import RiskForm from "./risk_form"
@@ -103,7 +108,7 @@
       IssueForm,
       TaskForm,
       RiskForm,
-      SweetModal       
+    
     },
     props: {
       fromView: {
@@ -139,20 +144,15 @@
         'taskUpdated',
         'updateWatchedRisks'
       ]),
-      editRisk() {
-        // Conditional view statements commented out Mar 3 2021 in an effort to create on consistent edit/create form throughout Client Panel
-        //...Delete after 30 days if no issues reported
+      editRisk() {  
         if (this.fromView == 'map_view') {
-          this.$emit('risk-edited', this.risk)
-        }
-        // else if (this.fromView == 'manager_view') {
-        //   this.setTaskForManager({key: 'risk', value: this.DV_risk})
-        // }
-        // else {
+          this.$emit('edit-risk', this.risk)
+        }      
+        else {
           this.DV_edit_risk = this.DV_risk
           this.has_risk = Object.entries(this.DV_risk).length > 0
           this.$refs.riskFormModal && this.$refs.riskFormModal.open()
-        // }
+        }
       },
       openSubTask(subTask) {
         let task = this.currentTasks.find(t => t.id == subTask.id)
@@ -270,12 +270,7 @@
       form {
         position: inherit !important;
       }
-    }
-
-  .action-form-overlay {
-    position: absolute;
-    top:0; 
-  } 
+    } 
   .red1 {
     background-color: #d9534f;
   }
