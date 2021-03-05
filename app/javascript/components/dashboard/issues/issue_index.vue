@@ -13,7 +13,7 @@
         </div>        
       </div>
 
-      <div class="d-flex align-item-center font-sm justify-content-between mt-2 w-100">
+      <div class="d-flex align-item-center font-sm justify-content-between mt-2 my-1 w-100">
        <div class="simple-select w-50 mr-1 font-sm">
           <multiselect v-model="C_taskTypeFilter" track-by="name" label="name" placeholder="Filter by Category" :options="taskTypes" :searchable="false" :multiple="true" select-label="Select" deselect-label="Remove">
             <template slot="singleLabel" slot-scope="{option}">
@@ -55,8 +55,8 @@
           </multiselect>
         </div>
       </div>
-      <div class="mt-1">
-        <button v-if="_isallowed('write')" class="btn btn-md btn-primary addIssueBtn mr-3" @click.prevent="addNewIssue">
+      <div class="my-2">
+        <button v-if="_isallowed('write')" class="btn btn-md btn-primary addIssueBtn mr-1" @click.prevent="addNewIssue">
           <font-awesome-icon icon="plus-circle" data-cy="new_issue" />
           Add Issue
         </button>
@@ -64,7 +64,7 @@
         <button v-tooltip="`Export to PDF`" @click.prevent="exportToPdf" class="btn btn-md mr-1 exportBtns text-light">
           <font-awesome-icon icon="file-pdf" />
         </button>
-        <button v-tooltip="`Export to Excel`" @click.prevent="exportToExcel('table', 'Issue Log')" class="btn btn-md exportBtns text-light">
+        <button v-tooltip="`Export to Excel`" @click.prevent="exportToExcel('table', 'Issue Log')" class="btn btn-md mr-1 exportBtns text-light">
           <font-awesome-icon icon="file-excel" />
         </button>
          <button
@@ -96,9 +96,9 @@
             </tr>
           </table>
             <IssueShowMap
-            v-for="issue in sortedIssues" 
+            v-for="(issue, i) in sortedIssues" 
             id="issueHover"                     
-            :key="issue.id" 
+            :key="i" 
             :issue="issue" 
             :from-view="from" 
             @issue-edited="issueEdited" />
@@ -129,7 +129,7 @@
 
           <div v-else>
             <br />
-            <h6 class="text-danger ml-1 mt-4">No issues found..</h6>
+            <h6 class="text-danger ml-1 mt-4">No Issues found..</h6>
           </div>
         </div>
         <p v-else class="text-danger mx-2"> You don't have permissions to read!</p>

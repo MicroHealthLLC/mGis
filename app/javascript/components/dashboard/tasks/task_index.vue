@@ -2,7 +2,7 @@
   <div id="tasks-index" data-cy="task_list" class="px-0" :class="{'map-v': isMapView}">
     <div v-if="_isallowed('read')">
 
-       <div class="d-flex align-item-center justify-content-between w-100 mb-1">        
+       <div class="d-flex align-item-center justify-content-between w-100">        
         <div class="input-group w-100">        
           <div class="input-group-prepend d-inline">
             <span class="input-group-text" id="search-addon"><i class="fa fa-search"></i></span>
@@ -20,9 +20,19 @@
        </div>
 
 
-        <div class="w-100 font-sm d-flex">
-          <div class="simple-select w-50 font-sm mr-1">            
-          <multiselect v-model="C_taskTypeFilter" style="min-height:30px" track-by="name" label="name" placeholder="Filter by Category" :options="taskTypes" :searchable="false" :multiple="true" select-label="Select" deselect-label="Remove">
+        <div class="d-flex w-100 font-sm mt-2">
+          <div class="simple-select w-50 mr-1">            
+          <multiselect 
+            v-model="C_taskTypeFilter"
+            track-by="name" 
+            label="name" 
+            placeholder="Filter by Category" 
+            :options="taskTypes" 
+            :searchable="false" 
+            :multiple="true" 
+            select-label="Select" 
+            deselect-label="Remove"
+            >
             <template slot="singleLabel" slot-scope="{option}">
               <div class="d-flex">
                 <span class='select__tag-name'>{{option.name}}</span>
@@ -31,8 +41,19 @@
           </multiselect>
           </div>
 
-            <div class="simple-select w-50 font-sm">          
-            <multiselect v-model="C_facilityManagerTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="false" placeholder="Filter By Flags">
+            <div class="simple-select w-50">          
+            <multiselect 
+              v-model="C_facilityManagerTaskFilter" 
+              :options="getAdvancedFilterOptions" 
+              track-by="name" label="name" 
+              :multiple="true"
+              select-label="Select" 
+              deselect-label="Remove"
+              :searchable="false" 
+              :close-on-select="true" 
+              :show-labels="false" 
+              placeholder="Filter By Flags"
+              >
             <template slot="singleLabel" slot-scope="{option}">
               <div class="d-flex">
                 <span class='select__tag-name'>{{option.name}}</span>
@@ -83,10 +104,10 @@
            </tr>
           </table>
         <TaskShowMap
-          v-for="task in sortedTasks" 
+          v-for="(task, i) in sortedTasks" 
           id="taskHover" 
           :load="log(task)"         
-          :key="task.id" 
+          :key="i" 
           :task="task" 
           :from-view="from" 
           @edit-task="editTask">
@@ -116,7 +137,7 @@
       </div>
       <div v-else>
         <br />
-        <h6 class="text-danger mt-2 ml-1">No tasks found..</h6>
+        <h6 class="text-danger mt-2 ml-1">No Tasks found..</h6>
       </div>
     </div>
     <p v-else class="text-danger mx-2"> You don't have permissions to read!</p>

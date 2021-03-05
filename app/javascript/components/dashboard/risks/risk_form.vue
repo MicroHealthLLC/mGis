@@ -1115,13 +1115,15 @@
        </div>
     </div>
     <!-- END RISK DISPOSITION SECTION TAB -->
+    <h6 class="text-danger text-small pr-1 mr-1 pr-3 float-right" ref="riskMatrix">*Indicates required fields</h6>
+
 
   </div>
-
+   
   </div>
       <!-- TABBED OUT SECTION END HERE -->
-      <h6 class="text-danger text-small pr-1 mr-1 pr-3 float-right" ref="riskMatrix">*Indicates required fields</h6>
-      <div ref="addUpdates" class="pt-0 mt-0 mb-4"> </div>
+     
+      <!-- <div ref="addUpdates" class="pt-0 mt-0 mb-4"> </div> -->
       <div>
 
       </div>

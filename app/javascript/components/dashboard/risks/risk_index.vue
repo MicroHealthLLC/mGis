@@ -32,7 +32,7 @@
       </div>
 
       <div class="d-flex font-sm w-100 mt-2">
-        <div class="simple-select w-50">
+        <div class="simple-select w-50 mr-1">
           <multiselect
             v-model="C_taskTypeFilter"
             track-by="name"
@@ -51,7 +51,7 @@
             </template>
           </multiselect>
         </div>
-        <div class="simple-select w-50 mr-1">
+        <div class="simple-select w-50">
           <multiselect v-model="C_facilityManagerRiskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="false" placeholder="Filter by Flags">
             <template slot="singleLabel" slot-scope="{option}">
               <div class="d-flex">
@@ -114,7 +114,7 @@
          </button>
         </div>
         <div v-if="_isallowed('read')">
-          <div style="height:52vh; overflow-y:auto;border-bottom:solid 1px #ededed" v-if="filteredRisks.length > 0">
+          <div style="height:52.5vh; overflow-y:auto;border-bottom:solid 1px #ededed" v-if="filteredRisks.length > 0">
             <hr class="mt-2 mb-1" />
             <table class="table table-sm table-bordered table-striped mt-2 stickyTableHeader">
             <tr style="background-color:#ededed;">
@@ -133,9 +133,9 @@
               v-for="risk in sortedRisks"         
               class="riskHover"            
               :key="risk.id"
-              :risk="risk"
+              :risk="risk"             
               :from-view="from"   
-                @risk-edited="riskEdited"  
+              @risk-edited="riskEdited" 
             ></RiskShowMap>
            <div class="float-right my-2 font-sm">
            <span>Displaying </span>
@@ -162,7 +162,7 @@
           </div>
           <div v-else>
             <br/>
-            <h6 class="text-danger ml-1 mt-4">No risks found..</h6>
+            <h6 class="text-danger ml-1 mt-4">No Risks found..</h6>
           </div>
         </div>
         <p v-else class="text-danger mx-2"> You don't have permissions to read!</p>

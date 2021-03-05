@@ -3,6 +3,7 @@
   <div id="risk-sheets">   
     <table class="table table-sm table-bordered">    
       <tr v-if="!loading" class="mx-3 mb-3 mt-2 py-4 edit-action" @click.prevent="editRisk" data-cy="risk_row">
+       <div v-if="show">
        <td>{{risk.text}}</td>
       <td>
           <span v-if="(risk.responsibleUsers.length) > 0"> <span class="badge mr-1 font-sm badge-secondary badge-pill">R</span>{{risk.responsibleUsers[0].name}} <br></span> 
@@ -19,7 +20,10 @@
            {{ moment(risk.notes[0].createdAt).format('DD MMM YYYY, h:mm a')}}</span><br> {{risk.notes[0].body}}
         </td>
         <td v-else class="twenty">No Updates</td>
+      
+      </div>
       </tr>
+      
     </table>
 <!-- moment(risk.notes[0].createdAt).format('DD MMM YYYY, h:mm a' -->
       <div v-if="has_risk" class="w-100 action-form-overlay updateForm">
@@ -59,10 +63,12 @@
     data() {
       return {
         loading: true,
+        show:true,
         now: new Date().toISOString(),
         DV_risk: {},
         DV_edit_risk: {},
-        has_risk: false,   currentPage:1,     
+        has_risk: false,   
+        currentPage:1,     
         currentSort:'text',
         currentSortDir:'asc',
       }
@@ -103,16 +109,16 @@
         this.DV_edit_issue = issue
         this.$refs.riskFormModal && this.$refs.riskFormModal.open()
       },
-      editRisk() {
+    editRisk() {
         if (this.fromView == 'map_view') {
-          this.$emit('risk-edited', this.risk)
+          this.$emit('edit-risk', this.DV_risk)
         }
         // else if (this.fromView == 'manager_view') {
-        //   this.setTaskForManager({key: 'risk', value: this.DV_risk})
+        //   this.setRiskForManager({key: 'risk', value: this.DV_risk})
         // }
         else {
-          this.DV_edit_risk = this.DV_risk
           this.has_risk = Object.entries(this.DV_risk).length > 0
+          this.DV_edit_risk = this.DV_risk
           this.$refs.riskFormModal && this.$refs.riskFormModal.open()
         }
       },

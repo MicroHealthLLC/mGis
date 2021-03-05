@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <form
       id="tasks-form"
       @submit.prevent="saveTask"     
@@ -633,6 +633,7 @@
       </div>       
      </div>
      <!-- closing div for tab5 -->
+      <h6 class="text-danger text-small pl-1 float-right pr-3">*Indicates required fields</h6>
   </div>
 
   <!-- TABBED OUT SECTION END HERE -->
@@ -643,7 +644,7 @@
 
       
     
-     <h6 class="text-danger text-small pl-1 float-right pr-3">*Indicates required fields</h6>
+    
        <!-- <div ref="addUpdates" class="pt-0 mt-0"> </div> -->
     </form>
     <div v-if="loading" class="load-spinner spinner-border text-dark" role="status"></div>    
@@ -1313,7 +1314,9 @@
     left: 16.4%;
     width: 83.33%;  
     z-index: 100;   
+    // top:0;    
   }
+  
   td, th {
     border: solid 1px #ededed;
     padding: 1px 3px;

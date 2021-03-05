@@ -805,14 +805,15 @@ Tab 1 Row Begins here -->
         </div>
       </div>
           <!-- closing div for tab5 -->
+           <h6 class="text-danger text-small pl-1 float-right pr-3">
+        *Indicates required fields
+      </h6>
 </div>
 
 
 
 
-      <h6 class="text-danger text-small pl-1 float-right pr-3">
-        *Indicates required fields
-      </h6>
+     
       <div ref="addUpdates" class="pt-0 mt-0"></div>
     </form>
     <div

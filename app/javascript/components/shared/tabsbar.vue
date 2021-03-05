@@ -87,7 +87,7 @@
 <style scoped lang="scss">
   #tabbar {
     padding: 4px 70px;
-    z-index: 100 !important;
+    z-index: 1000000 !important;
     display: flex;
     align-items: center;
     justify-content: center;

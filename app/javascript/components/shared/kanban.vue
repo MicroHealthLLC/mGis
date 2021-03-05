@@ -1,12 +1,12 @@
 <template>
   <div id="kanban" data-cy="kanban">
     <div class="overflow-x-auto">
-      <div class="d-flex py-2" v-if="!loading">
+      <div class="d-flex" v-if="!loading">
         <div
           v-for="column in columns"
           :key="column.title"
           :log="log(column)"
-          class="rounded-lg kan-col py-2 mt-4 mb-2 mr-4"        
+          class="rounded-lg kan-col py-2 unset mb-2 mr-4"        
           :class="{'no-stage': column.stage.id == null}"
           :style="`${ column.stage.id == null ? 'width:1rem' : 'min-width:18.5rem'  }`"
           data-cy="kanban_col"
@@ -189,10 +189,13 @@ export default {
     border: 1px solid #4299e1;
   }
   .overflow-x-auto {
-    overflow-x: auto;
-    margin-top: 55px;
+    overflow-x: auto; 
     margin-right: -10px;
     overflow-y: hidden !important;
+  }
+  .unset {
+    position: unset !important;
+    margin-top:5rem;
   }
   .kan-col {
     background-color: #ededed;
@@ -202,6 +205,7 @@ export default {
     padding-left: .76rem;
     padding-right: .76rem;  
     height: 73vh;
+    max-width: 296px;
  
     border-radius: .15rem;
   }

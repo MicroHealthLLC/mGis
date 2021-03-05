@@ -144,10 +144,13 @@
         'taskUpdated',
         'updateWatchedRisks'
       ]),
-      editRisk() {  
+       editRisk() {
         if (this.fromView == 'map_view') {
-          this.$emit('edit-risk', this.risk)
-        }      
+          this.$emit('risk-edited', this.risk)
+        }
+        else if (this.fromView == 'manager_view') {
+          this.setTaskForManager({key: 'risk', value: this.DV_risk})
+        }
         else {
           this.DV_edit_risk = this.DV_risk
           this.has_risk = Object.entries(this.DV_risk).length > 0

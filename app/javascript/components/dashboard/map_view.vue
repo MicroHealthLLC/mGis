@@ -497,6 +497,7 @@ export default {
   padding-top: 1px;
   height: calc(100vh - 94px);
   width: 100%;
+  
   display: flex;
   flex-wrap: wrap;
 }
@@ -508,7 +509,8 @@ export default {
 }
 .project-sum {
   position:absolute;
-  top:11%;  
+  height: calc(100vh - 94px);
+  top:12%;  
 }
 // #rollup-sidebar {
 //   > div {
