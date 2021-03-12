@@ -162,7 +162,6 @@
                   </div>
 
                   <div class="simple-select w-25  d-inline mr-1" style="position:absolute">
-                     <label class="font-sm mb-0">Category</label>
                     <multiselect
                       v-model="C_taskTypeFilter"
                       track-by="name"
@@ -172,6 +171,7 @@
                       :multiple="true"
                       select-label="Select"
                       deselect-label="Remove"
+                      placeholder="Filter by Categories"
                       >
                       <template slot="singleLabel" slot-scope="{option}">
                         <div class="d-flex">
@@ -181,9 +181,8 @@
                     </multiselect>
                   </div>
 
-                   <div class="simple-select w-25 d-inline" style="position:absolute;right: 23.8%">
-                    <label class="font-sm mb-0">Flags</label>
-                    <multiselect v-model="C_kanbanTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="false" placeholder="Filter by Flags">
+                  <div class="simple-select w-25 d-inline" style="position:absolute;right: 23.8%">
+                    <multiselect v-model="C_kanbanTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="true" placeholder="Filter by Flags">
                       <template slot="singleLabel" slot-scope="{option}">
                         <div class="d-flex">
                           <span class='select__tag-name'>{{option.name}}</span>
@@ -215,7 +214,6 @@
                     />
                   </div>
                   <div class="simple-select w-25 mr-1 d-inline" style="position:absolute">
-                    <label class="font-sm mb-0">Category</label>
                     <multiselect
                       v-model="C_taskTypeFilter"
                       track-by="name"
@@ -225,7 +223,8 @@
                       :multiple="true"
                       select-label="Select"
                       deselect-label="Remove"
-                      >
+                      placeholder="Filter by Categories"
+                     >
                       <template slot="singleLabel" slot-scope="{option}">
                         <div class="d-flex">
                           <span class='select__tag-name'>{{option.name}}</span>
@@ -233,9 +232,8 @@
                       </template>
                     </multiselect>
                   </div>
-                     <div class="simple-select w-25 d-inline" style="position:absolute;right: 23.8%">
-                    <label class="font-sm mb-0">Flags</label>
-                    <multiselect v-model="C_kanbanTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="false" placeholder="Filter by Flags">
+                  <div class="simple-select w-25 d-inline" style="position:absolute;right: 23.8%">
+                    <multiselect v-model="C_kanbanTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="true" placeholder="Filter by Flags">
                       <template slot="singleLabel" slot-scope="{option}">
                         <div class="d-flex">
                           <span class='select__tag-name'>{{option.name}}</span>
@@ -262,7 +260,6 @@
                   </div>
                            
                   <div class="simple-select w-25 d-inline" style="position:absolute">
-                    <label class="font-sm mb-0">Category</label>
                     <multiselect
                       v-model="C_taskTypeFilter"
                       track-by="name"
@@ -272,6 +269,7 @@
                       :multiple="true"
                       select-label="Select"
                       deselect-label="Remove"
+                      placeholder="Filter by Categories"
                       >
                       <template slot="singleLabel" slot-scope="{option}">
                         <div class="d-flex">
@@ -281,8 +279,7 @@
                     </multiselect>
                   </div>
                   <div class="simple-select w-25 d-inline" style="position:absolute;right: 23.8%">
-                    <label class="font-sm mb-0">Flags</label>
-                    <multiselect v-model="C_kanbanTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="false" placeholder="Filter by Flags">
+                    <multiselect v-model="C_kanbanTaskFilter" :options="getAdvancedFilterOptions" track-by="name" label="name" :multiple="true" select-label="Select" deselect-label="Remove" :searchable="false" :close-on-select="true" :show-labels="true" placeholder="Filter by Flags">
                       <template slot="singleLabel" slot-scope="{option}">
                         <div class="d-flex">
                           <span class='select__tag-name'>{{option.name}}</span>
@@ -1094,7 +1091,7 @@
   //   z-index: 100000 !important;
   // }
   .searchBar {
-    margin-top: 24px;
+    margin-top: 0px;
   }
   .searchB {
     height:32px;
@@ -1102,7 +1099,8 @@
   .kanban-filters-bar {
     background-color: #fff;
     border-top:solid .3px #ededed;
-    padding-bottom: 9px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     margin-left:200px;
     position: absolute;
     z-index: 10; 
