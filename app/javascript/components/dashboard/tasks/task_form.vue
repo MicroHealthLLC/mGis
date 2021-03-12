@@ -11,36 +11,38 @@
         'kanban-form': isKanbanView,
       }"
     >
-      <div class="mt-3 mx-3 d-flex">
-        <span style="font-size: 18px; margin-right: 10px"
-          ><i class="fas fa-building"></i
-        ></span>
-        <h4 class="f-head my-0">
-          {{ facility.facilityName }}
-          <el-icon
-            class="el-icon-arrow-right"
-            style="font-size: 18px"
-          ></el-icon>
-          Tasks
-          <el-icon
-            class="el-icon-arrow-right"
-            style="font-size: 18px"
-          ></el-icon>
-          <span v-if="DV_task.text.length > 0">{{ DV_task.text }}</span>
-          <span v-else style="color: gray">(Task Name)</span>
-        </h4>
-        <div class="ml-auto" v-if="_isallowed('read')">
+      <div class="mt-2 mx-4 d-flex align-items-center">
+        <div>
+          <h5 class="mb-0">
+            <span style="font-size: 16px; margin-right: 10px"
+              ><i class="fas fa-building"></i
+            ></span>
+            {{ facility.facilityName }}
+            <el-icon
+              class="el-icon-arrow-right"
+              style="font-size: 12px"
+            ></el-icon>
+            Tasks
+            <el-icon
+              class="el-icon-arrow-right"
+              style="font-size: 12px"
+            ></el-icon>
+            <span v-if="DV_task.text.length > 0">{{ DV_task.text }}</span>
+            <span v-else style="color: gray">(Task Name)</span>
+          </h5>
+        </div>
+        <div class="ml-auto d-flex" v-if="_isallowed('read')">
           <button
             v-if="_isallowed('write')"
-            class="btn btn-sm sticky-btn btn-primary"
+            class="btn btn-sm sticky-btn btn-primary text-nowrap mr-2"
             data-cy="task_save_btn"
           >
-            Save
+            Save Task
           </button>
           <button
             v-else
             disabled
-            class="btn btn-sm sticky-btn btn-light"
+            class="btn btn-sm sticky-btn btn-primary mr-2"
             data-cy="task_read_only_btn"
           >
             Read Only
@@ -68,6 +70,11 @@
           @on-change-tab="onChangeTab"
         />
       </div>
+
+      <h6 class="mx-4 mt-4 mb-0" style="color: gray; font-size: 13px">
+        <span style="color: #dc3545; font-size: 15px">*</span> Indicates
+        required fields
+      </h6>
       <!-- fixed-form class covers entire tab form.  CSS properties can be found in app/assets/stylesheets/common.scss file -->
       <div class="formTitle fixed-form pt-1">
         <div v-if="errors.items.length > 0" class="text-danger mx-4">
@@ -870,9 +877,6 @@
 
       <!-- <div ref="addCheckItem" class="pt-0 mt-0 mb-4"> </div> -->
 
-      <h6 class="text-small pl-1 float-right pr-3" style="color: gray">
-        <span style="color: #dc3545">*</span> Indicates required fields
-      </h6>
       <!-- <div ref="addUpdates" class="pt-0 mt-0"> </div> -->
     </form>
     <div
@@ -988,7 +992,7 @@ export default {
   },
   methods: {
     validateForm() {
-      this.$validator.validate()
+      this.$validator.validate();
     },
     ...mapMutations(["setTaskForManager", "updateTasksHash"]),
     ...mapActions(["taskDeleted", "taskUpdated", "updateWatchedTasks"]),
@@ -1338,7 +1342,7 @@ export default {
             this.$emit(callback, responseTask);
             if (response.status === 200) {
               this.$message({
-                message: `${this.task.text} was saved successfully`,
+                message: `${response.data.task.text} was saved successfully`,
                 type: "success",
                 showClose: true,
               });
@@ -1855,6 +1859,7 @@ ul {
 }
 .fixed-form {
   overflow-y: auto;
+  height: 80vh;
   padding-bottom: 20px;
 }
 .fixed-form-mapView {
@@ -1866,7 +1871,7 @@ ul {
   margin-right: 12px;
 }
 .error-list {
-  list-style-type: disc;
+  list-style-type: circle;
   li {
     width: max-content;
   }
@@ -1878,8 +1883,9 @@ ul {
   border: 1px solid red;
   border-radius: 4px;
 }
-.f-head {
-  word-break: break-word;
+.overflow-ellipsis {
+  white-space: nowrap;
   text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 </style>

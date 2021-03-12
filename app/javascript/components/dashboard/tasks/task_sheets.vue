@@ -1,7 +1,7 @@
 
 <template>
   <div id="task-sheets">
-    <table class="table table-sm table-bordered table-striped p-3">
+    <table v-if="!has_task" class="table table-sm table-bordered table-striped p-3">
       <tr v-if="!loading" class="mx-3 mb-3 mt-2 py-4 edit-action" @click.prevent="editTask" data-cy="task_row" @mouseup.right="openContextMenu" @contextmenu.prevent="">
         <td class="sixteen">{{task.text}}</td>
         <td class="ten">{{task.taskType}}</td>
@@ -39,17 +39,18 @@
       </ContextMenu>
 
     </table>
-      <div v-if="has_task" class="w-100 action-form-overlay updateForm">
-        <task-form
-          v-if="Object.entries(DV_edit_task).length"
-          :facility="facility"
-          :task="DV_edit_task"
-          title="Edit Task"
-          @task-updated="updateRelatedTaskIssue"
-          @on-close-form="onCloseForm"
-          class="form-inside-modal"
-        ></task-form>     
-      </div>
+    
+    <div v-else  class="w-100 action-form-overlay updateForm">
+      <task-form
+        v-if="Object.entries(DV_edit_task).length"
+        :facility="facility"
+        :task="DV_edit_task"
+        title="Edit Task"
+        @task-updated="updateRelatedTaskIssue"
+        @on-close-form="onCloseForm"
+        class="form-inside-modal"
+      ></task-form>     
+    </div>
   
   </div>
 </template>
