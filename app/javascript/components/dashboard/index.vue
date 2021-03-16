@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tabsbar></tabsbar>
+    <Navbar />
     <filter-sidebar v-if="contentLoaded"></filter-sidebar>
     <state-facility-sidebar v-if="isFacilityManagerView || isSheetsView || isKanbanView" ></state-facility-sidebar>
     <router-view></router-view>
@@ -9,7 +9,7 @@
 
 <script>
   import {mapGetters, mapActions, mapMutations} from 'vuex'
-  import Tabsbar from './../shared/tabsbar'
+  import Navbar from './../shared/Navbar'
   import FilterSidebar from './../shared/filter_sidebar'
   import StateFacilitySidebar from './../shared/state_facility_sidebar'
   import Facility_form from './facilities/facility_form.vue'
@@ -17,7 +17,7 @@
   export default {
     name: 'Dashboard',
     components: {
-      Tabsbar,
+      Navbar,
       FilterSidebar,
       StateFacilitySidebar
     },

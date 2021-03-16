@@ -1,55 +1,55 @@
-nav#nav-wrap.navbar.navbar-expand-lg.blue-gradient.navbar-light
-  a.navbar-brand.pt-0 href="/"
-      =image_tag "microhealthllc.png"
-  button.navbar-toggler.ml-auto aria-controls="navbartoggler" aria-expanded="false" aria-label=("Toggle navigation") data-target="#navbartoggler" data-toggle="collapse" type="button"
-    span.navbar-toggler-icon
-  #navbartoggler.collapse.navbar-collapse
+/ nav#nav-wrap.navbar.navbar-expand-lg.blue-gradient.navbar-light
+/   a.navbar-brand.pt-0 href="/"
+/       =image_tag "microhealthllc.png"
+/   button.navbar-toggler.ml-auto aria-controls="navbartoggler" aria-expanded="false" aria-label=("Toggle navigation") data-target="#navbartoggler" data-toggle="collapse" type="button"
+/     span.navbar-toggler-icon
+/   #navbartoggler.collapse.navbar-collapse
     
 
-    -unless @project.present?
-      ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-    -else
-      ul.navbar-nav.m0-auto
-        li.nav-item
-          span.text-info.font-weight-bold
-            | #{@project.try(:name)}
+/     -unless @project.present?
+/       ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+/     -else
+/       ul.navbar-nav.m0-auto
+/         li.nav-item
+/           span.text-info.font-weight-bold
+/             | #{@project.try(:name)}
 
-    ul.navbar-nav.my-2.my-lg-0
-      -if user_signed_in?
-        -if current_user.admin?
-          li.nav-item
-            =link_to admin_root_path, class: "nav-link", data: { turbolinks: false, cy: 'admin_panel' } do
-              | Admin Panel
-        li.nav-item
-          =link_to "/Help/Home.htm", class: "nav-link", target: "_blank" do
-            | Help
-        li.nav-item
-          =link_to profile_path, class: "nav-link" do
-            | Welcome,  #{current_user.first_name}!
-        li.nav-item
-          =link_to destroy_user_session_path, method: :delete, id: '__logout', class: "nav-link", data: { cy: 'logout' } do
-            | Log out
-      -else
-        li.nav-item
-          =link_to new_user_session_path, class: "nav-link" do
-            | Log in
-        li.nav-item
-          =link_to new_user_registration_path, class: "nav-link" do
-            | Sign up
+/     ul.navbar-nav.my-2.my-lg-0
+/       -if user_signed_in?
+/         -if current_user.admin?
+/           li.nav-item
+/             =link_to admin_root_path, class: "nav-link", data: { turbolinks: false, cy: 'admin_panel' } do
+/               | Admin Panel
+/         li.nav-item
+/           =link_to "/Help/Home.htm", class: "nav-link", target: "_blank" do
+/             | Help
+/         li.nav-item
+/           =link_to profile_path, class: "nav-link" do
+/             | Welcome,  #{current_user.first_name}!
+/         li.nav-item
+/           =link_to destroy_user_session_path, method: :delete, id: '__logout', class: "nav-link", data: { cy: 'logout' } do
+/             | Log out
+/       -else
+/         li.nav-item
+/           =link_to new_user_session_path, class: "nav-link" do
+/             | Log in
+/         li.nav-item
+/           =link_to new_user_registration_path, class: "nav-link" do
+/             | Sign up
 
-css:
-  #nav-wrap {
-    padding: 15px 25px 7px 25px;
-    z-index: 1030;
-    font-weight: 300;
-    background: #fff;
-  }
-  .navbar-brand > img {
-    height: 30px;
-  }
+/ css:
+/   #nav-wrap {
+/     padding: 15px 25px 7px 25px;
+/     z-index: 1030;
+/     font-weight: 300;
+/     background: #fff;
+/   }
+/   .navbar-brand > img {
+/     height: 30px;
+/   }
 
-javascript:
-  // destroy user session and storage
-  $('#__logout').click(function () {
-    localStorage.removeItem('vuex');
-  });
+/ javascript:
+/   // destroy user session and storage
+/   $('#__logout').click(function () {
+/     localStorage.removeItem('vuex');
+/   });
