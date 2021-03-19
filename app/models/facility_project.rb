@@ -160,6 +160,12 @@ class FacilityProject < ApplicationRecord
     hash
   end
 
+  def build_overview_response
+    {
+      
+    }
+  end
+
   def status_name
     status.try(:name)
   end

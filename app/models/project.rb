@@ -254,6 +254,51 @@ class Project < SortableRecord
     hash
   end
 
+  def build_response_for_overview
+    fp = self.facility_projects
+    fp_ids = fp.map(&:id)
+    all_tasks = Task.where(facility_project_id: fp_ids)
+    completed_tasks = all_tasks.select{|t| t.completed? }
+    overdue_tasks = all_tasks.select{|t| t.is_overdue? }
+
+    all_issues = Issue.where(facility_project_id: fp_ids)
+    completed_issues = all_issues.select{|t| t.completed? }
+    overdue_issues = all_issues.select{|t| t.is_overdue? }
+
+    all_risks = Risk.where(facility_project_id: fp_ids)
+    completed_risks = all_risks.select{|t| t.completed? }
+    overdue_risks = all_risks.select{|t| t.is_overdue? }
+
+    {
+      projects: [],
+      tasks: {
+        total_count: all_tasks.size,
+        completed_count: completed_tasks.size,
+        overdue_count: overdue_tasks.size,
+        completed_percentage: get_average(completed_tasks.size , all_tasks.size ),
+        overdue_percentage: get_average(overdue_tasks.size , all_tasks.size )
+      },
+      issues: {
+        total_count: all_issues.size,
+        completed_count: completed_issues.size,
+        overdue_count: overdue_issues.size,
+        completed_percentage: get_average(completed_issues.size , all_issues.size ),
+        overdue_percentage: get_average(overdue_issues.size , all_issues.size )
+      },
+      risks: {
+        total_count: all_risks.size,
+        completed_count: completed_risks.size,
+        overdue_count: overdue_risks.size,
+        completed_percentage: get_average(completed_risks.size , all_risks.size ),
+        overdue_percentage: get_average(overdue_risks.size , all_risks.size )
+      },
+    }
+  end
+
+  def get_average(count, total)
+    (((count / total) * 100) || 0).round(2) rescue 0
+  end
+
   def reject_comment(comment)
     comment['body'].blank?
   end

@@ -156,10 +156,8 @@ class Risk < ApplicationRecord
     sub_tasks = self.sub_tasks
     sub_issues = self.sub_issues
     sub_risks = self.sub_risks
-    progress_status = "active"
-    if(progress >= 100)
-      progress_status = "completed"
-    end
+    progress_status = active? ? "active" : "completed"
+
     self.as_json.merge(
       priority_level_name: priority_level_name,
       # risk_approach: risk_approach.humanize,
@@ -169,7 +167,7 @@ class Risk < ApplicationRecord
       risk_stage: risk_stage.try(:name),
       class_name: self.class.name,
       attach_files: attach_files,
-      is_overdue: progress < 100 && (due_date < Date.today),
+      is_overdue: is_overdue?,
       progress_status: progress_status,
       checklists: checklists.as_json,  
       facility_id: fp.try(:facility_id),
@@ -375,6 +373,18 @@ class Risk < ApplicationRecord
     end
 
     risk.reload
+  end
+
+  def active?
+    !completed?
+  end
+
+  def completed?
+    progress >= 100
+  end
+
+  def is_overdue?
+    progress < 100 && (due_date < Date.today)
   end
 
   def add_link_attachment(params = {})

@@ -1,6 +1,11 @@
 class ProjectsController < AuthenticatedController
   before_action :set_project, only: [:destroy, :update, :gantt_chart, :watch_view, :member_list, :facility_manager, :sheet]
 
+  def program_overview
+    @project = Project.find(params[:id])
+    render json: {overview: @project.build_response_for_overview}
+  end
+
   def index
     respond_to do |format|
       format.json {render json: {projects: current_user.projects.includes(:project_type).active.as_json}}

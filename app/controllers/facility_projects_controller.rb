@@ -3,6 +3,11 @@ class FacilityProjectsController < AuthenticatedController
   before_action :set_facility, except: [:show]
   before_action :set_facility_project, only: [ :update]
 
+  def overview
+    @facility_project = FacilityProject.find(params[:id])
+    render json: {overview: @facility_project.build_overview_response}, status: 200
+  end
+
   def index
     render json: @facility.facility_projects.as_json(include: {project: {only: :name}}, methods: [:status_name])
   end

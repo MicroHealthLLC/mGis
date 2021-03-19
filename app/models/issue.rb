@@ -91,16 +91,14 @@ class Issue < ApplicationRecord
 
     sub_tasks = self.sub_tasks
     sub_issues = self.sub_issues
-    progress_status = "active"
-    if(progress >= 100)
-      progress_status = "completed"
-    end
+    progress_status = active? ? "active" : "completed"
+
     task_type_name = self.task_type&.name
     self.as_json.merge(
       class_name: self.class.name,
       progress_status: progress_status,
       attach_files: attach_files,
-      is_overdue: progress < 100 && (due_date < Date.today),
+      is_overdue: is_overdue?,
       issue_type: issue_type.try(:name),
       issue_stage: issue_stage.try(:name),
       issue_severity: issue_severity.try(:name),
@@ -287,6 +285,18 @@ class Issue < ApplicationRecord
     issue
   end
 
+  def active?
+    !completed?
+  end
+
+  def completed?
+    progress >= 100
+  end
+
+  def is_overdue?
+    progress < 100 && (due_date < Date.today)
+  end
+  
   def add_link_attachment(params = {})
     link_files = params[:file_links]
     if link_files && link_files.any?

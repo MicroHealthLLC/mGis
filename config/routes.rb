@@ -27,6 +27,9 @@ Rails.application.routes.draw do
 
   resources :dashboard, only: [:index]
   resources :projects, only: [:index, :show] do
+    member do
+      get :program_overview
+    end
     get :gantt_chart, on: :member
     get :watch_view, on: :member
     get :sheet, on: :member
@@ -57,6 +60,9 @@ Rails.application.routes.draw do
     resources :facility_projects, only: [:index, :update, :show]
   end
   resources :facility_projects, only: [:index, :update, :show] do
+    member do
+      get :overview
+    end
     resources :issues do
       post :batch_update, on: :collection
       post :create_duplicate, on: :member

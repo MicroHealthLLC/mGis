@@ -99,14 +99,11 @@ class Task < ApplicationRecord
 
     sub_tasks = self.sub_tasks
     sub_issues = self.sub_issues
-    progress_status = "active"
-    if(progress >= 100)
-      progress_status = "completed"
-    end
+    progress_status = active? ? "active" : "completed"
     self.as_json.merge(
       class_name: self.class.name,
       attach_files: attach_files,
-      is_overdue: progress < 100 && (due_date < Date.today),
+      is_overdue: is_overdue?,
       progress_status: progress_status,
       task_type: task_type.try(:name),
       task_stage: task_stage.try(:name),
@@ -294,6 +291,18 @@ class Task < ApplicationRecord
     end
 
     task.reload
+  end
+
+  def active?
+    !completed?
+  end
+
+  def completed?
+    progress >= 100
+  end
+
+  def is_overdue?
+    progress < 100 && (due_date < Date.today)
   end
 
   def add_link_attachment(params = {})
