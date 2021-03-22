@@ -51,18 +51,17 @@ en:
         other: Program Types
       facility_group:
         one: Project Group
-        other: Project Groups          
+        other: Project Groups
     attributes:
       task:
         text: ""
-        facility_project_facility_facility_name: "Project Name"
+        facility_name: "Project Name"
       issue:
-        facility_project_facility_facility_name: "Project Name"
+        facility_name: "Project Name"
       risk:
-        facility_project_facility_facility_name: "Project Name"
+        facility_name: "Project Name"
       facility:
-          facility_name: "Project Name"
-          tasks_text: "Task Name"
+        facility_name: "Project Name"
     errors:
       models:
         task:

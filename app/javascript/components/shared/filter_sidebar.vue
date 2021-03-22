@@ -29,6 +29,7 @@
                   v-model="C_facilityGroupFilter"                    
                   class="w-100" 
                   track-by="name" 
+                  filterable
                   value-key="id"
                   multiple                                                                                                                                               
                   placeholder="Select Project Group"

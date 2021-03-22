@@ -153,7 +153,9 @@
     methods: {
       ...mapMutations([
         'updateRisksHash',
-        'setTaskForManager'
+        'setTaskForManager',
+        'SET_RISK_FORM_OPEN',
+        'SET_SELECTED_RISK'
       ]),
       ...mapActions([
         'riskDeleted',
@@ -166,6 +168,10 @@
         }
         else if (this.fromView == 'manager_view') {
           this.setTaskForManager({key: 'risk', value: this.DV_risk})
+        }
+        else if (this.$route.name === 'ProjectKanbanView') {
+          this.SET_RISK_FORM_OPEN(true);
+          this.SET_SELECTED_RISK(this.DV_risk);
         }
         else {
           this.DV_edit_risk = this.DV_risk
