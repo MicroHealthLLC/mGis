@@ -276,14 +276,27 @@ class Project < SortableRecord
 
     p_hash.each do |status_id, values|
       status = all_statuses.detect{|s| s.id == status_id }
-      p_hash2 << {status_id: status.id, status_name: status.name, projects_count: values.size, progress: values.map(&:progress).sum }
+      p_hash2 << {
+        status: {id: status.id, name: status.name}, 
+        projects_count: values.size, progress: values.map(&:progress).sum }
     end
     progress_hash = p_hash
 
+    g_hash = self.facility_groups.group_by{|g| g }.transform_values{|v| v.map{|vv| vv.facility_projects }.uniq.flatten}
+    g_hash2 = []
+    g_hash.each do |group, fps|
+      g_hash2 << {
+        facility_group: {id: group.id, name: group.name } ,
+        projects_count: fps.size,
+        progress: fps.map(&:progress).sum
+      }
+    end
+
     {
-      projects: fp,
+      # projects: fp,
       projects_count: fp.size,
       project_statues: p_hash2,
+      project_groups: g_hash2,
       tasks: {
         total_count: all_tasks.size,
         completed_count: completed_tasks.size,
