@@ -41,6 +41,7 @@ class Project < SortableRecord
 
   before_create :set_uuid
   after_save :grant_access_to_admins
+  after_save :add_not_started_status
 
   def as_json(options=nil)
     json = super(options)
@@ -242,7 +243,7 @@ class Project < SortableRecord
       users: users.as_json({only: [:id, :full_name, :title, :phone_number, :first_name, :last_name, :email,:status ], all_organizations: all_organizations}),
       facilities: facility_projects_hash,
       facility_groups: facility_groups_hash,
-      statuses: statuses.as_json,
+      statuses: statuses.as_json(except: [:created_at, :updated_at]),
       task_types: task_types.as_json,
       issue_types: issue_types.as_json,
       issue_severities: issue_severities.as_json,
@@ -297,6 +298,12 @@ class Project < SortableRecord
 
   def get_average(count, total)
     (((count / total) * 100) || 0).round(2) rescue 0
+  end
+
+  def add_not_started_status
+    if !self.statuses.exists?(id: Status.not_started.id)
+      self.statuses << Status.not_started
+    end
   end
 
   def reject_comment(comment)

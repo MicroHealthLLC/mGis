@@ -141,7 +141,7 @@
                   <col class="nine" />
                   <col class="oneFive" />
                 </colgroup>
-                <tr style="background-color:#ededed">
+                <tr class="thead" style="background-color:#ededed">
                   <th class="sort-th" @click="sort('title')">Issue<span class="sort-icon scroll"><font-awesome-icon icon="sort" /></span></th>
                   <th class="sort-th" @click="sort('issueType')">Issue Type <span class="sort-icon scroll"><font-awesome-icon icon="sort" /></span> </th>
                   <th class="sort-th" @click="sort('issueSeverity')">Issue Severity<span class="sort-icon scroll"><font-awesome-icon icon="sort" /></span></th>
@@ -570,6 +570,15 @@
     height: 31px;
     width: 310px;
     border-radius: 5px;
+  }
+  .stickyTableHeader {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 10;
+    justify-content: center;
+    left: 15;
+    top: 0;
+    width: 100%;
   }
   .eight {
     width: 8%;

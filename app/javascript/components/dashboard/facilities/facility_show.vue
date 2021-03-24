@@ -618,18 +618,18 @@
         'myActionsFilter',
         'onWatchFilter'
       ]),
-    selectedStatus: {
-      get () {
-        return this.$data._selected
-      },
-      set (value) {       
-        this.$data._selected = value
-        // console.log(value)
-        if (value) {
-         this.$nextTick(() => {
-         this.DV_updated = true
-          })
-          this.DV_facility.statusId = value
+      selectedStatus: {
+        get () {
+          return this.$data._selected || this.DV_facility.statusId
+        },
+        set (value) {       
+          this.$data._selected = value
+          // console.log(value)
+          if (value) {
+            this.$nextTick(() => {
+              this.DV_updated = true
+            })
+            this.DV_facility.statusId = value
           }        
         }
       },

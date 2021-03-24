@@ -5,7 +5,6 @@
         <div
           v-for="column in columns"
           :key="column.title"
-          :log="log(column)"
           class="rounded-lg kan-col py-2 unset mb-2 mr-4"        
           :class="{'no-stage': column.stage.id == null}"
           :style="`${ column.stage.id == null ? 'width:1rem' : 'min-width:18.5rem'  }`"
@@ -31,7 +30,6 @@
               <div
                 :is="cardShow"
                 v-for="task in column.tasks"
-                :load="log(task)"
                 :key="`${task.id}_${column.stage.id}`"
                 :task="task"
                 :issue="task"
@@ -44,7 +42,6 @@
               <div
                 :is="cardShow"
                 v-for="task in column.tasks"
-                :load="log(task)"
                 :key="`${task.id}_${column.stage.id}`"
                 :task="task"
                 :issue="task"
@@ -91,9 +88,6 @@ export default {
     ...mapActions([
       'updateKanbanTaskIssues'
     ]),
-    log(t){
-      console.log(t)
-    },
     setupColumns(cards) {
       this.stageId = `${this.kanbanType.slice(0, -1)}StageId`
       this.columns.push({
@@ -176,7 +170,7 @@ export default {
   .task-card { cursor: move;}
   .read-only-card { cursor: pointer;}
   .kanban-draggable {
-    min-height: calc(100vh - 230px);
+    height: 71vh;
     overflow-wrap: break-word;
   }
   .ghost-card {
@@ -200,9 +194,7 @@ export default {
     overflow: hidden; 
     padding-left: .76rem;
     padding-right: .76rem;  
-    height: 71vh;
     max-width: 296px;
- 
     border-radius: .15rem;
   }
   .kan-has-stage {

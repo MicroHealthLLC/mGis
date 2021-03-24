@@ -104,7 +104,7 @@
               <col class="eight" />
               <col class="twenty" />
             </colgroup>
-            <tr style="background-color:#ededed;">
+            <tr class="thead" style="background-color:#ededed;">
               <th class="sort-th" @click="sort('text')" >Task<span class="sort-icon scroll"><font-awesome-icon icon="sort" /></span></th>
               <th class="sort-th" @click="sort('taskType')">Category <span class="sort-icon scroll"><font-awesome-icon icon="sort" /></span> </th>
               <th class="pl-1 sort-th" @click="sort('startDate')">Start Date<span class="sort-icon scroll"><font-awesome-icon icon="sort" /></span></th>
@@ -536,6 +536,7 @@
   .stickyTableHeader {
     position: sticky;
     position: -webkit-sticky;
+    z-index: 10;
     justify-content: center;
     left: 15;
     top: 0;

@@ -831,3 +831,16 @@ i.el-tag__close.el-icon-close {
   top: 0;
   z-index: 100;
 }
+
+i.el-icon-circle-close {
+  // For el-select dropdown clear icon
+  color: #dc3545 !important;
+}
+
+.el-slider__stop {
+  border: 1px solid #b4b4b4;
+}
+
+.el-slider__runway.disabled .el-slider__bar {
+  background-color: #409EFF;
+}

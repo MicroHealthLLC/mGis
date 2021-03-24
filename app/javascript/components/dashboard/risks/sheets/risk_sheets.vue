@@ -49,8 +49,7 @@
         <risk-form
           v-if="Object.entries(DV_edit_risk).length"
           :facility="facility"
-          :risk="DV_edit_risk"
-          title="Edit Risk"
+          :risk="DV_edit_risk"     
           @risk-updated="updateRelatedTaskIssue"
           @on-close-form="onCloseForm"
           class="form-inside-modal"

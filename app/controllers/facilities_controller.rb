@@ -1,6 +1,6 @@
 class FacilitiesController < AuthenticatedController
   before_action :set_project
-  before_action :set_facility, only: [:show, :update]
+  before_action :set_facility, only: [:show]
 
   def index
     facility_projects = @project.facility_projects.includes(include_hash, :status).order(created_at: :desc).as_json
@@ -17,6 +17,8 @@ class FacilitiesController < AuthenticatedController
   end
 
   def update
+    # @facility_project.update(facility_project_params)
+    @facility_project = FacilityProject.where(project_id: @project.id, facility_id: params[:id]).first
     @facility_project.update(facility_project_params)
     render json: {facility: @facility_project.as_json}
   end
