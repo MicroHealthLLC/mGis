@@ -270,8 +270,20 @@ class Project < SortableRecord
     completed_risks = all_risks.select{|t| t.completed? }
     overdue_risks = all_risks.select{|t| t.is_overdue? }
 
+    all_statuses = self.statuses
+    p_hash = fp.group_by{|f| f.status_id }
+    p_hash2 = []
+
+    p_hash.each do |status_id, values|
+      status = all_statuses.detect{|s| s.id == status_id }
+      p_hash2 << {status_id: status.id, status_name: status.name, projects_count: values.size, progress: values.map(&:progress).sum }
+    end
+    progress_hash = p_hash
+
     {
-      projects: [],
+      projects: fp,
+      projects_count: fp.size,
+      project_statues: p_hash2,
       tasks: {
         total_count: all_tasks.size,
         completed_count: completed_tasks.size,
