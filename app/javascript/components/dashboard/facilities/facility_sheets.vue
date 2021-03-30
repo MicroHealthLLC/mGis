@@ -1,7 +1,7 @@
 <!--  NOTE: This file is used in Sheets view as overview tab -->
 <template>
   <div id="facility-sheets"  data-cy="facility_sheets">
-    <div  class="position-sticky" v-if="!loading">
+    <div  class="position-sticky">
       <div class="d-flex align-items-center my-2">
         <span class="fbody-icon"><i class="fas fa-building"></i></span>
         <h4 class="f-head mb-0">{{DV_facility.facilityName}}</h4>

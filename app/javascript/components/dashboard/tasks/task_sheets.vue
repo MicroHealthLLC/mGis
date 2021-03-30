@@ -38,24 +38,11 @@
         @open-task="editTask">  
       </ContextMenu>
     </table>
-    <div v-else class="w-100 action-form-overlay updateForm">
-      <task-form
-        v-if="Object.entries(DV_edit_task).length"
-        :facility="facility"
-        :task="DV_edit_task"
-        title="Edit Task"
-        @task-updated="updateRelatedTaskIssue"
-        @on-close-form="onCloseForm"
-        class="form-inside-modal"
-      ></task-form>     
-    </div>  
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import TaskForm from "./task_form";
-import IssueForm from "./../issues/issue_form";
 import ContextMenu from "../../shared/ContextMenu";
 import moment from "moment";
 Vue.prototype.moment = moment;
@@ -63,8 +50,6 @@ Vue.prototype.moment = moment;
 export default {
   name: "TaskSheets",
   components: {
-    TaskForm,
-    IssueForm,
     ContextMenu,
   },
   props:     
@@ -118,9 +103,7 @@ export default {
       //   this.setTaskForManager({ key: "task", value: this.DV_task });
       } 
       else {
-        this.has_task = Object.entries(this.DV_task).length > 0;
-        this.DV_edit_task = this.DV_task;
-        this.$refs.taskFormModal && this.$refs.taskFormModal.open();
+        this.setTaskForManager({ key: "task", value: this.DV_task });
       }
     },
     onCloseForm() {

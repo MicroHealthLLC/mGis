@@ -69,7 +69,7 @@
         required fields
       </h6>
       <!-- fixed-form class covers entire tab form.  CSS properties can be found in app/assets/stylesheets/common.scss file -->
-      <div class="formTitle fixed-form pt-1">
+      <div class="formTitle pt-1">
         
       <div v-if="errors.items.length > 0" class="text-danger mx-4">
         Please fill the required fields before submitting
@@ -1570,8 +1570,10 @@
 
 <style scoped lang="scss">
   .tasks-form {
-    z-index: 10;
-    width: 83.1%;   
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 100px);
+    background-color: #fff;
   } 
   .kanban-form {   
     left: 16.4%;
@@ -1704,11 +1706,7 @@
     background-color: #fff;
     box-shadow: 0 2.5px 5px rgba(56,56, 56,0.19), 0 3px 3px rgba(56,56,56,0.23);
   }
-  .fixed-form {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: calc(100vh - 275px);
-  }
+  
   .fixed-form-mapView {
    width: 100%;
    position: absolute;
