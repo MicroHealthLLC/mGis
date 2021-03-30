@@ -25,6 +25,23 @@ Rails.application.routes.draw do
     post '/sort-by', to: 'sorts#update'
   end
 
+
+  ## New Routes for Vue
+  get "/programs/:program_id/:tab/projects/:project_id/" => "projects#vue_js_route"
+
+  get "/programs/:program_id/:tab/projects/:project_id/tasks" => "projects#vue_js_route"
+  get "/programs/:program_id/:tab/projects/:project_id/tasks/:id" => "projects#vue_js_route"
+
+  get "/programs/:program_id/:tab/projects/:project_id/issues" => "projects#vue_js_route"
+  get "/programs/:program_id/:tab/projects/:project_id/issues/:id" => "projects#vue_js_route"
+
+  get "/programs/:program_id/:tab/projects/:project_id/risks" => "projects#vue_js_route"
+  get "/programs/:program_id/:tab/projects/:project_id/risks/:id" => "projects#vue_js_route"
+
+  get "/programs/:program_id/:tab/projects/:project_id/notes" => "projects#vue_js_route"
+  get "/programs/:program_id/:tab/projects/:project_id/notes/:id" => "projects#vue_js_route"
+
+
   resources :dashboard, only: [:index]
   resources :projects, only: [:index, :show] do
     get :gantt_chart, on: :member

@@ -1,6 +1,13 @@
 class ProjectsController < AuthenticatedController
   before_action :set_project, only: [:destroy, :update, :gantt_chart, :watch_view, :member_list, :facility_manager, :sheet]
 
+  def vue_js_route
+    respond_to do |format|
+      format.json {}
+      format.html {render action: :index}
+    end
+  end
+
   def index
     respond_to do |format|
       format.json {render json: {projects: current_user.projects.includes(:project_type).active.as_json}}
