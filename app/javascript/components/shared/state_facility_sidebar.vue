@@ -1,7 +1,7 @@
 <template>
   <div id="facility_sidebar">
     <div class="row">
-      <div class="col-md-2 facility-groups-tab pl-0">
+      <!-- <div class="col-md-2 facility-groups-tab pl-0">
         <facility-sidebar
           :current-facility-group="currentFacilityGroup"
           :expanded="expanded"
@@ -9,7 +9,7 @@
           @on-expand-facility-group="expandFacilityGroup"
           @on-expand-facility="showFacility"
         ></facility-sidebar>
-      </div>
+      </div> -->
       <div class="col-md-4 facility-show-tab px-4" v-if="isFacilityManagerView">
         <div class="my-3">
           <facility-show
@@ -72,76 +72,7 @@
 
       <!-- Sheets View starts here -->
 
-      <div
-        class="col-md-10 facility-show-tab px-0"
-        data-cy="sheets_view"
-        style="background-color: solid #ededed 15px"
-        v-if="isSheetsView"
-        v-loading="!contentLoaded"
-        element-loading-text="Fetching your data. Please wait..."
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
-      >
-        <div v-show="isSheetsView && !getRiskFormOpen" class="mt-3 px-3">
-          <facility-sheets
-            v-if="C_showFacilityTab"
-            from="manager_view"
-            :facility="currentFacility"
-            :facility-group="currentFacilityGroup"
-          ></facility-sheets>
-          <facility-rollup v-else></facility-rollup>
-        </div>
-
-        <div
-          v-if="
-            (isSheetsView && getRiskFormOpen) ||
-              managerView.task ||
-              managerView.issue ||
-              managerView.risk ||
-              managerView.note
-          "
-        >
-          <div class="w-100 action-form-overlay">
-            <task-form
-              v-if="managerView.task"
-              :facility="currentFacility"
-              :task="managerView.task"
-              title="Edit Task"
-              @on-close-form="onCloseForm"
-              @task-created="handleNewTask"
-              @task-updated="handleNewTask"
-              class="form-inside-modal"
-            ></task-form>
-            <risk-form
-              v-if="getRiskFormOpen"
-              :facility="currentFacility"
-              :risk="getSelectedRisk"
-              @on-close-form="onCloseForm"
-              @risk-created="handleNewRisk"
-              @risk-updated="handleNewRisk"
-              class="form-inside-modal"
-            ></risk-form>
-            <issue-form
-              v-else-if="managerView.issue"
-              :facility="currentFacility"
-              :issue="managerView.issue"
-              @on-close-form="onCloseForm"
-              @issue-updated="handleNewIssue"
-              @issue-created="handleNewIssue"
-              class="form-inside-modal"
-            ></issue-form>
-            <notes-form
-              v-else-if="managerView.note"
-              from="manager_view"
-              :facility="currentFacility"
-              :note="managerView.note"
-              @close-note-input="newNote = false"
-              @note-created="createdFacilityNote"
-              @note-updated="updatedFacilityNote"
-            ></notes-form>
-          </div>
-        </div>
-      </div>
+      
 
       <!-- Sheets View ends here -->
 
@@ -507,43 +438,43 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "facilityGroups",
-      "managerView",
-      "getAdvancedFilterOptions",
-      "filterDataForAdvancedFilter",
-      "taskIssueProgressFilter",
-      "getTaskIssueUserFilter",
-      "getAdvancedFilter",
-      "getTaskIssueProgressStatusOptions",
-      "getTaskIssueProgressStatusFilter",
-      "getTaskIssueTabFilterOptions",
-      "getTaskIssueOverdueOptions",
-      "taskIssueOverdueFilter",
-      "noteDateFilter",
-      "taskIssueDueDateFilter",
       "contentLoaded",
-      "filteredFacilityGroups",
-      "taskStages",
-      "issueStages",
-      "riskStages",
-      "taskTypeFilter",
-      "taskStageFilter",
-      "issueStageFilter",
-      "riskStageFilter",
-      "myActionsFilter",
-      "onWatchFilter",
-      "issueTypeFilter",
-      "issueSeverityFilter",
-      "viewPermit",
-      "facilityGroupFacilities",
-      "taskTypes",
-      "issueTypes",
-      "issueSeverities",
       "facilities",
-      "getUnfilteredFacilities",
+      "facilityGroupFacilities",
+      "facilityGroups",
+      "filterDataForAdvancedFilter",
+      "filteredFacilityGroups",
+      "getAdvancedFilter",
+      "getAdvancedFilterOptions",
       "getPreviousRoute",
       "getRiskFormOpen",
       "getSelectedRisk",
+      "getTaskIssueOverdueOptions",
+      "getTaskIssueProgressStatusFilter",
+      "getTaskIssueProgressStatusOptions",
+      "getTaskIssueTabFilterOptions",
+      "getTaskIssueUserFilter",
+      "getUnfilteredFacilities",
+      "issueSeverities",
+      "issueSeverityFilter",
+      "issueStageFilter",
+      "issueStages",
+      "issueTypeFilter",
+      "issueTypes",
+      "managerView",
+      "myActionsFilter",
+      "noteDateFilter",
+      "onWatchFilter",
+      "riskStageFilter",
+      "riskStages",
+      "taskIssueDueDateFilter",
+      "taskIssueOverdueFilter",
+      "taskIssueProgressFilter",
+      "taskStageFilter",
+      "taskStages",
+      "taskTypeFilter",
+      "taskTypes",
+      "viewPermit",
     ]),
     filteredTasks() {
       let typeIds = _.map(this.C_taskTypeFilter, "id");

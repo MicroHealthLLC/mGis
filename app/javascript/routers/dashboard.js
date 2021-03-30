@@ -5,9 +5,15 @@ import MembersView from './../components/dashboard/members_view'
 import FacilityView from './../components/dashboard/facility_view'
 import Sheets from './../components/dashboard/sheets'
 import KanbanView from './../components/dashboard/kanban_view'
+import Test from './../components/Test'
 
 export default new VueRouter({
   routes: [
+    {
+      name : 'TestRoute',
+      path: '/test',
+      component: Test
+    },
     {
       name: 'ProjectMapView',
       path: '/projects/:projectId/',
