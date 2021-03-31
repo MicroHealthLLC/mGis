@@ -6,7 +6,7 @@
     .grid-container.program-name
       -if @active_projects.size > 0
         - @active_projects.each do |project|
-         =link_to("/projects/#{project.id}/#{@preferences.navigation_menu}", data: { cy: "project_list_items" }) do
+         =link_to("/programs/#{project.id}/#{@preferences.navigation_menu}", data: { cy: "project_list_items" }) do
           li.list-group-item.pb-0.portfolio-page
                 h4
                   .d-inline-block.justify-content-between data-cy="project_name"
