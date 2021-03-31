@@ -22,7 +22,7 @@
       StateFacilitySidebar
     },
     mounted() {
-      let id = this.$route.params.projectId
+      let id = this.$route.params.programId
       this.fetchDashboardData({id})
       // Prevent right-click context-menu from appearing accross whole app
       window.oncontextmenu = (e) => {
