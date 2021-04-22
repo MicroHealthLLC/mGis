@@ -40,7 +40,7 @@ ActiveAdmin.register User do
         :kanban_view,
         :documents,
         :facility_manager_view,
-        # :calendar_view,
+        :calendar_view,
         :sheets_view,
         :members,
         :risks
@@ -74,7 +74,7 @@ ActiveAdmin.register User do
           f.inputs for: [:privilege, f.object.privilege || Privilege.new] do |p|
             p.input :facility_manager_view, as: :hidden
             p.input :sheets_view, as: :hidden
-            # p.input :calendar_view, as: :hidden
+            p.input :calendar_view, as: :hidden
             p.input :map_view, as: :hidden
             p.input :gantt_view, as: :hidden
             p.input :watch_view, as: :hidden

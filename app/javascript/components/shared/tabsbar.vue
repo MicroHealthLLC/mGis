@@ -36,7 +36,7 @@
         Gantt
       </div>
     </router-link>
-    <!-- <router-link
+    <router-link
       v-if="permitted('calendar_view')"
       :to="`/programs/${this.$route.params.programId}/calendar`"
       tag="div"
@@ -44,7 +44,7 @@
       <div class="badge" :class="{ active: isCalendarView }" data-cy="calendar_tab">
         Calendar
       </div>
-    </router-link> -->
+    </router-link>
     <div v-show="false" v-if="permitted('issues')" class="badge disabled">
       Mindmap (Coming Soon)
     </div>
@@ -76,9 +76,9 @@ export default {
     isGanttView() {
       return this.$route.name === "GanttChartView";
     },
-    // isCalendarView() {
-    //   return this.$route.name.includes("Calendar");
-    // },
+    isCalendarView() {
+      return this.$route.name.includes("Calendar");
+    },
     isKanbanView() {
       return this.$route.name.includes("Kanban");
     },

@@ -83,7 +83,7 @@ const dashboardApp = new Vue({
   router,
   store,
   el: '#dashboard',
-  // vuetify: new Vuetify(),
+  vuetify: new Vuetify(),
   template: '<Dashboard />',
   components: { Dashboard }
 })
