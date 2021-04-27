@@ -119,6 +119,13 @@ export default {
       });
     }
   },
+  beforeMount() {
+    if (this.contentLoaded && this.$route.params.projectId) {
+      this.currentFacility = this.facilities.find(
+        (facility) => facility.facilityId == this.$route.params.projectId
+      );
+    }
+  },
   watch: {
     contentLoaded: {
       handler() {
