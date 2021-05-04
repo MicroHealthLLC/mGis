@@ -52,13 +52,10 @@
         Team
       </div>
     </router-link>
-    <router-link
-      v-if="permitted('lessons')"
-      :to="`/programs/${this.$route.params.programId}/lessons`"
-      tag="div"
-    >
-      <div class="badge" :class="{ active: isLessonsView }" data-cy="lesson_tab">
+    <router-link v-if="permitted('lessons')" :to="routeLessonSwap" tag="div">
+      <div class="badge"  :class="{ active: isLessonsView }" data-cy="lesson_tab">
         Lessons
+        
       </div>
     </router-link>
   </div>
@@ -87,33 +84,45 @@ export default {
       return this.$route.name === "TeamMembersView";
     },
     isLessonsView() {
-      return this.$route.name === "LessonsIndex";
+      return this.$route.name.includes("LessonsIndex");
     },
     routeSheetSwap() {
       let route = this.$route.path;
-
       if (this.isMapView) {
         return route.replace("map", "sheet");
       } else if (this.isKanbanView) {
         return route.replace("kanban", "sheet");
       } else if (this.isGanttView) {
         return route.replace("gantt_chart", "sheet");
-      } else if(this.isLessonsView){
+      } else if (this.isLessonsView){
         return route.replace("lessons", "sheet");
-      }else {
+      } else {
         return route.replace("member_list", "sheet");
+      }
+    },
+    routeLessonSwap() {
+      let route = this.$route.path;
+      if (this.isMapView) {
+        return route.replace("map", "lessons");
+      } else if (this.isKanbanView) {
+        return route.replace("kanban", "lessons");
+      } else if (this.isGanttView) {
+        return route.replace("gantt_chart", "lessons");
+      } else if (this.isSheetsView){
+        return route.replace("sheet", "lessons");
+      } else {
+        return route.replace("member_list", "lessons");
       }
     },
     routeMapSwap() {
       let route = this.$route.path;
-
       if (this.isSheetsView) {
         return route.replace("sheet", "map");
       } else if (this.isKanbanView) {
         return route.replace("kanban", "map");
       } else if (this.isGanttView) {
         return route.replace("gantt_chart", "map");
-      } else if(this.isLessonsView){
+      } else if (this.isLessonsView){
         return route.replace("lessons", "map");
       }else {
         return route.replace("member_list", "map");
@@ -147,6 +156,8 @@ export default {
         return `/programs/${this.$route.params.programId}/kanban`;
       } else if (this.isGanttView) {
         return route.replace("gantt_chart", "kanban");
+      } else if (this.isLessonsView) {
+        return route.replace("lessons", "kanban");
       } else {
         return route.replace("member_list", "kanban");
       }
