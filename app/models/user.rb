@@ -35,6 +35,10 @@ class User < ApplicationRecord
     s.key :preferences, defaults: PREFERENCES_HASH
   end
 
+  def project_admin?
+    privilege.admin.include?("R") && privilege.admin.include?("W") && privilege.admin.include?("D")
+  end
+
   def active_admin_facility_project_select_options
     fps_hash = FacilityProject.includes(:facility, :project).where(project_id: self.projects.active).group_by(&:project)
     options = []

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_174424) do
+ActiveRecord::Schema.define(version: 2021_05_11_171601) do
 
   create_table "active_admin_comments", charset: "utf8", force: :cascade do |t|
     t.string "namespace"
@@ -475,6 +475,17 @@ ActiveRecord::Schema.define(version: 2021_05_04_174424) do
     t.index ["relatable_id"], name: "index_related_tasks_on_relatable_id"
     t.index ["relatable_type"], name: "index_related_tasks_on_relatable_type"
     t.index ["task_id"], name: "index_related_tasks_on_task_id"
+  end
+
+  create_table "resource_access_requests", charset: "utf8", force: :cascade do |t|
+    t.integer "resource_id", null: false
+    t.string "resource_type", null: false
+    t.integer "user_id", null: false
+    t.string "status", default: "pending"
+    t.integer "granted_by_id", null: false
+    t.string "permissions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "risk_stages", charset: "utf8", force: :cascade do |t|
