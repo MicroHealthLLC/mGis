@@ -162,7 +162,7 @@ export default new VueRouter({
             }
 
             if( fPrivilege["overview"].hide && fPrivilege["tasks"].hide && fPrivilege["issues"].hide && fPrivilege["risks"].hide && fPrivilege["notes"].hide){
-              alert("You don't have access to see any tabs. Please contact administrator")
+              confirm("You don't have access to see any tabs. Please contact administrator")
             }
             if( !fPrivilege["overview"].hide ){
               next()  
