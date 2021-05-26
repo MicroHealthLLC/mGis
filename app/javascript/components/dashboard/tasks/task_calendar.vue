@@ -224,29 +224,29 @@
           </v-list>
           <v-card-actions>      
           
-          <v-btn
+          <!-- <v-btn
             small
             class="mh-green text-light"
           >
+             <font-awesome-icon icon="clipboard-list" class="mr-1" />
             See More
-          </v-btn>
+          </v-btn> -->
            <v-btn
             small
-            :events="events"   
-             ref="calendar"      
-            @click:event="editTask"
+            @click.prevent="detailsBtn"
             color="primary"
           >
+            <font-awesome-icon icon="edit" class="mr-1" />
             Details
           </v-btn>
-            <v-spacer></v-spacer>      
+            
           <v-btn
             color="error"
             small
             @click.prevent="deleteTask"           
           >
-          <font-awesome-icon icon="trash-alt" />
-          
+          <font-awesome-icon icon="trash-alt" class="mr-1" />
+          DELETE
           </v-btn>
      
           </v-card-actions>
@@ -349,27 +349,17 @@
         );
       },
       editTask(event) {  
-        console.log("IT WORKS")
+        console.log("This is the edit task event: " + event)
         let eventObj = event     
         this.selectedEventId = eventObj.event.taskId;
         this.calendarTask = eventObj.event.task 
         this.$router.push(`/programs/${this.$route.params.programId}/calendar/projects/${this.$route.params.projectId}/tasks/${this.selectedEventId}`) 
       },
-      // openTask({event, nativeEvent}) {  
-      //   const open = () => {
-      //     this.selectedEvent = event
-      //     this.selectedElement = nativeEvent.target
-      //     requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))         
-      //   }        
-      //   if (this.selectedOpen) {
-      //     this.selectedOpen = false
-      //     requestAnimationFrame(() => requestAnimationFrame(() => open()))
-      //   } else {
-      //     open()
-      //   }
-
-      //   nativeEvent.stopPropagation()    
-      // },
+     detailsBtn() {  
+      //  Opens task edit form in context-menu
+        let taskId = this.selectedEvent.task.id  
+        this.$router.push(`/programs/${this.$route.params.programId}/calendar/projects/${this.$route.params.projectId}/tasks/${taskId}`) 
+     },
       deleteTask() {
       let task = this.selectedEvent.task             
       this.$confirm(`Are you sure you want to delete ${task.text}?`, 'Confirm Delete', {

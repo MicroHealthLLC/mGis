@@ -20,7 +20,7 @@
                 </span>
               </div>
               <div class="t_actions float-right">
-                <span v-show="is_overdue" v-tooltip="`overdue`" class="warning-icon"><i class="fa fa-exclamation-triangle"></i></span>
+                <span v-show="is_overdue" v-tooltip="`overdue`" class="warning-icon"><font-awesome-icon icon="calendar" class="text-danger mr-1"  /></span>
               </div>
            </div>
          </div>

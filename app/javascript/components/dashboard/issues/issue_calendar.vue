@@ -166,10 +166,9 @@
           v-model="selectedOpen"
           :close-on-content-click="false"
           ref="menu"
-          class="actionSummary"  
-          max-width="265"          
+          class="actionSummary"           
         >
-          <v-card class="actionSummary p-2" max-width="265">       
+          <v-card class="actionSummary p-2" min-width="265">       
            <v-list>
             <v-list-item>          
               <v-list-item-title>
@@ -214,7 +213,30 @@
             </v-list-item>        
            </v-list>
           <v-card-actions>
-            <v-spacer></v-spacer>      
+             <!-- <v-btn
+            small
+            class="mh-green text-light"
+          >
+             <font-awesome-icon icon="clipboard-list" class="mr-1" />
+            See More
+          </v-btn> -->
+           <v-btn
+            small
+            @click.prevent="detailsBtn"
+            color="primary"
+          >
+            <font-awesome-icon icon="edit" class="mr-1" />
+            Details
+          </v-btn>
+            
+          <v-btn
+            color="error"
+            small
+            @click.prevent="deleteTask"           
+          >
+          <font-awesome-icon icon="trash-alt" class="mr-1" />
+          DELETE
+          </v-btn>  
           </v-card-actions>
           </v-card>
          </v-menu>                
@@ -278,6 +300,11 @@
         'setTaskForManager',
         'setOnWatchFilter'
       ]),
+      ...mapActions([
+        'issueDeleted',
+        'issueUpdated',
+        'updateWatchedIssues'
+      ]), 
       //TODO: change the method name of isAllowed
       _isallowed(salut) {
         var programId = this.$route.params.programId;
@@ -331,6 +358,36 @@
            this.reRenderCalendar()
         }
       },
+      detailsBtn() {  
+      //  Opens Issue edit form in context-menu
+        let issueId = this.selectedEvent.issue.id  
+        this.$router.push(`/programs/${this.$route.params.programId}/calendar/projects/${this.$route.params.projectId}/issues/${issueId}`)
+     },
+      deleteIssue() {
+      let issue = this.selectedEvent.issue            
+      this.$confirm(`Are you sure you want to delete ${issue.title}?`, 'Confirm Delete', {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.issueDeleted(issue).then((value) => {
+            if (value === 'Success') {
+              this.$message({
+                message: `${issue.title} was deleted successfully.`,
+                type: "success",
+                showClose: true,
+              });
+            }
+            this.reRenderCalendar()
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled',
+            showClose: true
+          });          
+        });
+    },
       showSummary ({ nativeEvent, event }) {        
         const open = () => {
           this.selectedEvent = event

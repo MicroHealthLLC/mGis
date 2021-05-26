@@ -168,7 +168,7 @@
           :close-on-content-click="false"
           ref="menu"          
         >
-       <v-card class="actionSummary p-2" max-width="265">       
+       <v-card class="actionSummary p-2" min-width="265">       
         <v-list>
         <v-list-item>          
           <v-list-item-title>
@@ -184,7 +184,7 @@
         </v-list-item>
          <v-list-item>
           <v-list-item-title>          
-            <span class="d-inline mr-1"><small><b>Start Date:</b></small></span>            
+            <span class="d-inline mr-1"><small><b>Identified Date:</b></small></span>            
              {{ selectedEvent.start }}
           </v-list-item-title>
         </v-list-item>
@@ -200,7 +200,7 @@
             {{ selectedEvent.end }}
           </v-list-item-title>
         </v-list-item>
-         <v-list-item>
+         <v-list-item >
            <v-list-item-title>
             <span class="d-inline mr-1"><small><b>Progress:</b></small></span>  
           {{ selectedEvent.progess }}%          
@@ -220,20 +220,30 @@
         
       </v-list>
         <v-card-actions>
-          <v-spacer></v-spacer> 
-          <v-btn
+           <!-- <v-btn
             small
-            color="primary"        
+            @click.prevent="showMore"
+            class="mh-green text-light"
           >
-            Another Action
-          </v-btn>
+             <font-awesome-icon icon="clipboard-list" class="mr-1" />
+            See More
+          </v-btn> -->
            <v-btn
+            small
+            @click.prevent="detailsBtn"
+            color="primary"
+          >
+            <font-awesome-icon icon="edit" class="mr-1" />
+            Details
+          </v-btn>
+            
+          <v-btn
             color="error"
             small
             @click.prevent="deleteRisk"           
           >
-          <font-awesome-icon icon="trash" class="mr-1"  />
-            Delete
+          <font-awesome-icon icon="trash-alt" class="mr-1" />
+          DELETE
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -264,7 +274,8 @@
         risksQuery: '',    
         riskNames: [],  
         componentKey: 0, 
-        riskIds:[],      
+        riskIds:[], 
+        seeLess: true,     
         riskData: [],
         riskStartDates: [],
         riskEndDates: [],   
@@ -302,6 +313,7 @@
       ]),
       ...mapActions([
         'riskDeleted',
+        'riskUpdated',
         'taskUpdated',
         'updateWatchedTasks'
       ]), 
@@ -338,6 +350,11 @@
       this.$router.push(`/programs/${this.$route.params.programId}/calendar/projects/${this.$route.params.projectId}/risks/${this.selectedEventId}`)
               
     },
+    detailsBtn() {  
+      //  Opens Risk edit form in context-menu
+      let riskId = this.selectedEvent.risk.id  
+      this.$router.push(`/programs/${this.$route.params.programId}/calendar/projects/${this.$route.params.projectId}/risks/${riskId}`)
+     },
     deleteRisk() {
       let risk = this.selectedEvent.risk
       this.$confirm(`Are you sure you want to delete ${risk.text}?`, 'Confirm Delete', {
@@ -657,6 +674,9 @@ input[type=search] {
  }
  .upperCase {
    text-transform: capitalize;
+ }
+ .seeLess {
+   display: none;
  }
 
 </style> 

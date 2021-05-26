@@ -467,7 +467,7 @@ jQuery(function($) {
             <form id="dialog_confirm" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 49.25px; max-height: none; height: auto;">
               <ul>
                 <li>
-                  <label>Project</label>
+                  <label>Program</label>
                   <input name="project" class="text" type="text" readOnly :value="project.project.name">
                 </li>
                 <li>
