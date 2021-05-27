@@ -108,10 +108,10 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
            <v-checkbox
-            v-model="checkbox"
+            v-model="C_showAllEventsToggle"
             class="mr-5 mt-6 mb-0"
             :key="componentKey"         
-            @click="showAllEvents"
+            @click.prevent="showAllEvents"
             :label="`Show All`"
           ></v-checkbox>
           
@@ -291,7 +291,7 @@
         selectedEvent: {},     
         selectedOpen: false,
         showContextMenu: false,
-        checkbox: false, 
+        checkbox: this.getShowAllEventsToggle, 
         events: [],
         names: [],           
       }
@@ -305,6 +305,7 @@
         'setCalendarViewFilter',
         'setTaskIssueProgressStatusFilter',
         'setTaskIssueOverdueFilter',
+        'setShowAllEventsToggle',
         'setTaskTypeFilter',
         'setMyActionsFilter',
         'setOnWatchFilter',
@@ -384,14 +385,6 @@
       e.preventDefault();
       this.$refs.menu.open(e);
      },
-    showAllEvents(){
-     this.checkbox == !this.checkbox
-        if (this.checkbox == true) {
-          this.reRenderCalendar()
-        } else if (this.checkbox == false){
-           this.reRenderCalendar()
-        }
-      },
      showSummary ({ nativeEvent, event }) {        
         const open = () => {
           this.selectedEvent = event   
@@ -405,6 +398,18 @@
           open()
         }
         nativeEvent.stopPropagation()
+      },
+    showAllEvents(){
+        this.setShowAllEventsToggle(!this.getShowAllEventsToggle)
+        console.log(this.getShowAllEventsToggle)
+        if (this.getShowAllEventsToggle == true) {
+        
+          this.reRenderCalendar()
+        } else if (this.getShowAllEventsToggle == false){
+        
+           this.events = [];
+           this.reRenderCalendar()
+        }
       },
     updateRange ({ start, end }) {    
       // Mapping over Risk Names, Start Dates, and Due Dates 
@@ -440,7 +445,7 @@
         })
       }
       // This is the main Events array pushed into Calendar
-    if (this.checkbox == false && !(this.risksQuery.length > 0) ) {
+    if (this.getShowAllEventsToggle == false && !(this.risksQuery.length > 0) ) {
            this.events = []
          } else 
           this.events = events
@@ -457,6 +462,7 @@
         'getCalendarViewFilterOptions',
         'getCalendarViewFilter',
         'calendarViewFilter',
+        'getShowAllEventsToggle',
         'getRiskPriorityLevelFilter',
         'getRiskPriorityLevelFilterOptions',
         'getRisksPerPageFilterOptions',
@@ -511,6 +517,14 @@
           this.setAdvancedFilter(value)
         }
       },
+      C_showAllEventsToggle: {           
+        get() {     
+          return this.getShowAllEventsToggle        
+        },
+        set(value) {
+          this.setShowAllEventsToggle(value)  ||  this.setShowAllEventsToggle(!this.getShowAllEventsToggle)
+        }
+      },
       C_taskIssueProgressStatusFilter: {
         get() {
           if (this.getTaskIssueProgressStatusFilter.length < 1) {
@@ -562,21 +576,10 @@
     risksQuery: {
       handler() {
        if(this.risksQuery.length > 0) {
-        this.checkbox = false;
-         this.reRenderCalendar()
+        this.reRenderCalendar()
        } else if (!(this.risksQuery.length > 0) && this.checkbox == false) {
          this.events = [];
          this.reRenderCalendar()
-       }
-      },
-    },
-    checkbox: {
-      handler() {
-       if(this.checkbox == false) {
-         this.reRenderCalendar()
-         this.events = [];
-       } else if (this.checkbox == true) {
-         this.risksQuery = "";
        }
       },
     },
@@ -611,6 +614,9 @@
 }
 /deep/.v-event {
   color: #383838 !important;
+}
+/deep/.v-event:hover {
+  background-color: rgba(214, 219, 223, .45) !important;
 }
 /deep/.v-event-start {
   border-left-color: #41b883 !important;

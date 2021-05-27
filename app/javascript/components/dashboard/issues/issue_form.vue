@@ -118,6 +118,25 @@
               <span><i class="fas fa-eye mr-1"></i></span
               ><small style="vertical-align: text-top">On Watch</small>
             </span>
+
+            <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable float-right"
+              @click.prevent.stop="toggleImportant"
+              data-cy="issue_important"
+            >
+              <span v-show="DV_issue.important" class="check_box mr-1">
+                <i class="far fa-check-square"></i>
+              </span>
+              <span v-show="!DV_issue.important" class="empty_box mr-1">
+                <i class="far fa-square"></i>
+              </span>
+              <span>
+                <i class="fas fa-eye"></i>
+              </span>
+              <small style="vertical-align:text-top"> Important</small>
+            </span>
+
             <el-input
               name="Issue Name"
               v-validate="'required'"
@@ -1274,6 +1293,7 @@ export default {
         issueStageId: "",
         description: "",
         autoCalculate: true,
+        important: false,
         responsibleUserIds: [],
         accountableUserIds: [],
         consultedUserIds: [],
@@ -1487,6 +1507,9 @@ export default {
       this.DV_issue = { ...this.DV_issue, watched: !this.DV_issue.watched };
       this.updateWatchedIssues(this.DV_issue);
     },
+    toggleImportant() {
+      this.DV_issue = { ...this.DV_issue, important: !this.DV_issue.important };
+    },
     removeFromWatch() {
       if (this.DV_issue.progress == 100 && this.DV_issue.watched == true) {
         this.toggleWatched();
@@ -1510,6 +1533,7 @@ export default {
         formData.append("issue[start_date]", this.DV_issue.startDate);
         formData.append("issue[issue_type_id]", this.DV_issue.issueTypeId);
         formData.append("issue[task_type_id]", this.DV_issue.taskTypeId);
+        formData.append("issue[important]", this.DV_issue.important);
         formData.append(
           "issue[issue_severity_id]",
           this.DV_issue.issueSeverityId

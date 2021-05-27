@@ -3,6 +3,7 @@
     <div v-if="_isallowed('read')">
       <div class="d-flex align-item-center w-75 float-right filters-wrapper">
         <div class="ml-2 task-search-bar w-100">
+        <label class="font-sm mb-0"><span style="visibility:hidden">|</span></label>
           <el-input
             type="search"          
             placeholder="Search by Issue, Category, or Assigned User"
@@ -14,7 +15,8 @@
           <el-button slot="prepend" icon="el-icon-search"></el-button>
         </el-input>
         </div>
-        <div class="mx-1 font-sm w-75">
+        <div class="mx-1 w-75">
+          <label class="font-sm my-0">Category</label>
           <el-select
            v-model="C_taskTypeFilter"
            class="w-100"
@@ -32,7 +34,8 @@
           </el-option>
           </el-select>
          </div>
-  <div class="w-75" style="position:relative">     
+  <div class="w-75" style="position:relative">  
+  <label class="font-sm my-0">Filters</label>      
   <el-collapse class="issuesFilter w-100"  style="position:absolute">
   <el-collapse-item name="1">
     <template slot="title" class="text-right">
@@ -838,7 +841,7 @@
   }
   .filters-wrapper {
     float: right;
-    margin-top: -60px;
+    margin-top: -85px;
   }
 /deep/.el-collapse   {
   border-bottom: none !important;

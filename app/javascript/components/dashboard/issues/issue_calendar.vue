@@ -110,10 +110,10 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-checkbox
-            v-model="checkbox"
+            v-model="C_showAllEventsToggle"
             class="mr-5 mt-6 mb-0"
             :key="componentKey"         
-            @click="showAllEvents"
+            @click.prevent="showAllEvents"
             :label="`Show All`"
           ></v-checkbox>
             <v-btn        
@@ -151,8 +151,7 @@
           color="primary"
           :events="events"
           :event-color="getEventColor"
-          :type="C_calendarView.id"      
-          :issue="events"  
+          :type="C_calendarView.id"        
           :key="componentKey"                    
           @click:event="editIssue"
           @click:more="viewDay"
@@ -267,9 +266,14 @@
         issueNames: [], 
         componentKey: 0,  
         issueIds:[],  
-        checkbox: false,     
         issueData: [],
         issueStartDates: [],
+          colors: {
+          onScheduleColor: '#5cb85c',
+          defaultColor: 'rgba(214, 219, 223, .15)',
+          warningColor: '#f0ad4e',
+          pastDueColor: '#d9534f',
+        },        
         issueEndDates: [],   
         selectedEventId: {},
         calendarIssue: {},
@@ -289,6 +293,7 @@
         'setAdvancedFilter',
         'setCalendarViewFilter',
         'setTaskIssueProgressStatusFilter',
+        'setShowAllEventsToggle',
         'setIssuesPerPageFilter',
         'setTaskIssueOverdueFilter',
         'setIssueTypeFilter',
@@ -306,20 +311,20 @@
         'updateWatchedIssues'
       ]), 
       //TODO: change the method name of isAllowed
-      _isallowed(salut) {
-        var programId = this.$route.params.programId;
-        var projectId = this.$route.params.projectId
-        let fPrivilege = this.$projectPrivileges[programId][projectId]
-        let permissionHash = {"write": "W", "read": "R", "delete": "D"}
-        let s = permissionHash[salut]
-        return this.$currentUser.role == "superadmin" || fPrivilege.issues.includes(s); 
-      },
+      // _isallowed(salut) {
+      //   var programId = this.$route.params.programId;
+      //   var projectId = this.$route.params.projectId
+      //   let fPrivilege = this.$projectPrivileges[programId][projectId]
+      //   let permissionHash = {"write": "W", "read": "R", "delete": "D"}
+      //   let s = permissionHash[salut]
+      //   return this.$currentUser.role == "superadmin" || fPrivilege.issues.includes(s); 
+      // },
       reRenderCalendar() {
         this.componentKey += 1;
       },
       viewDay ({ date }) {
         this.focus = date
-        this.type = 'day'
+        this.setCalendarViewFilter({id: 'day', name: 'Day', value: 'day'})
       },
       getEventColor (event) {
         return event.color
@@ -350,11 +355,13 @@
       e.preventDefault();
       this.$refs.menu.open(e);
      },
-     showAllEvents(){
-      this.checkbox == !this.checkbox
-       if (this.checkbox == true) {
+    showAllEvents(){
+        this.setShowAllEventsToggle(!this.getShowAllEventsToggle)
+        console.log(this.getShowAllEventsToggle)
+        if (this.getShowAllEventsToggle == true) {
           this.reRenderCalendar()
-        } else if (this.checkbox == false){
+        } else if (this.getShowAllEventsToggle == false){
+           this.events = [];
            this.reRenderCalendar()
         }
       },
@@ -432,12 +439,13 @@
             category: this.categories[i],  
             watch: this.onWatch[i],
             pastDue: this.overdue[i], 
-            progess: this.percentage[i]      
+            progess: this.percentage[i],
+            color: this.colors.defaultColor,        
             // timed: !allDay,            
           })
         }       
         // This is the main Events array pushed into Calendar
-        if (this.checkbox == false && !(this.issuesQuery.length > 0) ) {
+        if (this.getShowAllEventsToggle == false && !(this.issuesQuery.length > 0) ) {
            this.events = []
          } else 
           this.events = events
@@ -454,6 +462,7 @@
         'getCalendarViewFilterOptions',
         'getCalendarViewFilter',
         'calendarViewFilter',
+        'getShowAllEventsToggle',
         'getAdvancedFilterOptions',
         'getIssuesPerPageFilterOptions',
         'getIssuesPerPageFilter',
@@ -563,6 +572,15 @@
           this.setTaskTypeFilter(value)
         }
       },
+    C_showAllEventsToggle: {                  
+        get() {
+         return this.getShowAllEventsToggle                 
+        },
+        set(value) {
+          this.setShowAllEventsToggle(value) ||  this.setShowAllEventsToggle(!this.getShowAllEventsToggle)
+        }
+        
+      },
      C_calendarView: {
       get() {
         return this.getCalendarViewFilter || {id: 'month', name: 'Month', value: 'month'}
@@ -587,21 +605,10 @@
     issuesQuery: {
       handler() {
        if(this.issuesQuery.length > 0) {
-         this.checkbox = false;
-         this.reRenderCalendar()
+          this.reRenderCalendar()
        } else if (!(this.issuesQuery.length > 0) && this.checkbox == false) {
          this.events = [];
          this.reRenderCalendar()
-       }
-      },
-    },
-    checkbox: {
-      handler() {
-       if(this.checkbox == false) {
-         this.reRenderCalendar()
-         this.events = [];
-       } else if (this.checkbox == true) {
-         this.issuesQuery = "";
        }
       },
     },
@@ -634,6 +641,9 @@
 /deep/.v-event {
   color: #383838 !important;
 }
+/deep/.v-event:hover {
+  background-color: rgba(214, 219, 223, .45) !important;
+}
 /deep/.v-event-start {
   border-left-color: #41b883 !important;
   border-left-width: thick;
@@ -658,9 +668,6 @@
 .filters-wrapper {
   float: right;
   margin-top: -83.5px;
-}
-/deep/.v-event {
-  visibility: hidden;
 }
 /deep/.v-event.v-event-start, /deep/.v-event.v-event-end {
   visibility: visible !important;

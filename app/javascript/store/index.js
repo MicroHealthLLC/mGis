@@ -33,6 +33,7 @@ export default new Vuex.Store({
     advancedFilter: [{id: 'active', name: 'Active', value: 'active', filterCategoryId: 'progressStatusFilter', filterCategoryName: 'Progress Status'}],
     contentLoaded: false,
     toggleRACI: true,
+    showAllEventsToggle: false,
     mapLoading: true,
     sideLoading: true,
     projects: new Array,
@@ -168,6 +169,7 @@ export default new Vuex.Store({
     },
     setContentLoaded: (state, loading) => state.contentLoaded = loading,
     setToggleRACI: (state, raci) => state.toggleRACI = raci,
+    setShowAllEventsToggle: (state, showAll) => state.showAllEventsToggle = showAll,
     setMapLoading: (state, loading) => state.mapLoading = loading,
     setSideLoading: (state, loading) => state.sideLoading = loading,
     setProjects: (state, projects) => state.projects = projects,
@@ -457,6 +459,8 @@ export default new Vuex.Store({
         {id: 'notMyAction', name: 'Not My Assignments', value: 'not my action', filterCategoryId: 'myActionsFilter', filterCategoryName: 'My Assignments'},
         {id: 'onWatch', name: 'On Watch', value: 'onWatch', filterCategoryId: 'onWatchFilter', filterCategoryName: 'On Watch'},
         {id: 'notOnWatch', name: 'Not On Watch', value: 'onWatch', filterCategoryId: 'onWatchFilter', filterCategoryName: 'On Watch'},
+        {id: 'important', name: 'Marked as Important', value: 'important', filterCategoryId: 'importantFilter', filterCategoryName: 'Important'},
+        {id: 'notImportant', name: 'Marked as Not Important', value: 'notImportant', filterCategoryId: 'importantFilter', filterCategoryName: 'Important'},
 
         // Priority Level is specific to Risk
         // {id: 'low', name: 'Low', value: 'low', filterCategoryId: 'riskPriorityLevelFilter', filterCategoryName: 'Priority Level'},
@@ -556,6 +560,7 @@ export default new Vuex.Store({
         ['overDueFilter','Action Overdue'],
         ['myActionsFilter', 'My Assignments'],
         ['onWatchFilter', 'On Watch'],
+        ['importantFilter', 'Important'],
         ['progressStatusFilter', 'Action Status']
 
       ]
@@ -571,7 +576,7 @@ export default new Vuex.Store({
         }
         return user_names
       // Advanced filters
-      }else if( ['overDueFilter', 'myActionsFilter', 'onWatchFilter','progressStatusFilter'].includes(_filterValue) ){
+      }else if( ['overDueFilter', 'myActionsFilter', 'onWatchFilter','progressStatusFilter', 'importantFilter'].includes(_filterValue) ){
 
         var aFilter = getter.getAdvancedFilter
         var user_names = _.map( _.filter(aFilter, fHash => fHash.filterCategoryId == _filterValue), 'name' ).join(", ")
@@ -740,6 +745,7 @@ export default new Vuex.Store({
     },
     contentLoaded: state => state.contentLoaded,
     getToggleRACI: state => state.toggleRACI,
+    getShowAllEventsToggle: state => state.showAllEventsToggle,
 
     mapLoading: state => state.mapLoading,
     sideLoading: state => state.sideLoading,
@@ -816,6 +822,9 @@ export default new Vuex.Store({
       let taksIssueNotOnWatch = _.map(aFilter, 'id').includes("notOnWatch")
       let taskIssueOnWatch =  _.map(aFilter, 'id').includes("onWatch")
 
+      let taksIssueNotImportant = _.map(aFilter, 'id').includes("notImportant")
+      let taskIssueImporant =  _.map(aFilter, 'id').includes("important")
+
       let taskIssueMyAction = _.map(aFilter, 'id').includes("myAction")
       let taksIssueNotMyAction = _.map(aFilter, 'id').includes("notMyAction")
 
@@ -837,6 +846,7 @@ export default new Vuex.Store({
         (taskIssueActiveProgressStatus == true && taskIssueCompletedProgressStatus == true) ||
         (taskIssueMyAction == true && taksIssueNotMyAction == true) ||
         (taskIssueOnWatch == true && taksIssueNotOnWatch == true) ||
+        (taskIssueImporant == true && taksIssueNotImportant == true) ||
         (taskIssueOverdue == true && taskIssueNotOverdue == true)
         )  {
         valid = true
@@ -897,6 +907,15 @@ export default new Vuex.Store({
 
       if(taskIssueOnWatch == false && taksIssueNotOnWatch == true){
         valid = valid && watches.includes(false)
+      }
+
+      var importants = _.uniq(_.map(resources, 'important'))
+      if(taskIssueImporant == true && taksIssueNotImportant == false){
+        valid = valid && importants.includes(true)
+      }
+
+      if(taskIssueImporant == false && taksIssueNotImportant == true){
+        valid = valid && importants.includes(false)
       }
 
       // if(riskPriorityLevel == true){

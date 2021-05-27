@@ -36,6 +36,53 @@ class Task < ApplicationRecord
     append :text => " - Copy"
   end
 
+  def self.params_to_permit
+    [
+      :text,
+      :task_type_id,
+      :task_stage_id,
+      :facility_project_id,
+      :due_date,
+      :start_date,
+      :description,
+      :progress,
+      :auto_calculate,
+      :watched,    
+      :kanban_order,
+      :important,
+      task_files: [],
+      user_ids: [],
+      sub_task_ids: [],
+      sub_issue_ids: [],
+      sub_risk_ids: [],
+      checklists_attributes: [
+        :id,
+        :_destroy,
+        :text,
+        :user_id,
+        :checked,
+        :position,
+        :due_date,
+        :listable_type,
+        :listable_id,
+        :position,
+        progress_lists_attributes: [
+          :id,
+          :_destroy,
+          :body,
+          :checklist_id,
+          :user_id
+        ]
+      ],
+      notes_attributes: [
+        :id,
+        :_destroy,
+        :user_id,
+        :body
+      ]
+    ]
+  end
+
   def update_facility_project
     if self.previous_changes.keys.include?("progress")
       fp = facility_project
@@ -129,7 +176,7 @@ class Task < ApplicationRecord
       checklists: checklists.as_json,
       notes: notes.as_json,
       notes_updated_at: notes.map(&:updated_at).compact.uniq,
-
+      important: important,
 
       # Add RACI user names
       # Last name values added for improved sorting in datatables
@@ -164,47 +211,7 @@ class Task < ApplicationRecord
   # In future we will use this method in background process
   def create_or_update_task(params, user)
 
-    task_params = params.require(:task).permit(
-      :text,
-      :task_type_id,
-      :task_stage_id,
-      :facility_project_id,
-      :due_date,
-      :start_date, 
-      :description,
-      :progress,
-      :auto_calculate,
-      :watched,
-      :kanban_order,
-      task_files: [],
-      user_ids: [],
-      sub_task_ids: [],
-      sub_issue_ids: [],
-      sub_risk_ids: [],
-      checklists_attributes: [
-        :id,
-        :_destroy,
-        :text,
-        :user_id,
-        :checked,
-        :due_date,
-        :listable_type,
-        :listable_id,
-        :position,
-        progress_lists_attributes: [
-          :id,
-          :_destroy,
-          :body,
-          :checklist_id
-        ]
-      ],
-      notes_attributes: [
-        :id,
-        :_destroy,
-        :user_id,
-        :body
-      ]
-    )
+    task_params = params.require(:task).permit(Task.params_to_permit)
 
 
     task = self

@@ -104,57 +104,7 @@ class RisksController < AuthenticatedController
   end
 
   def risk_params
-    params.require(:risk).permit(
-      :approved,
-      :approved_at,
-      :approval_time,
-      :facility_project_id,
-      :risk_description,
-      :impact_description,
-      :probability_description,
-      :probability,
-      :probability_name,
-      :impact_level,
-      :impact_level_name,
-      :risk_approach,
-      :risk_approach_description,
-      :task_type_id,
-      :task_type, 
-      :risk_stage_id,
-      :progress,
-      :start_date,
-      :due_date,
-      :auto_calculate,
-      :text,
-      :watched,
-      user_ids: [],
-      risk_files: [],
-      sub_task_ids: [],
-      sub_issue_ids: [],
-      sub_risk_ids: [],
-      checklists_attributes: [
-        :id,
-        :_destroy,
-        :text,
-        :user_id,
-        :checked,
-        :position,
-        :due_date,
-        progress_lists_attributes: [
-          :id,
-          :_destroy,
-          :body,
-          :checklist_id,
-          :user_id
-        ]
-      ],
-      notes_attributes: [
-        :id,
-        :_destroy,
-        :user_id,
-        :body
-      ]
-    )
+    params.require(:risk).permit(Risk.params_to_permit)
   end
 
   def destroy_file_ids

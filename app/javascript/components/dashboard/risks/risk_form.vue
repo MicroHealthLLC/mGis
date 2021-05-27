@@ -99,6 +99,9 @@
             <div v-show="currentTab == 'risk'" class="paperLookTab">
               <!-- RISK OVERVIEW TAB -->
               <div class="form-group mx-4">
+                <label class="font-sm mt-3"
+                  >Risk Name <span style="color: #dc3545">*</span></label
+                >
                 <span
                   v-if="_isallowed('write')"
                   class="watch_action mt-3 clickable float-right"
@@ -114,9 +117,27 @@
                   <span><i class="fas fa-eye mr-1"></i></span>
                   <small style="vertical-align: text-top">On Watch</small>
                 </span>
-                <label class="font-sm mt-3"
-                  >Risk Name <span style="color: #dc3545">*</span></label
+
+                <span
+                  v-if="_isallowed('write')"
+                  class="watch_action clickable float-right"
+                  @click.prevent.stop="toggleImportant"
+                  data-cy="issue_important"
                 >
+                  <span v-show="DV_risk.important" class="check_box mr-1">
+                    <i class="far fa-check-square"></i>
+                  </span>
+                  <span v-show="!DV_risk.important" class="empty_box mr-1">
+                    <i class="far fa-square"></i>
+                  </span>
+                  <span>
+                    <i class="fas fa-eye"></i>
+                  </span>
+                  <small style="vertical-align:text-top"> Important</small>
+                </span>
+
+
+
                 <el-input
                   v-validate="'required'"
                   placeholder="Risk Name"
@@ -1966,6 +1987,7 @@ export default {
         getRiskImpactLevelNames: "1 - Negligible",
         dueDate: "",
         autoCalculate: true,
+        important: false,
         // riskApproverUserIds: [],
         responsibleUserIds: [],
         accountableUserIds: [],
@@ -2161,6 +2183,9 @@ export default {
       this.DV_risk = { ...this.DV_risk, watched: !this.DV_risk.watched };
       this.updateWatchedRisks(this.DV_risk);
     },
+    toggleImportant() {
+      this.DV_risk = { ...this.DV_risk, important: !this.DV_risk.important };
+    },
     removeFromWatch() {
       if (this.DV_risk.progress == 100 && this.DV_risk.watched == true) {
         this.toggleWatched();
@@ -2241,6 +2266,7 @@ export default {
         formData.append("risk[start_date]", this.DV_risk.startDate);
         formData.append("risk[due_date]", this.DV_risk.dueDate);
         formData.append("risk[auto_calculate]", this.DV_risk.autoCalculate);
+        formData.append("risk[important]", this.DV_risk.important);
         formData.append(
           "risk[destroy_file_ids]",
           _.map(this.destroyedFiles, "id")

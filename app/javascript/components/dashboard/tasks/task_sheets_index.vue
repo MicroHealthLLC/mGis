@@ -2,7 +2,8 @@
   <div id="tasks-index" class="my-4 ml-1" data-cy="task_sheet_index">
     <div v-if="_isallowed('read')">
       <div class="d-flex align-item-center justify-content-between mb-2 w-75 filters-wrapper">
-           <div class="ml-2 task-search-bar w-100">
+         <div class="ml-2 task-search-bar w-100">
+          <label class="font-sm mb-0"><span style="visibility:hidden">|</span></label>
            <el-input
             type="search"          
             placeholder="Search by Task, Category, or Assigned User"
@@ -15,6 +16,7 @@
         </el-input>
         </div>
         <div class="mx-1 w-75">
+          <label class="font-sm my-0">Category</label>
           <el-select
            v-model="C_taskTypeFilter"
            class="w-100"
@@ -34,6 +36,7 @@
         </div>
 
         <div class="w-75">
+          <label class="font-sm my-0">Flags</label>   
            <el-select
            v-model="C_sheetsTaskFilter"
            class="w-100"
@@ -744,6 +747,6 @@
 }
 .filters-wrapper {
   float: right;
-  margin-top: -60px;
+  margin-top: -85px;
 }
 </style>

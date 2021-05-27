@@ -100,49 +100,7 @@ class IssuesController < AuthenticatedController
   end
 
   def issue_params
-    params.require(:issue).permit(
-      :title,
-      :description,
-      :issue_type_id,
-      :issue_stage_id,
-      :issue_severity_id,
-      :facility_project_id,
-      :progress,
-      :start_date,
-      :due_date,
-      :auto_calculate,
-      :watched,
-      :task_type_id,
-      :kanban_order,
-      issue_files: [],
-      user_ids: [],
-      sub_task_ids: [],
-      sub_issue_ids: [],
-      sub_risk_ids: [],
-      checklists_attributes: [
-        :id,
-        :_destroy,
-        :text,
-        :user_id,
-        :checked,
-        :position,
-        :due_date,
-        :position,
-         progress_lists_attributes: [
-          :id,
-          :_destroy,
-          :body,
-          :checklist_id,
-          :user_id
-        ]
-      ],
-      notes_attributes: [
-        :id,
-        :_destroy,
-        :user_id,
-        :body
-      ]
-    )
+    params.require(:issue).permit(Issue.params_to_permit)
   end
 
   def destroy_file_ids

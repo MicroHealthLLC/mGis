@@ -117,11 +117,11 @@
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
-           <v-checkbox
-            v-model="checkbox"
+           <v-checkbox     
+           v-model="C_showAllEventsToggle"     
             class="mr-5 mt-6 mb-0"
             :key="componentKey"         
-            @click="showAllEvents"
+            @click.prevent="showAllEvents"
             :label="`Show All`"
           ></v-checkbox>
            <v-btn        
@@ -206,9 +206,10 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-title>
-              <span class="d-inline mr-1"><small><b>Progress:</b></small></span>  
-            {{ selectedEvent.progess }}%          
+              <span class=d-inline mr-1 ><small><b>Progress:</b></small></span>    
+            {{ selectedEvent.progess }}%      
             </v-list-item-title>
+            <!-- class="d-none mr-1"  :class="{ 'd-inline mr-1': showMore}" -->
           </v-list-item>
           <v-list-item>
             <v-list-item-title>
@@ -224,13 +225,14 @@
           </v-list>
           <v-card-actions>      
           
-          <!-- <v-btn
+          <v-btn
             small
             class="mh-green text-light"
+            @click.prevent="showM"
           >
              <font-awesome-icon icon="clipboard-list" class="mr-1" />
             See More
-          </v-btn> -->
+          </v-btn>
            <v-btn
             small
             @click.prevent="detailsBtn"
@@ -276,12 +278,13 @@
      },
     data() {
       return {         
-        focus: '',        
+        focus: '',     
+        showMore: false,    
         type: this.C_calendarView,     
         tasksQuery: '',
         taskNames: [], 
         taskIds:[],       
-        checkbox: false,
+        checkbox: this.C_showAllEventsToggle,
         taskData: [],     
         componentKey: 0,
         taskStartDates: [],       
@@ -311,6 +314,7 @@
         'setCalendarViewFilter',
         'setTaskIssueOverdueFilter',
         'setTaskTypeFilter',
+        'setShowAllEventsToggle',
         'setMyActionsFilter',
         'setOnWatchFilter',     
         'setTaskForManager',
@@ -330,7 +334,10 @@
       },
       getEventColor (event) {
         return event.color
-      },  
+      }, 
+      showM(){
+        this.showMore = !this.showMore
+      }, 
       setToday () {
         // this.todayView = true 
         this.focus = ''       
@@ -389,17 +396,7 @@
       e.preventDefault();
       this.$refs.menu.open(e);
       },
-      showAllEvents(){
-      this.checkbox == !this.checkbox
-        if (this.checkbox == true) {
-          this.reRenderCalendar()
-        } else if (this.checkbox == false){
-           this.reRenderCalendar()
-        }
-      },
-      edi(){
-        console.log("It Wowe")
-      },
+
       showSummary ({ nativeEvent, event }) {   
         const open = () => {
           this.selectedEvent = event
@@ -414,6 +411,18 @@
         }
 
         nativeEvent.stopPropagation()    
+      },
+    showAllEvents(){
+        this.setShowAllEventsToggle(!this.getShowAllEventsToggle)
+         console.log(this.getShowAllEventsToggle)
+        if (this.getShowAllEventsToggle == true) {
+        
+          this.reRenderCalendar()
+        } else if (this.getShowAllEventsToggle == false){
+           this.events = [];
+         
+           this.reRenderCalendar()
+        }
       },
       updateRange ({ start, end }) {    
         // Mapping over Task Names, Start Dates, and Due Dates 
@@ -449,7 +458,7 @@
         }
           // This is the main Events array pushed into Calendar
         //  this.events = events
-         if (this.checkbox == false && !(this.tasksQuery.length > 0) ) {
+         if (this.getShowAllEventsToggle == false && !(this.tasksQuery.length > 0) ) {
            this.events = []
          } else 
           this.events = events
@@ -468,6 +477,8 @@
         'getCalendarViewFilterOptions',
         'calendarViewFilter',  
         'getCalendarViewFilter',
+         'getShowAllEventsToggle',
+        'getShowAllToggle',
         'filterDataForAdvancedFilter', 
         'getAdvancedFilter',     
         'getTaskIssueProgressStatusOptions',
@@ -487,6 +498,7 @@
         "currentProject",
         'taskUserFilter',
         'taskTypes',    
+     
      
        ]),
        _isallowed() {
@@ -515,6 +527,15 @@
         set(value) {
           this.setAdvancedFilter(value)
         }
+      },
+     C_showAllEventsToggle: {                  
+        get() {
+         return this.getShowAllEventsToggle                 
+        },
+        set(value) {
+          this.setShowAllEventsToggle(value) ||  this.setShowAllEventsToggle(!this.getShowAllEventsToggle)
+        }
+        
       },
       C_taskIssueProgressStatusFilter: {
         get() {
@@ -569,21 +590,10 @@
     tasksQuery: {
       handler() {
        if(this.tasksQuery.length > 0) {
-         this.checkbox = false;
          this.reRenderCalendar()
        } else if (!(this.tasksQuery.length > 0) && this.checkbox == false) {
          this.events = [];
          this.reRenderCalendar()
-       }
-      },
-    },
-    checkbox: {
-      handler() {
-       if(this.checkbox == false) {
-         this.reRenderCalendar()
-         this.events = [];
-       } else if (this.checkbox == true) {
-         this.tasksQuery = "";
        }
       },
     },
@@ -615,7 +625,9 @@
 }
 /deep/.v-event {
   color: #383838 !important;
-
+}
+/deep/.v-event:hover {
+  background-color: rgba(214, 219, 223, .45) !important;
 }
 /deep/.v-event-start {
   border-left-color: #41b883 !important;
@@ -680,5 +692,11 @@ input[type=search] {
     border: solid 1px lightgray;
    }
  }
+//  .dontShow {
+//    display: none;
+//  }
+//  .show {
+//    display: block;
+//  }
 
 </style> 

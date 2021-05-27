@@ -42,6 +42,61 @@ class Risk < ApplicationRecord
     append :text => " - Copy"
   end
 
+  def self.params_to_permit
+    [
+      :approved,
+      :approved_at,
+      :approval_time,
+      :facility_project_id,
+      :risk_description,
+      :impact_description,
+      :probability_description,
+      :probability,
+      :probability_name,
+      :impact_level,
+      :impact_level_name,
+      :risk_approach,
+      :risk_approach_description,
+      :task_type_id,
+      :task_type, 
+      :risk_stage_id,
+      :progress,
+      :start_date,
+      :due_date,
+      :auto_calculate,
+      :text,
+      :watched,
+      :important,
+      user_ids: [],
+      risk_files: [],
+      sub_task_ids: [],
+      sub_issue_ids: [],
+      sub_risk_ids: [],
+      checklists_attributes: [
+        :id,
+        :_destroy,
+        :text,
+        :user_id,
+        :checked,
+        :position,
+        :due_date,
+        progress_lists_attributes: [
+          :id,
+          :_destroy,
+          :body,
+          :checklist_id,
+          :user_id
+        ]
+      ],
+      notes_attributes: [
+        :id,
+        :_destroy,
+        :user_id,
+        :body
+      ]
+    ]
+  end
+
   def files_as_json
     risk_files.map do |file|
       if file.blob.content_type == "text/plain"
@@ -236,59 +291,7 @@ class Risk < ApplicationRecord
 
   # Below this line added by JR on 2/12/2021.....Delete this comment if no errors after 30 days.
   def create_or_update_risk(params, user)
-    risk_params = params.require(:risk).permit(
-      :approved,
-      :approved_at,
-      :approval_time,
-      :facility_project_id,
-      :risk_description,
-      :impact_description,
-      :probability_description,
-      :probability,
-      :probability_name,
-      :impact_level,
-      :impact_level_name,
-      :risk_approach,
-      :risk_approach_description,
-      :task_type_id,
-      :task_type,
-      :risk_stage, 
-      :risk_stage_id,
-      :progress,
-      :start_date,
-      :due_date,
-      :auto_calculate,
-      :text,
-      :watched,
-      user_ids: [],
-      risk_files: [],
-      sub_task_ids: [],
-      sub_issue_ids: [],
-      sub_risk_ids: [],
-      checklists_attributes: [
-        :id,
-        :_destroy,
-        :text,
-        :user_id,
-        :checked,
-        :due_date,
-        :listable_type,
-        :listable_id,
-        :position, 
-        progress_lists_attributes: [
-          :id,
-          :_destroy,
-          :body,
-          :checklist_id
-        ]
-      ],
-      notes_attributes: [
-        :id,
-        :_destroy,
-        :user_id,
-        :body
-      ]
-    )
+    risk_params = params.require(:risk).permit(Risk.params_to_permit)
 
 
     risk = self

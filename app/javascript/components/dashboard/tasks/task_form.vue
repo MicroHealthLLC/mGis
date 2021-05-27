@@ -119,6 +119,25 @@
               <span><i class="fas fa-eye"></i></span
               ><small style="vertical-align:text-top"> On Watch</small>
             </span>
+
+            <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable float-right"
+              @click.prevent.stop="toggleImportant"
+              data-cy="task_important"
+            >
+              <span v-show="DV_task.important" class="check_box mr-1">
+                <i class="far fa-check-square"></i>
+              </span>
+              <span v-show="!DV_task.important" class="empty_box mr-1">
+                <i class="far fa-square"></i>
+              </span>
+              <span>
+                <i class="fas fa-eye"></i>
+              </span>
+              <small style="vertical-align:text-top"> Important</small>
+            </span>
+
             <el-input
               name="Task Name"
               v-validate="'required'"
@@ -1216,6 +1235,7 @@ export default {
         checklistDueDate: "",
         taskTypeId: "",
         taskStageId: "",
+        important: false,
         responsibleUserIds: [],
         accountableUserIds: [],
         consultedUserIds: [],
@@ -1402,7 +1422,7 @@ export default {
         return
       } 
       if (this.DV_task.watched) {
-         this.$message({
+         thiss.$message({
             message: `${this.DV_task.text} has been removed from On Watch status.`,
             type: "warning",
             showClose: true,
@@ -1421,6 +1441,9 @@ export default {
       if ( (this.DV_task.progress == 100) && (this.DV_task.watched == true) ) {         
         this.toggleWatched()     
       }
+    },
+    toggleImportant() {
+      this.DV_task = { ...this.DV_task, important: !this.DV_task.important };
     },
     cancelSave() {
       this.$emit("on-close-form");
@@ -1444,6 +1467,7 @@ export default {
         formData.append("task[progress]", this.DV_task.progress);
         formData.append("task[auto_calculate]", this.DV_task.autoCalculate);
         formData.append("task[description]", this.DV_task.description);
+        formData.append("task[important]", this.DV_task.important);
         formData.append(
           "task[destroy_file_ids]",
           _.map(this.destroyedFiles, "id")
