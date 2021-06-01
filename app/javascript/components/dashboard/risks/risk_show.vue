@@ -150,27 +150,6 @@
           this.$router.push(`/programs/${this.$route.params.programId}/map/projects/${this.$route.params.projectId}/risks/${this.DV_edit_risk.id}`);
         }
       },
-      openSubTask(subTask) {
-        let task = this.currentTasks.find(t => t.id == subTask.id)
-        if (!task) return
-        this.has_risk = Object.entries(task).length > 0
-        this.DV_edit_task = task
-        this.$refs.riskFormModal && this.$refs.riskFormModal.open()
-      },
-      openSubIssue(subIssue) {
-        let issue = this.currentIssues.find(t => t.id == subIssue.id)
-        if (!issue) return
-        this.has_risk = Object.entries(issue).length > 0
-        this.DV_edit_issue = issue
-        this.$refs.riskFormModal && this.$refs.riskFormModal.open()
-      },
-      onCloseForm() {
-        this.$refs.riskFormModal && this.$refs.riskFormModal.close()
-        this.has_risk = false
-        this.DV_edit_task = {}
-        this.DV_edit_issue = {}
-        this.DV_edit_risk = {}
-      },
       toggleWatched() {
         if (this.DV_risk.watched) {
           let confirm = window.confirm(`Are you sure, you want to remove this issue from on-watch?`)
