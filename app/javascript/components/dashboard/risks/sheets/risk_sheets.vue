@@ -101,6 +101,14 @@
         this.DV_edit_risk = this.DV_risk;
         this.$router.push(`/programs/${this.$route.params.programId}/sheet/projects/${this.$route.params.projectId}/risks/${this.DV_edit_risk.id}`);
       },
+      toggleWatched() {
+        if (this.DV_risk.watched) {
+          var confirm = window.confirm(`Are you sure, you want to remove this risk from on-watch?`)
+          if (!confirm) {return}
+        }
+        this.DV_risk = {...this.DV_risk, watched: !this.DV_risk.watched}
+        this.updateWatchedRisks(this.DV_risk)
+      },   
       openContextMenu(e) {
         e.preventDefault();
         this.$refs.menu.open(e);
