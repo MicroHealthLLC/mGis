@@ -161,11 +161,6 @@
           this.$router.push(`/programs/${this.$route.params.programId}/map/projects/${this.$route.params.projectId}/issues/${this.DV_edit_issue.id}`);
         }      
       },
-      deleteIssue() {
-        let confirm = window.confirm(`Are you sure, you want to delete this issue?`)
-        if (!confirm) {return}
-        this.issueDeleted(this.DV_issue)
-      },
       openSubTask(subTask) {
         let task = this.currentTasks.find(t => t.id == subTask.id)
         if (!task) return
@@ -179,12 +174,6 @@
         this.has_issue = Object.entries(issue).length > 0
         this.DV_edit_issue = issue
         this.$refs.issueFormModal && this.$refs.issueFormModal.open()
-      },
-      onCloseForm() {
-        this.$refs.issueFormModal && this.$refs.issueFormModal.close()
-        this.has_issue = false
-        this.DV_edit_task = {}
-        this.DV_edit_issue = {}
       },
       toggleWatched() {
         if (this.DV_issue.watched) {

@@ -2024,21 +2024,6 @@ export default {
       });
       this.DV_risk.checklists.push({ text: "", checked: false });
     },
-    scrollToUpdates() {
-      this.$refs.addUpdates.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
-      this.DV_risk.notes.unshift({ body: "", user_id: "", guid: this.guid() });
-    },
-    scrollToRiskMatrix() {
-      this.$refs.riskMatrix.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
-    },
     handleMove(item) {
       this.movingSlot = item.relatedContext.component.$vnode.key;
       return true;
@@ -2107,16 +2092,6 @@ export default {
         _files.push(file);
       }
       this.DV_risk.riskFiles = _files;
-    },
-    deleteRisk() {
-      let confirm = window.confirm(
-        `Are you sure you want to delete this risk?`
-      );
-      if (!confirm) {
-        return;
-      }
-      this.riskDeleted(this.DV_risk);
-      this.cancelRiskSave();
     },
     deleteFile(file) {
       if (!file) return;
@@ -2198,12 +2173,6 @@ export default {
     editProgress() {
       this.editToggle = !this.editToggle;
       //this.editTimeLive = moment.format('DD MMM YYYY, h:mm a')
-    },
-    progressListTitleText(progressList) {
-      if (!progressList.id) return;
-      var date = moment(progressList.createdAt).format("MM/DD/YYYY");
-      var time = moment(progressList.createdAt).format("hh:mm:ss a");
-      return `${progressList.user.fullName} at ${date} ${time} `;
     },
     cancelRiskSave() {
       this.$emit("on-close-form");

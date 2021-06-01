@@ -91,10 +91,6 @@
         this.show = true
         this.$emit('note-updated', note)
       },
-      onCloseForm() {
-        this.$refs.notesFormModal && this.$refs.notesFormModal.close()
-        // this.has_note = false    
-      },
       deleteNote() {
         var confirm = window.confirm(`Are you sure, you want to delete this note?`)
         if (!confirm) return;
