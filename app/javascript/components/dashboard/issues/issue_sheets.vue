@@ -116,8 +116,22 @@
         this.DV_edit_task = {}
         this.DV_edit_issue = {}
       },
+      toggleWatched() {
+        if (this.DV_issue.watched) {
+          var confirm = window.confirm(`Are you sure, you want to remove this issue from on-watch?`)
+          if (!confirm) {return}
+        }
+        this.DV_issue = {...this.DV_issue, watched: !this.DV_issue.watched}
+        this.updateWatchedIssues(this.DV_issue)
+      },
       updateRelatedTaskIssue(task) {
         this.taskUpdated({facilityId: task.facilityId, projectId: task.projectId})
+      },
+      getTask(task) {
+        return this.currentTasks.find(t => t.id == task.id) || {}
+      },
+      getIssue(issue) {
+        return this.currentIssues.find(t => t.id == issue.id) || {}
       },
       openContextMenu(e) {
         e.preventDefault();
