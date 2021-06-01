@@ -495,6 +495,7 @@ Tab 1 Row Begins here -->
             </span>
             <el-slider
               v-model="DV_issue.progress"
+              :input="removeFromWatch()"
               :disabled="!_isallowed('write') || DV_issue.autoCalculate"
               :marks="{ 0: '0%', 25: '25%', 50: '50%', 75: '75%', 100: '100%' }"
               :format-tooltip="(value) => value + '%'"
@@ -1339,14 +1340,6 @@ export default {
     onChangeTab(tab) {
       this.currentTab = tab ? tab.key : "tab1";
     },
-    scrollToUpdates() {
-      this.$refs.addUpdates.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
-      this.DV_issue.notes.unshift({ body: "", user_id: "", guid: this.guid() });
-    },
     handleMove(item) {
       this.movingSlot = item.relatedContext.component.$vnode.key;
       return true;
@@ -1362,12 +1355,6 @@ export default {
     editProgress() {
       this.editToggle = !this.editToggle;
       //this.editTimeLive = moment.format('DD MMM YYYY, h:mm a')
-    },
-    progressListTitleText(progressList) {
-      if (!progressList.id) return;
-      var date = moment(progressList.createdAt).format("MM/DD/YYYY");
-      var time = moment(progressList.createdAt).format("hh:mm:ss a");
-      return `${progressList.user.fullName} at ${date} ${time} `;
     },
     loadIssue(issue) {
       this.DV_issue = { ...this.DV_issue, ..._.cloneDeep(issue) };
@@ -1429,16 +1416,6 @@ export default {
         _files.push(file);
       }
       this.DV_issue.issueFiles = _files;
-    },
-    deleteIssue() {
-      let confirm = window.confirm(
-        `Are you sure you want to delete this issue?`
-      );
-      if (!confirm) {
-        return;
-      }
-      this.issueDeleted(this.DV_issue);
-      this.cancelIssueSave();
     },
     deleteFile(file) {
       if (!file) return;

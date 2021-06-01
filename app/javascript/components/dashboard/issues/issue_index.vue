@@ -227,15 +227,6 @@ export default {
         this.updateFacilityHash(this.facility)
       }
     },
-    issueDeleted(issue) {
-      http
-        .delete(`/projects/${this.currentProject.id}/facilities/${this.facility.id}/issues/${issue.id}.json`)
-        .then((res) => {
-            let issues = [...this.facility.issues]
-            _.remove(issues, (t) => t.id == issue.id)
-            this.$emit('refresh-facility')
-          }).catch((err) => console.log(err))
-    },
     exportToPdf() {
       const doc = new jsPDF("l")
       const html = this.$refs.table.innerHTML

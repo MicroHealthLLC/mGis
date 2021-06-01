@@ -568,9 +568,6 @@
         this.loading = true
         this.getFacility()
       },
-      isBlockedStatus(status) {
-        return status && status.name.toLowerCase().includes('complete') && this.DV_facility.progress < 100
-      },
       onChange() {
         this.$nextTick(() => {
             this.DV_updated = true

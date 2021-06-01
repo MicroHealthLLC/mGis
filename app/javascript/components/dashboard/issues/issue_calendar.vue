@@ -232,7 +232,7 @@
           <v-btn
             color="error"
             small
-            @click.prevent="deleteTask"           
+            @click.prevent="deleteIssue"           
           >
           <font-awesome-icon icon="trash-alt" class="mr-1" />
           DELETE

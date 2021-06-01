@@ -66,16 +66,6 @@
           this.updateFacilityHash(this.DV_facility)
         }
       },
-      taskDeleted(task) {
-        http
-          .delete(`/projects/${this.currentProject.id}/facilities/${this.DV_facility.id}/tasks/${task.id}.json`)
-          .then((res) => {
-            let tasks = [...this.DV_facility.tasks]
-            _.remove(tasks, (t) => t.id == task.id)
-            this.$emit('refresh-facility')
-          })
-          .catch((err) => console.log(err))
-      },
       detailShowHide(task=null) {
         this.currentTask = task
         this.showDetails = false

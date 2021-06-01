@@ -97,51 +97,9 @@
         'taskUpdated',
         'updateWatchedRisks'
       ]),
-      deleteRisk() {
-        var confirm = window.confirm(`Are you sure, you want to delete "${this.DV_risk.text}"?`)
-        if (!confirm) {return}
-        this.riskDeleted(this.DV_risk)
-      },  
-      openSubRisk(subRisk) {
-        let risk = this.currentRisks.find(t => t.id == subRisk.id)
-        if (!risk) return
-        this.has_risk = Object.entries(risk).length > 0
-        this.DV_edit_risk = risk
-        this.$refs.riskFormModal && this.$refs.riskFormModal.open()
-      },
-      openSubIssue(subIssue) {
-        let issue = this.currentIssues.find(t => t.id == subIssue.id)
-        if (!issue) return
-        this.has_risk = Object.entries(issue).length > 0
-        this.DV_edit_issue = issue
-        this.$refs.riskFormModal && this.$refs.riskFormModal.open()
-      },
       editRisk() {
         this.DV_edit_risk = this.DV_risk;
         this.$router.push(`/programs/${this.$route.params.programId}/sheet/projects/${this.$route.params.projectId}/risks/${this.DV_edit_risk.id}`);
-      },
-      onCloseForm() {
-        this.$refs.riskFormModal && this.$refs.riskFormModal.close()
-        this.has_risk = false
-        this.DV_edit_risk = {}
-        this.DV_edit_issue = {}
-      },
-      toggleWatched() {
-        if (this.DV_risk.watched) {
-          var confirm = window.confirm(`Are you sure, you want to remove this risk from on-watch?`)
-          if (!confirm) {return}
-        }
-        this.DV_risk = {...this.DV_risk, watched: !this.DV_risk.watched}
-        this.updateWatchedRisks(this.DV_risk)
-      },    
-      updateRelatedTaskIssue(task) {     
-        this.taskUpdated({facilityId: task.facilityId, projectId: task.projectId})
-      },
-      getRisk(risk) {
-        return this.currentRisks.find(t => t.id == risk.id) || {}
-      },
-      getIssue(issue) {
-        return this.currentIssues.find(t => t.id == issue.id) || {}
       },
       openContextMenu(e) {
         e.preventDefault();
