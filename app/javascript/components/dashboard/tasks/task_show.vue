@@ -128,11 +128,6 @@
         'taskUpdated',
         'updateWatchedTasks'
       ]),
-      deleteTask() {
-        let confirm = window.confirm(`Are you sure, you want to delete "${this.DV_task.text}"?`)
-        if (!confirm) {return}
-        this.taskDeleted(this.DV_task)
-      },
       openSubTask(subTask) {
         let task = this.currentTasks.find(t => t.id == subTask.id)
         if (!task) return
@@ -155,12 +150,6 @@
           this.$router.push(`/programs/${this.$route.params.programId}/map/projects/${this.$route.params.projectId}/tasks/${this.DV_edit_task.id}`)
         }
       },
-      onCloseForm() {
-        this.$refs.taskFormModal && this.$refs.taskFormModal.close()
-        this.has_task = false
-        this.DV_edit_task = {}
-        this.DV_edit_issue = {}
-      },  
       updateRelatedTaskIssue(task) {
         this.taskUpdated({facilityId: task.facilityId, projectId: task.projectId})      
       },

@@ -1308,22 +1308,6 @@ export default {
       this.editToggle = !this.editToggle;
       //this.editTimeLive = moment.format('DD MMM YYYY, h:mm a')
     },
-    deleteTask() {
-      let confirm = window.confirm(
-        `Are you sure you want to delete "${this.DV_task.text}"?`
-      );
-      if (!confirm) {
-        return;
-      }
-      this.taskDeleted(this.DV_task);
-      this.cancelSave();
-    },
-    progressListTitleText(progressList) {
-      if (!progressList.id) return;
-      var date = moment(progressList.createdAt).format("MM/DD/YYYY");
-      var time = moment(progressList.createdAt).format("hh:mm:ss a");
-      return `${progressList.user.fullName} at ${date} ${time} `;
-    },
     // RACI USERS commented out out here.....Awaiting backend work
     loadTask(task) {
       this.DV_task = { ...this.DV_task, ..._.cloneDeep(task) };

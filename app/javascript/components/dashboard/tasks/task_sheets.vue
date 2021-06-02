@@ -100,20 +100,6 @@ export default {
   methods: {
     ...mapMutations(["updateTasksHash", "setTaskForManager", "setToggleRACI"]),
     ...mapActions(["taskDeleted", "taskUpdated", "updateWatchedTasks"]),
-    openSubTask(subTask) {
-      let task = this.currentTasks.find((t) => t.id == subTask.id);
-      if (!task) return;
-      this.has_task = Object.entries(task).length > 0;
-      this.DV_edit_task = task;
-      this.$refs.taskFormModal && this.$refs.taskFormModal.open();
-    },
-    openSubIssue(subIssue) {
-      let issue = this.currentIssues.find((t) => t.id == subIssue.id);
-      if (!issue) return;
-      this.has_task = Object.entries(issue).length > 0;
-      this.DV_edit_issue = issue;
-      this.$refs.taskFormModal && this.$refs.taskFormModal.open();
-    },  
     editTask() {
         this.DV_edit_task = this.DV_task;
         this.$router.push(`/programs/${this.$route.params.programId}/sheet/projects/${this.$route.params.projectId}/tasks/${this.DV_edit_task.id}`)
@@ -144,11 +130,6 @@ export default {
     openContextMenu(e) {
       e.preventDefault();
       this.$refs.menu.open(e);
-    },
-    deleteTask() {
-      let confirm = window.confirm(`Are you sure you want to delete "${this.DV_task.text}"?`)
-      if (!confirm) {return}
-      this.taskDeleted(this.DV_task)
     }
   },
   computed: {
