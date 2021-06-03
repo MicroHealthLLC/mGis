@@ -13,7 +13,12 @@
             <span v-if="(risk.priorityLevelName) == 'Extreme'" class="red1"> {{risk.priorityLevelName}}</span> 
        </td>
        <td class="eight">{{formatDate(risk.startDate)}}</td>
-       <td class="seven">{{formatDate(risk.dueDate)}}</td>
+       <td class="eigth text-center">
+         <span v-if="risk.ongoing" v-tooltip="`Ongoing`"><font-awesome-icon icon="retweet" class="text-success"  /></span>
+        <span v-else>
+         {{formatDate(risk.dueDate)}}
+        </span>
+       </td>
        <td class="twelve" >
           <span v-if="(risk.responsibleUsers.length > 0) && (risk.responsibleUsers[0] !== null)"> <span class="badge mr-1 font-sm badge-secondary badge-pill">R</span>{{risk.responsibleUsers[0].name}} <br></span> 
           <span v-if="(risk.accountableUsers.length > 0) && (risk.accountableUsers[0] !== null)"> <span class="badge mr-1 font-sm badge-secondary badge-pill">A</span>{{risk.accountableUsers[0].name}}<br></span>   
@@ -23,18 +28,33 @@
              <span v-if="(risk.informedUsers.length > 0) && (risk.informedUsers[0] !== null)"> <span class="badge font-sm badge-secondary mr-1 badge-pill">I</span>{{JSON.stringify(risk.informedUsers.map(informedUsers => (informedUsers.name))).replace(/]|[['"]/g, ' ')}}</span>      
          </span>        
         </td>
-        <td class="eight">{{risk.progress + "%"}}</td>
-        <td class="eight" v-if="risk.isOverdue"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-        <td class="eight" v-if="(risk.watched) == true"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-       <td class="oneEight" v-if="(risk.notesUpdatedAt.length) > 0">
+        <td class="seven">{{risk.progress + "%"}}</td>
+        <td class="fort">
+           <span v-if="risk.watched == true"  v-tooltip="`On Watch`"><font-awesome-icon icon="eye" class="mr-1"  /></span>
+                <span v-if="risk.important == true"  v-tooltip="`Important`"> <i class="fas fa-star text-warning mr-1"></i></span>
+                <span v-if="risk.isOverdue" v-tooltip="`Overdue`"><font-awesome-icon icon="calendar" class="text-danger mr-1"  /></span>
+                <span v-if="risk.progress == 100" v-tooltip="`Completed`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>   
+                <span v-if="risk.ongoing == true" v-tooltip="`Ongoing`"><font-awesome-icon icon="retweet" class="text-success"  /></span>   
+                <span v-if="risk.onHold == true" v-tooltip="`On Hold`"><font-awesome-icon icon="pause-circle" class="text-primary"  /></span>   
+                <span v-if="risk.draft == true" v-tooltip="`Draft`"><font-awesome-icon icon="pencil-alt" class="text-warning"  /></span>   
+                <span v-if="
+                     risk.watched == false &&
+                     risk.ongoing == false && 
+                     risk.isOverdue == false &&
+                     risk.onHold == false &&  
+                     risk.draft == false && 
+                     risk.progress < 100 "             
+                     class="text-secondary">
+                      No flags at this time
+                </span>          
+         </td>  
+        <td class="twenty" v-if="(risk.notesUpdatedAt.length) > 0">
            <span class="toolTip" v-tooltip="('By: ' + risk.notes[0].user.fullName)">        
            {{moment(risk.notesUpdatedAt[0]).format('DD MMM YYYY, h:mm a')}}
            </span>
            <br> {{risk.notes[0].body}}
         </td>
-        <td v-else class="oneEight">No Updates</td>
+        <td v-else class="twenty">No Updates</td>
       </tr>
       <!-- The context-menu appears only if table row is right-clicked -->
       <RiskContextMenu
@@ -244,6 +264,9 @@
   .twelve {
     width: 12%;
   }
+  .fort {
+    width: 14%;
+  }
   .oneFive {
     width: 15%;
   }
@@ -252,6 +275,9 @@
   }
   .oneEight{
     width: 18%;
+  }
+  .twenty{
+    width: 20%;
   }
   .pg-content {
     width: 100%;

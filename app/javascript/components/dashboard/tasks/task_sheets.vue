@@ -3,10 +3,15 @@
   <div id="task-sheets">
     <table v-if="!has_task" class="table table-sm table-bordered table-striped p-3">
       <tr v-if="!loading" class="mx-3 mb-3 mt-2 py-4 edit-action" @click.prevent="editTask" data-cy="task_row" @mouseup.right="openContextMenu" @contextmenu.prevent="">
-        <td class="sixteen">{{task.text}}</td>
+        <td class="oneSix">{{task.text}}</td>
         <td class="ten">{{task.taskType}}</td>
         <td class="eight">{{formatDate(task.startDate)}}</td>
-        <td class="eight">{{formatDate(task.dueDate)}}</td>
+        <td class="eigth text-center">
+         <span v-if="task.ongoing" v-tooltip="`Ongoing`"><font-awesome-icon icon="retweet" class="text-success"  /></span>
+        <span v-else>
+         {{formatDate(task.dueDate)}}
+        </span>
+       </td>
         <td class="fort" >
           <span v-if="(task.responsibleUsers.length > 0) && (task.responsibleUsers[0] !== null)"> <span class="badge mr-1 font-sm badge-secondary badge-pill">R</span>{{task.responsibleUsers[0].name}} <br></span> 
           <span v-if="(task.accountableUsers.length > 0) && (task.accountableUsers[0] !== null)"> <span class="badge mr-1 font-sm badge-secondary badge-pill">A</span>{{task.accountableUsers[0].name}}<br></span>   
@@ -17,18 +22,33 @@
          </span>        
         </td>
         <td class="eight">{{task.progress + "%"}}</td>
-        <td class="eight" v-if="task.isOverdue"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-        <td class="eight" v-if="task.watched == true"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-        <td class="twenty" v-if="(task.notesUpdatedAt.length) > 0">
+        <td class="fort">
+            <span v-if="task.watched == true"  v-tooltip="`On Watch`"><font-awesome-icon icon="eye" class="mr-1"  /></span>
+            <span v-if="task.important == true"  v-tooltip="`Important`"> <i class="fas fa-star text-warning mr-1"></i></span>
+            <span v-if="task.isOverdue" v-tooltip="`Overdue`"><font-awesome-icon icon="calendar" class="text-danger mr-1"  /></span>
+            <span v-if="task.progress == 100" v-tooltip="`Completed`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>   
+            <span v-if="task.ongoing == true" v-tooltip="`Ongoing`"><font-awesome-icon icon="retweet" class="text-success"  /></span>   
+            <span v-if="task.onHold == true" v-tooltip="`On Hold`"><font-awesome-icon icon="pause-circle" class="text-primary"  /></span>   
+            <span v-if="task.draft == true" v-tooltip="`Draft`"><font-awesome-icon icon="pencil-alt" class="text-warning"  /></span>   
+            <span v-if="
+                      task.watched == false &&
+                      task.ongoing == false && 
+                      task.isOverdue == false &&
+                      task.onHold == false &&  
+                      task.draft == false && 
+                      task.progress < 100 "             
+                     class="text-secondary">
+                      No flags at this time
+                </span> 
+        </td>
+        <td class="twentyTwo" v-if="(task.notesUpdatedAt.length) > 0">
            <span class="toolTip" v-tooltip="('By: ' + task.notes[0].user.fullName)">              
           {{moment(task.notesUpdatedAt[0]).format('DD MMM YYYY, h:mm a')}}
             </span>
             <br> {{task.notes[0].body}}
            
         </td>       
-        <td v-else class="twenty">No Updates</td>
+        <td v-else class="twentyTwo">No Updates</td>
       </tr>
 
       <!-- The context-menu appears only if table row is right-clicked -->
@@ -116,6 +136,7 @@ export default {
     },  
     editTask() {
         this.DV_edit_task = this.DV_task;
+        
         this.$router.push(`/programs/${this.$route.params.programId}/sheet/projects/${this.$route.params.projectId}/tasks/${this.DV_edit_task.id}`)
     },
     onCloseForm() {
@@ -243,11 +264,14 @@ table {
 .fort {
   width: 14%;
 }
-.sixteen {
+.oneSix {
   width: 16%;
 }
 .twenty {
   width: 20%;
+}
+.twentyTwo {
+  width: 22%;
 }
 .pg-content {
   width: 100%;

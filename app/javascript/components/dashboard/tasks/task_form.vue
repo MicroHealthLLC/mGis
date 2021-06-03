@@ -104,39 +104,89 @@
             <label class="font-md"
               >Task Name <span style="color: #dc3545">*</span></label
             >
+            <div class="toggleWrapper float-right">
             <span
               v-if="_isallowed('write')"
-              class="watch_action clickable float-right"
+              class="watch_action clickable mx-2"
               @click.prevent.stop="toggleWatched"
               data-cy="task_on_watch"
             >
-              <span v-show="DV_task.watched" class="check_box mr-1"
-                ><i class="far fa-check-square"></i
+              <span v-show="DV_task.watched" 
+                ><i class="fas fa-eye"></i
               ></span>
-              <span v-show="!DV_task.watched" class="empty_box mr-1"
-                ><i class="far fa-square"></i
+              <span v-show="!DV_task.watched" 
+                ><i  class="fas fa-eye" style="color:lightgray;cursor:pointer"></i
               ></span>
-              <span><i class="fas fa-eye"></i></span
-              ><small style="vertical-align:text-top"> On Watch</small>
+           
+              <small style="vertical-align:text-top"> On Watch</small>
+            </span>
+            
+             <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable mx-2"
+              @click.prevent.stop="toggleOnhold"
+              data-cy="task_on_hold"
+            >
+              <span v-show="DV_task.onHold">
+               <font-awesome-icon icon="pause-circle" class="mr-1 text-primary"/>
+              </span>
+              <span v-show="!DV_task.onHold">
+               <font-awesome-icon icon="pause-circle" class="mr-1" style="color:lightgray;cursor:pointer"/>
+              </span>
+             
+              <small style="vertical-align:text-top"> On Hold</small>
+            </span>
+           
+
+            <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable mx-2"
+              @click.prevent.stop="toggleImportant"
+              data-cy="task_important"
+            >
+              <span v-show="DV_task.important">
+               <i class="fas fa-star text-warning"></i>
+              </span>
+              <span v-show="!DV_task.important">
+               <i class="far fa-star" style="color:lightgray;cursor:pointer"></i>
+              </span>
+             
+              <small style="vertical-align:text-top"> Important</small>
             </span>
 
             <span
               v-if="_isallowed('write')"
-              class="watch_action clickable float-right"
-              @click.prevent.stop="toggleImportant"
+              class="watch_action clickable mx-2"
+              @click.prevent.stop="toggleOngoing"
+              data-cy="task_ongoing"
+            >
+              <span v-show="DV_task.ongoing">
+              <i class="fas fa-retweet text-success"></i>
+              </span>
+              <span v-show="!DV_task.ongoing">
+              <i class="fas fa-retweet" style="color:lightgray;cursor:pointer"></i>
+              </span>
+             
+              <small style="vertical-align:text-top"> On Going</small>
+            </span>
+              <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable mx-2"
+              @click.prevent.stop="toggleDraft"
               data-cy="task_important"
             >
-              <span v-show="DV_task.important" class="check_box mr-1">
-                <i class="far fa-check-square"></i>
+              <span v-show="DV_task.draft">
+               <i class="fas fa-pencil-alt text-warning"></i>
               </span>
-              <span v-show="!DV_task.important" class="empty_box mr-1">
-                <i class="far fa-square"></i>
+              <span v-show="!DV_task.draft">
+               <i class="fas fa-pencil-alt" style="color:lightgray;cursor:pointer"></i>
               </span>
-              <span>
-                <i class="fas fa-eye"></i>
-              </span>
-              <small style="vertical-align:text-top"> Important</small>
+             
+              <small style="vertical-align:text-top"> Draft</small>
             </span>
+
+
+            </div>
 
             <el-input
               name="Task Name"
@@ -262,12 +312,17 @@
 
           <div class="form-row mx-4">
             <div class="form-group col-md-6 pl-0">
+              <span v-if="DV_task.ongoing">
+              <label class="font-md"
+                >Date Identified</label
+              ></span>
+               <span v-else>
               <label class="font-md"
                 >Start Date <span style="color: #dc3545">*</span></label
-              >
+              ></span>
               <div :class="{ 'error': errors.has('Start Date') }">
                 <v2-date-picker
-                  v-validate="'required'"
+                  v-validate="{ required: !DV_task.ongoing }"
                   v-model="DV_task.startDate"
                   value-type="YYYY-MM-DD"
                   format="DD MMM YYYY"
@@ -287,12 +342,17 @@
               </div>
             </div>
             <div class="form-group col-md-6 pr-0">
-              <label class="font-md"
+              <span v-if="DV_task.ongoing ">           
+               <label class="font-md"
+                ><i class="fas fa-retweet text-success mr-1"></i>Date Closed</label
+              ></span>
+              <span v-else>           
+               <label class="font-md"
                 >Due Date <span style="color: #dc3545">*</span></label
-              >
-              <div :class="{ 'error': errors.has('Due Date') }">
+              ></span>
+               <div :class="{ 'error': errors.has('Due Date') }">
                 <v2-date-picker
-                  v-validate="'required'"
+                  v-validate="{ required: !DV_task.ongoing }"
                   v-model="DV_task.dueDate"
                   value-type="YYYY-MM-DD"
                   format="DD MMM YYYY"
@@ -315,7 +375,13 @@
               >
                 {{ errors.first("Due Date") }}
               </div>
+              
+          
+            <!-- <span v-else class="text-center font-italic"><i class="fas fa-retweet text-success mr-1"></i>
+              THIS TASK IS ONGOING
+            </span> -->
             </div>
+               
           </div>
 
           <!-- closing div for tab1 -->
@@ -417,7 +483,7 @@
         <!-- CHECKLIST TAB #3-->
 
         <div v-show="currentTab == 'tab3'" class="paperLookTab tab3">
-          <div class="form-group pt-3 ml-4 mr-5">
+          <div v-show="!DV_task.ongoing" class="form-group pt-3 ml-4 mr-5">
             <label class="font-md mb-0">Progress (in %)</label>
             <span class="ml-3">
               <label class="font-sm mb-0 d-inline-flex align-items-center">
@@ -1172,7 +1238,7 @@ export default {
             "Category",
             "Stage",
             "Start Date",
-            "Due Date",
+            "Date Closed",
           ],
         },
         {
@@ -1236,6 +1302,9 @@ export default {
         taskTypeId: "",
         taskStageId: "",
         important: false,
+        onHold: false,
+        draft: false,
+        ongoing: false,
         responsibleUserIds: [],
         accountableUserIds: [],
         consultedUserIds: [],
@@ -1422,7 +1491,7 @@ export default {
         return
       } 
       if (this.DV_task.watched) {
-         thiss.$message({
+         this.$message({
             message: `${this.DV_task.text} has been removed from On Watch status.`,
             type: "warning",
             showClose: true,
@@ -1444,6 +1513,16 @@ export default {
     },
     toggleImportant() {
       this.DV_task = { ...this.DV_task, important: !this.DV_task.important };
+    },
+    toggleOnhold() {
+      this.DV_task = { ...this.DV_task, onHold: !this.DV_task.onHold };
+    },
+    toggleDraft() {
+      this.DV_task = { ...this.DV_task, draft: !this.DV_task.draft };
+    },
+    toggleOngoing() {
+      this.DV_task = { ...this.DV_task, ongoing: !this.DV_task.ongoing };
+      this.DV_task.dueDate = '';
     },
     cancelSave() {
       this.$emit("on-close-form");
@@ -1468,6 +1547,9 @@ export default {
         formData.append("task[auto_calculate]", this.DV_task.autoCalculate);
         formData.append("task[description]", this.DV_task.description);
         formData.append("task[important]", this.DV_task.important);
+        formData.append("task[on_hold]", this.DV_task.onHold);
+        formData.append("task[draft]", this.DV_task.draft);
+        formData.append("task[ongoing]", this.DV_task.ongoing);
         formData.append(
           "task[destroy_file_ids]",
           _.map(this.destroyedFiles, "id")
@@ -1846,8 +1928,8 @@ export default {
       return (
         this.DV_task &&
         this.exists(this.DV_task.text) &&
-        this.exists(this.DV_task.taskTypeId) &&
-        this.exists(this.DV_task.dueDate) &&
+        this.exists(this.DV_task.taskTypeId) && 
+        this.exists(this.DV_task.dueDate)  &&  
         this.exists(this.DV_task.startDate)
       );
     },

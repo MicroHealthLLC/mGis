@@ -9,7 +9,8 @@ class Task < ApplicationRecord
   has_many_attached :task_files, dependent: :destroy
   has_many :notes, as: :noteable, dependent: :destroy
 
-  validates :text, :start_date, :due_date, presence: true
+  validates :text, presence: true
+  validates :start_date, :due_date, presence: true, if: ->  { ongoing == false }
   accepts_nested_attributes_for :notes, reject_if: :all_blank, allow_destroy: true
 
   before_update :update_progress_on_stage_change, if: :task_stage_id_changed?
@@ -50,6 +51,9 @@ class Task < ApplicationRecord
       :watched,    
       :kanban_order,
       :important,
+      :draft, 
+      :on_hold, 
+      :ongoing,
       task_files: [],
       user_ids: [],
       sub_task_ids: [],
@@ -159,13 +163,20 @@ class Task < ApplicationRecord
     sub_tasks = self.sub_tasks
     sub_issues = self.sub_issues
     progress_status = "active"
+
     if(progress >= 100)
       progress_status = "completed"
     end
+
+    is_overdue = false
+    if !ongoing
+      is_overdue = ( progress < 100 && (due_date < Date.today) )
+    end
+
     self.as_json.merge(
       class_name: self.class.name,
       attach_files: attach_files,
-      is_overdue: progress < 100 && (due_date < Date.today),
+      is_overdue: is_overdue,
       progress_status: progress_status,
       task_type: task_type.try(:name),
       task_stage: task_stage.try(:name),
@@ -177,6 +188,8 @@ class Task < ApplicationRecord
       notes: notes.as_json,
       notes_updated_at: notes.map(&:updated_at).compact.uniq,
       important: important,
+      draft: draft, 
+      on_hold: on_hold, 
 
       # Add RACI user names
       # Last name values added for improved sorting in datatables

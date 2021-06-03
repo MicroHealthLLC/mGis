@@ -17,10 +17,10 @@ class ProjectsController < AuthenticatedController
       view = "members"
     elsif params[:tab] == "lessons" || params[:lesson_id]
       view = "lessons"
-    elsif params[:tab] == "watch_view"
-      view = "watch_view"
-    elsif params[:tab] == "facility_manager"
-      view = "facility_manager_view" 
+  ##  elsif params[:tab] == "watch_view"
+  ##    view = "watch_view"
+  ##  elsif params[:tab] == "facility_manager"
+  ##    view = "facility_manager_view" 
     else
       raise CanCan::AccessDenied
     end

@@ -62,7 +62,33 @@ background-color: #9EC64C !important;
   background-color: #DD9036 !important;
 }
 
+.generic-border {
+  // Generic border with Element UI dropdown border UI
+border: 1px solid #DCDFE6 !important;
+border-radius: 6px !important;
+background-color: #fafafa;
+padding: 3px !important;
+}
 
+.toggleWrapper#risk_toggles {
+  margin-top: 0 !important;
+}
+
+.toggleWrapper {
+  // Generic border with Element UI dropdown border UI
+  border: 1px solid #DCDFE6 !important;
+  border-radius: 6px !important;
+  background-color: #fafafa;
+  padding: 3px !important;
+  margin-top: -8px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
 // MORE FILTERS in Sheet View
 .issuesFilter, .risksFilter {
   z-index: 100;
@@ -744,6 +770,13 @@ th {
   position: relative;
   vertical-align: middle !important;
 }
+.non-sort-th {    
+  font-family: 'FuturaPTBook';
+  text-align: center;
+  position: relative;
+  vertical-align: middle !important;
+}
+
 .sort-icon {
   color:#17a2b8 !important;
   font-size: .88rem !important;

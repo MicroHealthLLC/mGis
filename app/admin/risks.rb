@@ -63,7 +63,7 @@ ActiveAdmin.register Risk do
     tag_column :priority_level
     tag_column :risk_approach
     column :risk_approach_description, sortable: false
-    column "Category", :task_type, nil, sortable: 'task_types.name' do |risk|
+    column "Category", :task_types, nil, sortable: 'task_types.name' do |risk|
       if current_user.admin_write?
         link_to "#{risk.task_type.name}", "#{edit_admin_task_type_path(risk.task_type)}" if risk.task_type.present?
       else
@@ -218,7 +218,7 @@ ActiveAdmin.register Risk do
     end
 
     def scoped_collection
-      super.includes(:task_type, facility_project: [:project, :facility])
+      super.includes(:task_type, :risk_stage, facility_project: [:project, :facility])
     end
   end
 

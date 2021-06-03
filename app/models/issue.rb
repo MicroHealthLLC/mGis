@@ -55,6 +55,8 @@ class Issue < ApplicationRecord
       :watched,
       :kanban_order,
       :important,
+      :on_hold, 
+      :draft, 
       issue_files: [],
       user_ids: [],
       sub_task_ids: [],
@@ -170,6 +172,9 @@ class Issue < ApplicationRecord
       user_names: p_users.map(&:full_name).compact.join(", "),
       user_ids: p_users.map(&:id).compact.uniq,
       users: p_users.as_json(only: [:id, :full_name, :title, :phone_number, :first_name, :last_name, :email]),
+      on_hold: on_hold, 
+      draft: draft, 
+
       
 
       # Add RACI user name

@@ -9,20 +9,29 @@
         class="notes_form_modal"
       ></notes-form> 
     </div>
-    <div v-else>
+    <div v-else >
+     <span class="filters-wrapper w-75 pr-2">
       <div class="mb-3 row px-3" :class="{'justify-content-center': _isallowed('write')}">
         <div class="col-md-11 px-0">
           <div class="input-group" :class="{'search-tab': _isallowed('write')}">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="search-addon"><i class="fa fa-search"></i></span>
-            </div>
-            <input type="search" class="form-control form-control-sm" placeholder="Search Notes" aria-label="Search" aria-describedby="search-addon" v-model="notesQuery" data-cy="search_notes">
+           <el-input
+            type="search"          
+            placeholder="Search Notes"
+            aria-label="Search"            
+            aria-describedby="search-addon"    
+             v-model="notesQuery"  
+            data-cy="search_tasks"
+        >
+          <el-button slot="prepend" icon="el-icon-search"></el-button>
+        </el-input>
+          
           </div>
         </div>
       </div>
-      <div class="row justify-content-center px-3">
+          </span>
+      <div class="row">
       <div class="col-md-11 form-check-inline w-100 mb-2 mx-0 font-sm pr-0">
-        <div class="px-0 float-left" v-if="_isallowed('write')">
+        <div class="px-1 float-left" v-if="_isallowed('write')">
           <button @click.prevent="addNewNote"
           class="btn btn-md btn-primary addNote"
           data-cy="new_note"><i class="fas fa-plus-circle mr-2"></i>
@@ -38,6 +47,7 @@
         </div>
       </div>
       </div>
+
       
       <div class="notes-container row justify-content-center pt-2">
       <div v-if="_isallowed('read')" class="notes-rows pr-0 col-md-11" > 
@@ -191,6 +201,10 @@
     overflow: auto;  
     height: 61vh;    
   }
+  .filters-wrapper {
+    float: right;
+    margin-top: -50px;
+}
   // notes-rows creates a scroallable div within a container, preventing the need to scroll beyond the viewport height
   // .notes-rows {
   //   overflow-y: scroll;

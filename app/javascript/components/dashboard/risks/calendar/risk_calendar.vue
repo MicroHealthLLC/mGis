@@ -147,7 +147,7 @@
       <v-sheet height="600" >     
          <v-calendar               
           ref="calendar"
-          v-model="focus"
+          v-model="C_lastFocus"
           color="primary"
           :events="events"
           :key="componentKey"   
@@ -210,9 +210,20 @@
           <v-list-item-title>
            <span class="d-inline mr-1"><small><b>Flags:</b></small></span>  
               <span v-if="selectedEvent.watch == true"  v-tooltip="`On Watch`"><font-awesome-icon icon="eye" class="mr-1"  /></span>
+              <span v-if="selectedEvent.hasStar == true"  v-tooltip="`Important`"> <i class="fas fa-star text-warning mr-1"></i></span>
               <span v-if="selectedEvent.pastDue == true" v-tooltip="`Overdue`"><font-awesome-icon icon="calendar" class="text-danger mr-1"  /></span>
-              <span v-if="selectedEvent.progess == 100" v-tooltip="`Completed Risk`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>
-                <span v-if="selectedEvent.watch == false && selectedEvent.pastDue == false && selectedEvent.progess < 100">
+              <span v-if="selectedEvent.progess == 100" v-tooltip="`Completed`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>
+              <span v-if="selectedEvent.isOngoing == true" v-tooltip="`Ongoing`"><font-awesome-icon icon="retweet" class="text-success"  /></span> 
+              <span v-if="selectedEvent.isOnHold == true" v-tooltip="`On Hold`"><font-awesome-icon icon="pause-circle" class="text-primary"  /></span>   
+              <span v-if="selectedEvent.isDraft == true" v-tooltip="`Draft`"><font-awesome-icon icon="pencil-alt" class="text-warning"  /></span>     
+                <span v-if="
+                      selectedEvent.watch == false && 
+                      selectedEvent.isOngoing == false && 
+                      selectedEvent.pastDue == false && 
+                      selectedEvent.isOnHold == false && 
+                      selectedEvent.isDraft == false && 
+                      selectedEvent.hasStar == false && 
+                      selectedEvent.progess < 100">
                  No flags at this time
                 </span>    
           </v-list-item-title>
@@ -269,8 +280,8 @@
      },
     data() {
       return {         
-        focus: '',        
-        type: this.C_calendarView,   
+        type: this.C_calendarView,  
+        focus: this.C_lastFocus,    
         risksQuery: '',    
         riskNames: [],  
         componentKey: 0, 
@@ -306,6 +317,7 @@
         'setTaskIssueProgressStatusFilter',
         'setTaskIssueOverdueFilter',
         'setShowAllEventsToggle',
+        'setLastFocusFilter',
         'setTaskTypeFilter',
         'setMyActionsFilter',
         'setOnWatchFilter',
@@ -329,7 +341,8 @@
         return event.color
       },
       setToday () {
-        this.focus = ''
+        this.todayView = true 
+        this.setLastFocusFilter('')  
       },
       prev () {
         this.$refs.calendar.prev()
@@ -423,7 +436,12 @@
       this.onWatch = this.filteredCalendar.map(risk => risk.watched)   
       this.overdue = this.filteredCalendar.map(risk => risk.isOverdue) 
       this.percentage = this.filteredCalendar.map(risk => risk.progress)  
-      this.riskApproach = this.filteredCalendar.map(risk => risk.riskApproach)           
+      this.star = this.filteredCalendar.map(risk => risk.important)
+      this.riskApproach = this.filteredCalendar.map(risk => risk.riskApproach)  
+      this.ongoing = this.filteredCalendar.map(risk => risk.ongoing)    
+      this.onhold = this.filteredCalendar.map(risk => risk.onHold)   
+      this.draft = this.filteredCalendar.map(risk => risk.draft)   
+
       const events = []
       const min = new Date(`${start.date}T00:00:00`)
       const max = new Date(`${end.date}T23:59:59`)
@@ -441,7 +459,11 @@
           ra: this.riskApproach[i],    
           pastDue: this.overdue[i], 
           progess: this.percentage[i],
-          color: this.colors.defaultColor,        
+          color: this.colors.defaultColor,   
+          hasStar: this.star[i], 
+          isOngoing: this.ongoing[i],
+          isDraft: this.draft[i],
+          isOnHold: this.onhold[i],                    
         })
       }
       // This is the main Events array pushed into Calendar
@@ -467,6 +489,7 @@
         'getRiskPriorityLevelFilterOptions',
         'getRisksPerPageFilterOptions',
         'getRisksPerPageFilter',
+        'getLastFocusFilter',
         'getAdvancedFilterOptions',
         'filterDataForAdvancedFilter',
         'getTaskIssueUserFilter',
@@ -506,7 +529,16 @@
         return valid
         }), ['dueDate'])
      
-         return risks  
+      if ( _.map(this.getAdvancedFilter, 'id') == 'draft' || _.map(this.getAdvancedFilter, 'id') == 'onHold') {   
+        
+        return risks
+        
+       } else  {
+        
+        risks  = risks.filter(t => t.draft == false && t.onHold == false)
+        return risks
+      
+       }       
     }, 
      C_calendarRiskFilter: {           
         get() {
@@ -553,6 +585,15 @@
           this.setTaskTypeFilter(value)
         }
       },
+     C_lastFocus: {
+      get() {         
+        return this.getLastFocusFilter  || this.focus
+      
+      },
+      set(value) {
+        this.setLastFocusFilter(value) 
+       }
+      },   
     C_calendarView: {      
       get() {      
         return this.getCalendarViewFilter || {id: 'month', name: 'Month', value: 'month'}

@@ -16,18 +16,31 @@
              <span v-if="(issue.informedUsers.length > 0) &&  (issue.informedUsers[0] !== null)"> <span class="badge font-sm badge-secondary mr-1 badge-pill">I</span>{{JSON.stringify(issue.informedUsers.map(informedUsers => (informedUsers.name))).replace(/]|[['"]/g, ' ')}}</span>      
          </span>        
         </td>
-        <td class="eight">{{issue.progress + "%"}}</td>
-        <td class="eight" v-if="issue.isOverdue"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-        <td class="eight" v-if="(issue.watched) == true"><h5>x</h5></td>
-        <td class="eight" v-else></td>
-         <td class="oneFive" v-if="(issue.notesUpdatedAt.length) > 0">
+        <td class="eight">{{issue.progress + "%"}}</td>     
+        <td class="fort" >
+            <span v-if="issue.watched == true"  v-tooltip="`On Watch`"><font-awesome-icon icon="eye" class="mr-1"  /></span>
+            <span v-if="issue.important == true"  v-tooltip="`Important`"> <i class="fas fa-star text-warning mr-1"></i></span>
+            <span v-if="issue.isOverdue" v-tooltip="`Overdue`"><font-awesome-icon icon="calendar" class="text-danger mr-1"  /></span>
+            <span v-if="issue.progress == 100" v-tooltip="`Completed`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>   
+            <span v-if="issue.onHold == true" v-tooltip="`On Hold`"><font-awesome-icon icon="pause-circle" class="text-primary"  /></span>   
+            <span v-if="issue.draft == true" v-tooltip="`Draft`"><font-awesome-icon icon="pencil-alt" class="text-warning"  /></span>   
+            <span v-if="
+                  issue.watched == false &&
+                  issue.isOverdue == false &&
+                  issue.onHold == false &&  
+                  issue.draft == false && 
+                  issue.progress < 100 "             
+                  class="text-secondary">
+                  No flags at this time
+            </span>          
+         </td>
+         <td class="oneSeven" v-if="(issue.notesUpdatedAt.length) > 0">
            <span class="toolTip" v-tooltip="('By: ' + issue.notes[0].user.fullName)"> 
            {{moment(issue.notesUpdatedAt[0]).format('DD MMM YYYY, h:mm a')}}
            </span>
            <br> {{issue.notes[0].body}}
         </td>
-        <td class="oneFive" v-else>No Updates</td>
+        <td class="oneSeven" v-else>No Updates</td>
       </tr>
       <!-- The context-menu appears only if table row is right-clicked -->
       <IssueContextMenu
@@ -232,8 +245,14 @@
   .oneThree {
     width: 13%;
   }
+  .fort {
+    width: 14%;
+  }
   .oneFive {
     width: 15%;
+  }
+  .oneSeven {
+    width: 17%;
   }
   .t_actions {
     display: flex;

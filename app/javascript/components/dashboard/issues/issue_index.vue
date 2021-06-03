@@ -360,7 +360,16 @@ computed: {
       return valid;
     })), ['dueDate'])
 
-    return issues
+      if ( _.map(this.getAdvancedFilter, 'id') == 'draft' || _.map(this.getAdvancedFilter, 'id') == 'onHold') {   
+        
+        return issues
+        
+       } else  {
+        
+        issues  = issues.filter(t => t.draft == false && t.onHold == false)
+        return issues
+      
+       }   
   },
   C_facilityManagerIssueFilter: {
     get() {

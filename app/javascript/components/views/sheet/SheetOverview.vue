@@ -195,16 +195,16 @@
                     </div>
                   </div>
 
-                  <div class="row mb-2">
-                    <div class="col-5 py-1 pr-0">
+                  <div class="row">
+                    <div class="col-5 pr-0">
                       <span>Complete</span>                    
                     </div>
-                     <div class="col-2 py-1 pl-0">                    
+                     <div class="col-2 pl-0">                    
                       <span class="badge badge-secondary badge-pill">{{
                         taskVariation.completed.count
                       }}</span>
                     </div>
-                    <div class="col-5 py-1 mb-1">
+                    <div class="col-5 pt-3">
                       <span
                         class="w-100 progress pg-content"
                         :class="{
@@ -223,17 +223,17 @@
                     </div>
                   </div>
                   <div class="row mt-0">
-                    <div class="col-5 py-1 pr-0">
+                    <div class="col-5 pr-0">
                       <span>Overdue</span>               
                     </div>
-                     <div class="col-2 py-1 pl-0">                   
+                     <div class="col-2 pl-0">                   
                       <span class="badge badge-secondary badge-pill">{{
                         taskVariation.overdue.count
                       }}</span>
                     </div>
-                    <div class="col-5 mt-1 py-1">
+                    <div class="col-5 pt-3">
                       <span
-                        class="w-100 mb-2 progress pg-content"
+                        class="w-100 progress pg-content"
                         :class="{
                           'progress-0': taskVariation.overdue.percentage <= 0,
                         }"
@@ -247,6 +247,25 @@
                       </span>
                     </div>
                   </div>
+                <div class="row mt-0">
+                  <div class="col-5 pr-0">
+                    <span>Ongoing</span>               
+                  </div>
+                    <div class="col-2 pl-0">                   
+                    <span class="badge badge-secondary badge-pill">{{
+                      taskVariation.ongoing.length
+                    }}</span>
+                  </div>
+                  <div class="col-5  pt-3">
+                    <span
+                        class="w-100 mt-1 progress progress-0 pg-content"                       
+                        >
+                        <div class="text-center pl-1">
+                          <span v-tooltip="`Ongoing`" class="font-md" style="color:gray"> <i class="fas fa-retweet"></i></span>
+                        </div>
+                    </span>
+                  </div>
+                </div>
 
                   <div v-if="taskStats.length > 0" data-cy="task_categories">
                     <el-collapse>
@@ -465,17 +484,17 @@
                   </div>
 
                   <div v-if="contentLoaded">
-                    <div class="row mb-2" style="margin-top:12px">
-                      <div class="col-5 py-1 pr-0">
+                    <div class="row">
+                      <div class="col-5">
                         <span class="risk-card-title">Complete</span>                        
                       </div>
-                      <div class="col-2 py-1 pl-0">                    
+                      <div class="col-2 pl-0">                    
                         <span
                           class="badge badge-secondary badge-pill font-12"
                           >{{ riskVariation.completed.count }}</span
                         >
                       </div>
-                      <div class="col-5 py-1 mb-1">
+                      <div class="col-5">
                         <span
                           class="w-100 progress pg-content"
                           :class="{
@@ -495,16 +514,16 @@
                       </div>
                     </div>
                     <div class="row mt-0">
-                      <div class="col-5 pr-0 py-1">
+                      <div class="col-5 pr-0">
                         <span class="risk-card-title">Overdue</span>                        
                       </div>
-                      <div class="col-2 mt-1 py-1 pl-0">                       
+                      <div class="col-2 pl-0">                       
                         <span
                           class="badge badge-secondary badge-pill font-12"
                           >{{ riskVariation.overdue.count }}</span
                         >
                       </div>
-                      <div class="col-5 py-1 mt-1">
+                      <div class="col-5">
                         <span
                           class="w-100 progress pg-content"
                           :class="{
@@ -522,6 +541,26 @@
                         </span>
                       </div>
                     </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-5 pr-0">
+                    <span>Ongoing</span>               
+                  </div>
+                    <div class="col-2 pl-0">                   
+                    <span class="badge badge-secondary badge-pill">{{
+                      riskVariation.ongoing.length
+                    }}</span>
+                  </div>
+                  <div class="col-5 mt-1 py-2">
+                    <span
+                        class="w-100 mt-1 progress progress-0 pg-content"
+                       
+                        >
+                        <div class="text-center pl-1">
+                          <span v-tooltip="`Ongoing`" class="font-md" style="color:gray"> <i class="fas fa-retweet"></i></span>
+                        </div>
+                    </span>
+                  </div>
                   </div>
 
                   <!-- RISK CATEGORIES INSIDE COLLAPSIBLE SECTION -->
@@ -829,6 +868,7 @@ export default {
         overdue.length,
         this.filteredTasks.length
       );
+      let ongoing = _.filter(this.filteredTasks, (t) => t && t.ongoing);
 
       return {
         completed: {
@@ -839,6 +879,7 @@ export default {
           count: overdue.length,
           percentage: Math.round(overdue_percent),
         },
+        ongoing
       };
     },
     filteredIssues() {
@@ -1013,6 +1054,7 @@ export default {
         overdue.length,
         this.filteredRisks.length
       );
+      let ongoing = _.filter(this.filteredRisks, (t) => t && t.ongoing);
       return {
         completed: {
           count: completed.length,
@@ -1022,6 +1064,7 @@ export default {
           count: overdue.length,
           percentage: Math.round(overdue_percent),
         },
+        ongoing
       };
     },
     currentRiskTypes() {

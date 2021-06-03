@@ -166,7 +166,7 @@
 
           <div v-if="contentLoaded">
             <div class="row">
-              <div class="col-6">
+              <div class="col-6 mb-0">
                 <span :class="{ 'font-sm': isMapView }">Complete</span>               
               </div>
                <div class="col-1 pl-0">              
@@ -176,7 +176,7 @@
               </div>
               <div class="col-5">
                 <span
-                  class="w-100 mt-1 ml-2 progress pg-content"
+                  class="w-100 ml-2 progress pg-content"
                   :class="{
                     'progress-0': taskVariation.completed.percentage <= 0,
                   }"
@@ -190,20 +190,21 @@
                 </span>
               </div>
             </div>
-            <div class="row mt-1">
-              <div class="col-6">
+            
+            <div class="row mt-2">
+              <div class="col-6 pt-0">
                 <span :class="{ 'font-sm': isMapView }">Overdue</span>              
               </div>
-              <div class="col-1 pl-0">              
+              <div class="col-1 pt-0 pl-0">              
                 <span
-                  class="badge badge-secondary font-sm badge-pill"
+                  class="badge badge-secondary badge-pill"
                   :class="{ 'font-sm': isMapView }"
                   >{{ taskVariation.overdue.count }}</span
                 >
               </div>
-              <div class="col-5 mt-1">
+              <div class="col-5 pt-1">
                 <span
-                  class="w-100 mt-1 ml-2 progress pg-content"
+                  class="w-100 ml-2 progress pg-content"
                   :class="{
                     'font-sm': isMapView,
                     'progress-0': taskVariation.overdue.percentage <= 0,
@@ -214,6 +215,27 @@
                     :style="`width: ${taskVariation.overdue.percentage}%`"
                   >
                     {{ taskVariation.overdue.percentage }} %
+                  </div>
+                </span>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-6 pt-0">
+                <span :class="{ 'font-sm': isMapView }">Ongoing</span>               
+              </div>
+               <div class="col-1 pl-0 pt-0">              
+                <span class="badge badge-secondary badge-pill">{{
+                  taskVariation.ongoing.length
+                }}</span>
+              </div>
+              <div class="col-5 pt-1 text-center">
+                <span
+                  class="w-100 mt-1 ml-2 progress progress-0 pg-content"
+                  :class="{
+                    'font-sm': isMapView}"
+                >
+                  <div class="text-center pl-1">
+                  <span v-tooltip="`Ongoing`" class="font-md" style="color:gray"> <i class="fas fa-retweet"></i></span>
                   </div>
                 </span>
               </div>
@@ -284,7 +306,7 @@
 
           <div v-if="contentLoaded">
             <div class="row">
-              <div class="col-6">
+              <div class="col-6 mb-0">
                 <span :class="{ 'font-sm': isMapView }">Complete</span>
                
               </div>
@@ -312,17 +334,17 @@
                 </span>
               </div>
             </div>
-            <div class="row mt-1">
-              <div class="col-6">
+            <div class="row mt-2">
+              <div class="col-6 pt-0">
                 <span :class="{ 'font-sm': isMapView }">Overdue</span>
              
               </div>
-              <div class="col-1 pl-0">              
+              <div class="col-1 pt-0 pl-0">              
                 <span class="badge badge-secondary font-sm badge-pill">{{
                   issueVariation.overdue.count
                 }}</span>
               </div>
-              <div class="col-5 mt-1">
+              <div class="col-5 pt-1">
                 <span
                   class="w-100 progress ml-2 pg-content"
                   :class="{
@@ -437,7 +459,7 @@
           </div>
 
           <div class="row">
-            <div class="col-6">
+            <div class="col-6 mb-0">
               <span :class="{ 'font-sm': isMapView }">Complete</span>            
             </div>
             <div class="col-1 pl-0">             
@@ -461,16 +483,16 @@
               </span>
             </div>
           </div>
-          <div class="row mt-1">
-            <div class="col-6">
+          <div class="row mt-2">
+            <div class="col-6 pt-0">
               <span :class="{ 'font-sm': isMapView }">Overdue</span>            
             </div>
-             <div class="col-1 pl-0">             
+             <div class="col-1 pt-0 pl-0">             
               <span class="badge badge-secondary badge-pill">{{
                 riskVariation.overdue.count
               }}</span>
             </div>
-            <div class="col-5">
+            <div class="col-5 pt-1">
               <span
                 class="w-100 progress ml-2 pg-content"
                 :class="{ 'progress-0': riskVariation.overdue.percentage <= 0 }"
@@ -484,6 +506,26 @@
               </span>
             </div>
           </div>
+          <div class="row mt-2">
+              <div class="col-6 pt-0">
+                <span :class="{ 'font-sm': isMapView }">Ongoing</span>               
+              </div>
+               <div class="col-1 pl-0 pt-0">              
+                <span class="badge badge-secondary badge-pill">{{
+                  riskVariation.ongoing.length
+                }}</span>
+              </div>
+              <div class="col-5 pt-1 text-center">
+                <span
+                   class="w-100 mt-1 ml-2 progress progress-0 pg-content"
+                  :class="{'font-sm': isMapView}"
+                >
+                  <div class="text-center pl-1">
+                     <span v-tooltip="`Ongoing`" class="font-md" style="color:gray"> <i class="fas fa-retweet"></i></span>
+                  </div>
+                </span>
+              </div>
+            </div>
 
           <div v-if="filteredRisks.length > 0">
             <el-collapse>
@@ -943,6 +985,7 @@ export default {
         overdue.length,
         this.filteredTasks.length
       );
+      let ongoing = _.filter(this.filteredTasks, (t) => t && t.ongoing);
       return {
         completed: {
           count: completed.length,
@@ -952,6 +995,8 @@ export default {
           count: overdue.length,
           percentage: Math.round(overdue_percent),
         },
+        ongoing,       
+    
       };
     },
     issueVariation() {
@@ -993,6 +1038,7 @@ export default {
         overdue.length,
         this.filteredRisks.length
       );
+      let ongoing = _.filter(this.filteredRisks, (t) => t && t.ongoing);
       return {
         completed: {
           count: completed.length,
@@ -1002,6 +1048,7 @@ export default {
           count: overdue.length,
           percentage: Math.round(overdue_percent),
         },
+        ongoing
       };
     },
   },
@@ -1099,6 +1146,12 @@ ul > li {
 
 .underline {
   text-decoration: underline;
+}
+.ongoing-bg {
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  height: 20px;
 }
 // .fac-proj-status:hover, .tasks:hover, .issues:hover, .fac-groups:hover {
 //  background-color: #fff;

@@ -30,7 +30,11 @@ class RisksController < AuthenticatedController
     # @risk.assign_users(params)
     
     @risk = Risk.new.create_or_update_risk(params, current_user)
-    render json: {risk: @risk.reload.to_json}
+    if @risk.errors.any?
+      render json: {task: @risk.to_json, errors: @risk.errors.full_messages.join(", ") }, status: :unprocessable_entity
+    else
+      render json: {risk: @risk.reload.to_json}
+    end
   end
 
   def update
@@ -49,7 +53,12 @@ class RisksController < AuthenticatedController
     @risk.assign_users(params)
     @risk.add_link_attachment(params)
 
-    render json: {risk: @risk.reload.to_json}
+    if @risk.errors.any?
+      render json: {task: @risk.to_json, errors: @risk.errors.full_messages.join(", ") }, status: :unprocessable_entity
+    else
+      render json: {risk: @risk.reload.to_json}
+    end
+
   end
 
   def create_duplicate

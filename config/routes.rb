@@ -50,10 +50,10 @@ Rails.application.routes.draw do
   resources :dashboard, only: [:index]
   resources :projects, only: [:index, :show] do
     get :gantt_chart, on: :member
-    get :watch_view, on: :member
+  ##  get :watch_view, on: :member
     get :sheet, on: :member
     get :member_list, on: :member
-    get :facility_manager, on: :member
+  ##  get :facility_manager, on: :member
     get :kanban, on: :member
     get :map, on: :member    
     get :calendar, on: :member

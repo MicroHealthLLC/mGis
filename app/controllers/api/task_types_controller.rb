@@ -1,6 +1,12 @@
 class Api::TaskTypesController < AuthenticatedController
 
   def index
-    render json: {task_types: TaskType.all.as_json}
+    task_types = []
+    if params[:project_id]
+      task_types = Project.find(params[:project_id]).task_types
+    else
+      task_types = TaskType.all
+    end
+    render json: {task_types: task_types.as_json}
   end
 end

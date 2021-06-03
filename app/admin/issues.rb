@@ -255,7 +255,7 @@ ActiveAdmin.register Issue do
     end
 
     def scoped_collection
-      super.includes(:issue_type, :issue_severity, :issue_stage, facility_project: [:project, :facility])
+      super.includes(:task_type, :issue_type, :issue_severity, :issue_stage, facility_project: [:project, :facility])
     end
   end
 

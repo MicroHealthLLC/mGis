@@ -166,11 +166,12 @@ ActiveAdmin.register Facility do
     "Checklists": :text,
     "Task Files": :text
   }} do |ids, inputs|
+    binding.pry
     user_ids = inputs["Assign Users"].split(',').map(&:to_i) rescue []
     file_blobs = JSON.parse(inputs["Task Files"]).map{|id| {:blob_id => id}} rescue []
     checklists = JSON.parse(inputs["Checklists"]) rescue []
     Facility.where(id: ids).each do |facility|
-      facility.facility_projects.where(project_id: inputs['Project']).each do |facility_project|
+      facility.facility_projects.where(project_id: inputs['Program']).each do |facility_project|
         task = facility_project.tasks.create!(text: inputs['Name'], task_type_id: inputs['Category'], task_stage_id: inputs['Stage'], start_date: inputs['Start Date'], due_date: inputs['Due Date'], progress: inputs['Progress'], description: inputs['Description'], auto_calculate: inputs['AutoCalculate'], user_ids: user_ids, checklists_attributes: checklists)
         task.task_files.create(file_blobs) if file_blobs.present?
       end

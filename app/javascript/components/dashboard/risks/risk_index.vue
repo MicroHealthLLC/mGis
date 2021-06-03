@@ -336,7 +336,16 @@
           return valid;
         })), ['dueDate'])
 
+      if ( _.map(this.getAdvancedFilter, 'id') == 'draft' || _.map(this.getAdvancedFilter, 'id') == 'onHold') {   
+        
         return risks
+        
+       } else  {
+        
+        risks  = risks.filter(t => t.draft == false && t.onHold == false)
+        return risks
+      
+       }   
       },
       C_facilityManagerRiskFilter: {
         get() {

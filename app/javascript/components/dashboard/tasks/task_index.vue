@@ -274,7 +274,18 @@ computed: {
       return valid
     }), ['dueDate'])
 
-    return tasks
+      if ( _.map(this.getAdvancedFilter, 'id') == 'draft' || _.map(this.getAdvancedFilter, 'id') == 'onHold') {   
+        
+        return tasks
+        
+       } else  {
+        
+        tasks  = tasks.filter(t => t.draft == false && t.onHold == false)
+        return tasks
+      
+       }       
+
+
   },
   C_facilityManagerTaskFilter: {
     get() {

@@ -103,39 +103,70 @@
             <label class="font-md"
               >Issue Name <span style="color: #dc3545">*</span></label
             >
+
+          <div class="toggleWrapper float-right">
             <span
               v-if="_isallowed('write')"
-              class="watch_action clickable float-right"
+              class="watch_action clickable mx-2"
               @click.prevent.stop="toggleWatched"
               data-cy="issue_on_watch"
             >
-              <span v-show="DV_issue.watched" class="check_box mx-1"
-                ><i class="far fa-check-square font-md"></i
+              <span v-show="DV_issue.watched" 
+                ><i class="fas fa-eye"></i
               ></span>
-              <span v-show="!DV_issue.watched" class="empty_box mr-1"
-                ><i class="far fa-square"></i
+              <span v-show="!DV_issue.watched" 
+                ><i  class="fas fa-eye" style="color:lightgray;cursor:pointer"></i
               ></span>
-              <span><i class="fas fa-eye mr-1"></i></span
-              ><small style="vertical-align: text-top">On Watch</small>
+           
+              <small style="vertical-align:text-top"> On Watch</small>
             </span>
+             <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable mx-2"
+              @click.prevent.stop="toggleOnhold"
+              data-cy="issue_on_hold"
+            >
+              <span v-show="DV_issue.onHold">
+               <font-awesome-icon icon="pause-circle" class="mr-1 text-primary"/>
+              </span>
+              <span v-show="!DV_issue.onHold">
+               <font-awesome-icon icon="pause-circle" class="mr-1" style="color:lightgray;cursor:pointer"/>
+              </span>
+             
+              <small style="vertical-align:text-top"> On Hold</small>
+            </span>
+           
 
             <span
               v-if="_isallowed('write')"
-              class="watch_action clickable float-right"
+              class="watch_action clickable mx-2"
               @click.prevent.stop="toggleImportant"
               data-cy="issue_important"
             >
-              <span v-show="DV_issue.important" class="check_box mr-1">
-                <i class="far fa-check-square"></i>
+               <span v-show="DV_issue.important">
+               <i class="fas fa-star text-warning"></i>
               </span>
-              <span v-show="!DV_issue.important" class="empty_box mr-1">
-                <i class="far fa-square"></i>
-              </span>
-              <span>
-                <i class="fas fa-eye"></i>
+              <span v-show="!DV_issue.important">
+               <i class="far fa-star" style="color:lightgray;cursor:pointer"></i>
               </span>
               <small style="vertical-align:text-top"> Important</small>
             </span>
+             <span
+              v-if="_isallowed('write')"
+              class="watch_action clickable mx-2"
+              @click.prevent.stop="toggleDraft"
+              data-cy="issue_important"
+            >
+              <span v-show="DV_issue.draft">
+               <i class="fas fa-pencil-alt text-warning"></i>
+              </span>
+              <span v-show="!DV_issue.draft">
+               <i class="fas fa-pencil-alt" style="color:lightgray;cursor:pointer"></i>
+              </span>
+             
+              <small style="vertical-align:text-top"> Draft</small>
+            </span>
+          </div>
 
             <el-input
               name="Issue Name"
@@ -1207,6 +1238,8 @@ export default {
       selectedTaskType: null,
       selectedIssueSeverity: null,
       editToggle: false,
+      onHold: false,
+      draft: false,
       selectedIssueStage: null,
       issueUsers: [],
       responsibleUsers: null,
@@ -1510,6 +1543,12 @@ export default {
     toggleImportant() {
       this.DV_issue = { ...this.DV_issue, important: !this.DV_issue.important };
     },
+    toggleOnhold() {
+      this.DV_issue = { ...this.DV_issue, onHold: !this.DV_issue.onHold };
+    },
+    toggleDraft() {
+      this.DV_issue = { ...this.DV_issue, draft: !this.DV_issue.draft };
+    },
     removeFromWatch() {
       if (this.DV_issue.progress == 100 && this.DV_issue.watched == true) {
         this.toggleWatched();
@@ -1542,6 +1581,8 @@ export default {
         formData.append("issue[progress]", this.DV_issue.progress);
         formData.append("issue[description]", this.DV_issue.description);
         formData.append("issue[auto_calculate]", this.DV_issue.autoCalculate);
+        formData.append("issue[on_hold]", this.DV_issue.onHold);
+        formData.append("issue[draft]", this.DV_issue.draft);
         formData.append("issue[destroy_file_ids]",_.map(this.destroyedFiles, "id") );
 
      //Responsible USer Id

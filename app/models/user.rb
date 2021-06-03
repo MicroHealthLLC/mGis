@@ -106,7 +106,11 @@ class User < ApplicationRecord
         if p.project_id.present?
           url = "/programs/#{p.program_id}/#{p.navigation_menu}/projects/#{p.project_id}"
           if p.sub_navigation_menu.present?
-            url = "/programs/#{p.program_id}/#{p.navigation_menu}/projects/#{p.project_id}/#{p.sub_navigation_menu}"
+            if p.sub_navigation_menu == "overview"
+              url = "/programs/#{p.program_id}/#{p.navigation_menu}/projects/#{p.project_id}/"
+            else
+              url = "/programs/#{p.program_id}/#{p.navigation_menu}/projects/#{p.project_id}/#{p.sub_navigation_menu}"
+            end
           end
         end
       end

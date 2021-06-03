@@ -158,7 +158,8 @@
       <v-sheet height="600">     
          <v-calendar                      
           ref="calendar"        
-          v-model="focus"
+          v-model="C_lastFocus"
+          :load="log(focus)"
           color="primary"            
           :events="events"         
           :event-color="getEventColor"
@@ -215,24 +216,35 @@
             <v-list-item-title>
             <span class="d-inline mr-1"><small><b>Flags:</b></small></span>  
                 <span v-if="selectedEvent.watch == true"  v-tooltip="`On Watch`"><font-awesome-icon icon="eye" class="mr-1"  /></span>
+                 <span v-if="selectedEvent.hasStar == true"  v-tooltip="`Important`"> <i class="fas fa-star text-warning mr-1"></i></span>
                 <span v-if="selectedEvent.pastDue == true" v-tooltip="`Overdue`"><font-awesome-icon icon="calendar" class="text-danger mr-1"  /></span>
-                <span v-if="selectedEvent.progess == 100" v-tooltip="`Completed Task`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>   
-                <span v-if="selectedEvent.watch == false && selectedEvent.pastDue == false && selectedEvent.progess < 100">
-                  No flags at this time
+                <span v-if="selectedEvent.progess == 100" v-tooltip="`Completed`"><font-awesome-icon icon="clipboard-check" class="text-success"  /></span>   
+                <span v-if="selectedEvent.isOngoing == true" v-tooltip="`Ongoing`"><font-awesome-icon icon="retweet" class="text-success"  /></span>   
+                <span v-if="selectedEvent.isOnHold == true" v-tooltip="`On Hold`"><font-awesome-icon icon="pause-circle" class="text-primary"  /></span>   
+                <span v-if="selectedEvent.isDraft == true" v-tooltip="`Draft`"><font-awesome-icon icon="pencil-alt" class="text-warning"  /></span>   
+                <span v-if="
+                      selectedEvent.watch == false && 
+                      selectedEvent.isOngoing == false && 
+                      selectedEvent.pastDue == false &&     
+                      selectedEvent.hasStar == false && 
+                      selectedEvent.isOnHold == false && 
+                      selectedEvent.isDraft == false && 
+                      selectedEvent.progess < 100">
+                      No flags at this time
                 </span> 
             </v-list-item-title>
           </v-list-item>        
           </v-list>
           <v-card-actions>      
           
-          <v-btn
+          <!-- <v-btn
             small
             class="mh-green text-light"
             @click.prevent="showM"
           >
              <font-awesome-icon icon="clipboard-list" class="mr-1" />
             See More
-          </v-btn>
+          </v-btn> -->
            <v-btn
             small
             @click.prevent="detailsBtn"
@@ -278,7 +290,7 @@
      },
     data() {
       return {         
-        focus: '',     
+        focus: this.C_lastFocus,
         showMore: false,    
         type: this.C_calendarView,     
         tasksQuery: '',
@@ -312,6 +324,7 @@
         'setAdvancedFilter',
         'setTaskIssueProgressStatusFilter',
         'setCalendarViewFilter',
+        'setLastFocusFilter',
         'setTaskIssueOverdueFilter',
         'setTaskTypeFilter',
         'setShowAllEventsToggle',
@@ -325,6 +338,9 @@
         'taskUpdated',
         'updateWatchedTasks'
       ]), 
+      log(e){
+        console.log("Focus: " + e)
+      },
       reRenderCalendar() {
         this.componentKey += 1;
       },   
@@ -339,8 +355,8 @@
         this.showMore = !this.showMore
       }, 
       setToday () {
-        // this.todayView = true 
-        this.focus = ''       
+        this.todayView = true 
+        this.setLastFocusFilter('')  
       },
       prev () {
         this.$refs.calendar.prev()
@@ -435,7 +451,11 @@
         this.categories = this.filteredCalendar.map(task => task.taskType) 
         this.onWatch = this.filteredCalendar.map(task => task.watched)   
         this.overdue = this.filteredCalendar.map(task => task.isOverdue) 
+        this.star = this.filteredCalendar.map(task => task.important)
+        this.ongoing = this.filteredCalendar.map(task => task.ongoing)
         this.percentage = this.filteredCalendar.map(task => task.progress)
+        this.onhold = this.filteredCalendar.map(task => task.onHold)
+        this.draft = this.filteredCalendar.map(task => task.draft)
            
         const events = []
         const min = new Date(`${start.date}T00:00:00`)
@@ -453,7 +473,11 @@
             watch: this.onWatch[i],
             pastDue: this.overdue[i], 
             progess: this.percentage[i],
-            color: this.colors.defaultColor,             
+            color: this.colors.defaultColor,  
+            hasStar: this.star[i], 
+            isOngoing: this.ongoing[i], 
+            isDraft: this.draft[i],
+            isOnHold: this.onhold[i]           
           })
         }
           // This is the main Events array pushed into Calendar
@@ -477,6 +501,7 @@
         'getCalendarViewFilterOptions',
         'calendarViewFilter',  
         'getCalendarViewFilter',
+        'getLastFocusFilter',
          'getShowAllEventsToggle',
         'getShowAllToggle',
         'filterDataForAdvancedFilter', 
@@ -516,8 +541,19 @@
          
         return valid
         }), ['dueDate'])
-    
+
+          if ( _.map(this.getAdvancedFilter, 'id') == 'draft' || _.map(this.getAdvancedFilter, 'id') == 'onHold') {   
+        
         return tasks
+        
+       } else  {
+        
+        tasks  = tasks.filter(t => t.draft == false && t.onHold == false)
+        return tasks
+      
+       }       
+    
+      
     }, 
      C_calendarTaskFilter: {           
         get() {
@@ -565,8 +601,16 @@
           this.setTaskTypeFilter(value)
         }
       },
-
-   C_calendarView: {
+      C_lastFocus: {
+      get() {         
+        return this.getLastFocusFilter  || this.focus
+      
+      },
+      set(value) {
+        this.setLastFocusFilter(value) 
+       }
+      },   
+     C_calendarView: {
       get() {
         return this.getCalendarViewFilter || {id: 'month', name: 'Month', value: 'month'}
       },

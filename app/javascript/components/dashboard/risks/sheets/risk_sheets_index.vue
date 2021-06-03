@@ -146,12 +146,11 @@
             <col class="eight" />
             <col class="eight" />
             <col class="eight" />
-            <col class="seven" />
+            <col class="eight" />
             <col class="twelve" />
-            <col class="eight" />
-            <col class="eight" />
-            <col class="eight" />
-            <col class="oneEight" />
+            <col class="seven" />
+            <col class="fort" />         
+            <col class="twenty" />
           </colgroup>
           <tr class="thead" style="background-color:#ededed;">
             <th class="sort-th" @click="sort('text')">Risk
@@ -279,29 +278,7 @@
               <span class="inactive-sort-icon scroll" v-if="currentSortDir !=='desc' && currentSort === 'progress'">
               <font-awesome-icon icon="sort-down" /></span>
             </th>
-            <th class="sort-th" @click="sort('dueDateDuplicate')">Overdue
-                <span class="inactive-sort-icon scroll" v-if="currentSort !== 'dueDateDuplicate'">
-              <font-awesome-icon icon="sort" /></span>
-              <span class="sort-icon scroll" v-if="currentSortDir === 'asc' && currentSort === 'dueDateDuplicate'">
-              <font-awesome-icon icon="sort-up" /></span>
-              <span class="inactive-sort-icon scroll" v-if="currentSortDir !== 'asc' && currentSort === 'dueDateDuplicate'">
-              <font-awesome-icon icon="sort-up" /></span>
-                <span class="sort-icon scroll" v-if="currentSortDir ==='desc' && currentSort === 'dueDateDuplicate'">
-              <font-awesome-icon icon="sort-down" /></span>
-              <span class="inactive-sort-icon scroll" v-if="currentSortDir !=='desc' && currentSort === 'dueDateDuplicate'">
-              <font-awesome-icon icon="sort-down" /></span>
-            </th>
-            <th class="pl-1 sort-th" @click="sort('watched')">On Watch
-                <span class="inactive-sort-icon scroll" v-if="currentSort !== 'watched'">
-              <font-awesome-icon icon="sort" /></span>
-              <span class="sort-icon scroll" v-if="currentSortDir === 'asc' && currentSort === 'watched'">
-              <font-awesome-icon icon="sort-up" /></span>
-                <span class="inactive-sort-icon scroll" v-if="currentSortDir !== 'asc' && currentSort === 'watched'">
-              <font-awesome-icon icon="sort-up" /></span>
-                <span class="sort-icon scroll" v-if="currentSortDir ==='desc' && currentSort === 'watched'">
-              <font-awesome-icon icon="sort-down" /></span>
-                <span class="inactive-sort-icon scroll" v-if="currentSortDir !=='desc' && currentSort === 'watched'">
-              <font-awesome-icon icon="sort-down" /></span>
+            <th class="non-sort-th">Flags               
             </th>
             <th class="sort-th" @click="sort('notesUpdatedAt')">Last Update
                 <span class="inactive-sort-icon scroll" v-if="currentSort !== 'notesUpdatedAt'">
@@ -322,6 +299,7 @@
             v-for="risk in sortedRisks"
             class="riskHover"
             href="#"
+            :load="log(risk)"
             :key="risk.id"
             :risk="risk"
             :from-view="from"
@@ -473,6 +451,9 @@
       }
         this.currentSort = s;
       },
+      log(e){
+        console.log(e)
+      },
       nextPage:function() {
         if((this.currentPage*this.C_risksPerPage.value) < this.filteredRisks.length) this.currentPage++;
       },
@@ -573,7 +554,7 @@
             var max = taskIssueProgress[0].value.split("-")[1]
             valid = valid && (resource.progress >= min && resource.progress <= max)
           }
-          if (milestoneIds.length > 0) valid = valid && milestoneIds.includes(resource.riskTypeId)
+          if (milestoneIds.length > 0) valid = valid && milestoneIds.includes(resource.taskTypeId)
           if (riskApproachIds.length > 0) valid = valid && riskApproachIds.includes(resource.riskApproach)
 
           if (riskPriorityLevelFilterIds.length > 0) valid = valid && riskPriorityLevelFilterIds.includes(resource.priorityLevelName.toLowerCase())
@@ -584,7 +565,15 @@
           valid && search_query.test(resource.userNames)
           return valid;
         })), ['dueDate'])
+     if ( _.map(this.getAdvancedFilter, 'id') == 'draft' || _.map(this.getAdvancedFilter, 'id') == 'onHold') {           
         return risks
+        
+       } else  {
+        
+        risks  = risks.filter(t => t.draft == false && t.onHold == false)
+        return risks
+      
+       }   
       },
       C_riskPriorityLevelFilter: {
         get() {
@@ -753,6 +742,9 @@
   .twelve {
     width: 12%;
   }
+  .fort {
+    width: 14%;
+  }
   .oneFive{
     width: 15%;
   }
@@ -761,6 +753,9 @@
   }
   .oneEight {
     width: 18%;
+  }
+  .twenty {
+    width: 20%;
   }
   .floatRight {
     text-align: right;

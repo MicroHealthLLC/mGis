@@ -25,7 +25,13 @@ class TasksController < AuthenticatedController
 
   def create
     @task = Task.new.create_or_update_task(params, current_user)
-    render json: {task: @task.to_json}
+
+    if @task.errors.any?
+      render json: {task: @task.to_json, errors: @task.errors.full_messages.join(", ") }, status: :unprocessable_entity
+    else
+      render json: {task: @task.to_json}
+    end
+    
   end
 
   def update
@@ -45,7 +51,12 @@ class TasksController < AuthenticatedController
     @task.add_link_attachment(params)
     @task.reload
     # @task.create_or_update_task(params, current_user)
-    render json: {task: @task.to_json}
+
+    if @task.errors.any?
+      render json: {task: @task.to_json, errors: @task.errors.full_messages.join(", ") }, status: :unprocessable_entity
+    else
+      render json: {task: @task.to_json}
+    end
   end
 
   def create_duplicate
