@@ -3,19 +3,17 @@
     <div v-if="_isallowed('read')">
 
        <div class="d-flex align-item-center justify-content-between w-100 mb-1">        
-        <div class="input-group w-100">        
-          <div class="input-group-prepend d-inline">
-            <span class="input-group-text" id="search-addon"><i class="fa fa-search"></i></span>
-          </div>
-          <input 
-            type="search"
-            style="height:30px"
-            class="form-control form-control-sm" 
-            placeholder="Search by Task Name, Category or Assigned User" 
-            aria-label="Search" 
-            aria-describedby="search-addon" 
-            v-model="tasksQuery" 
-            data-cy="search_tasks" />
+        <div class="task-search-bar w-100">
+            <el-input
+            type="search"          
+            placeholder="Search by Task Name, Category or Assigned User"
+            aria-label="Search"            
+            aria-describedby="search-addon"    
+            v-model="tasksQuery"     
+            data-cy="search_tasks"
+            >
+              <el-button slot="prepend" icon="el-icon-search"></el-button>
+            </el-input>
         </div>
        </div>
 
