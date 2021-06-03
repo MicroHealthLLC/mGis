@@ -4,14 +4,18 @@
       <issue-form :facility="facility" :issue="currentIssue" @on-close-form="newIssue=false" @issue-created="issueCreated" @issue-updated="issueUpdated" class="issue-form-modal" />
     </div>
     <div v-else>
-      <div class="d-flex align-item-center justify-content-between w-100 mb-2">
-        <div class="input-group w-100">
-          <div class="input-group-prepend d-inline">
-            <span class="input-group-text" id="search-addon"><i class="fa fa-search"></i></span>
-          </div>
-          <input type="search" style="height:30px" class="form-control form-control-sm" placeholder="Search by Issue Name, Type, Severity or Assigned User" aria-label="Search" aria-describedby="search-addon" v-model="issuesQuery" data-cy="search_issues">
-        </div>        
-      </div>
+      <div class="task-search-bar w-100">
+           <el-input
+            type="search"          
+            placeholder="Search by Issue Name, Type, Severity or Assigned User"
+            aria-label="Search"            
+            aria-describedby="search-addon"    
+            v-model="issuesQuery"     
+            data-cy="search_tasks"
+        >
+          <el-button slot="prepend" icon="el-icon-search"></el-button>
+        </el-input>
+        </div>
 
       <div class="d-flex align-item-center font-sm justify-content-between my-2 w-100">
        <div class="simple-select w-50 mr-1 font-sm">

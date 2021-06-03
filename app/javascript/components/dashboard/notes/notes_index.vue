@@ -12,10 +12,16 @@
       <div class="mb-3 row" :class="{'align-items-center justify-content-between': _isallowed('write')}">
         <div class="col">
           <div class="input-group" :class="{'search-tab': _isallowed('write')}">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="search-addon"><i class="fa fa-search"></i></span>
-            </div>
-            <input type="search" class="form-control form-control-sm" placeholder="Search Notes" aria-label="Search" aria-describedby="search-addon" v-model="notesQuery" data-cy="search_notes">
+              <el-input
+                type="search" 
+                placeholder="Search Notes" 
+                aria-label="Search" 
+                aria-describedby="search-addon" 
+                v-model="notesQuery" 
+                data-cy="search_notes"
+            >
+              <el-button slot="prepend" icon="el-icon-search"></el-button>
+            </el-input>
           </div>
         </div>
       </div>
