@@ -22,6 +22,7 @@ ActiveAdmin.register LessonDetail do
   end
   
   index do
+    div id: '__privileges', 'data-privilege': "#{current_user.admin_privilege}"
     column :id
     column :finding
     column :recommendation
