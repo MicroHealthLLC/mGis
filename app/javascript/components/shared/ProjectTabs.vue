@@ -1,5 +1,5 @@
 <template>
-  <div id="customtabs" class="d-flex align-items-center p-2">
+  <div v-if="noTabsVisible" id="customtabs" class="d-flex align-items-center p-2">
     <div v-for="tab in tabs" :key="tab.key">
       <div
         v-if="!tab.hidden"
@@ -112,6 +112,9 @@ export default {
     },
     path() {
       return `/programs/${this.$route.params.programId}/${this.tab}/projects/${this.$route.params.projectId}`;
+    },
+    noTabsVisible() {
+      return this.tabs.every((tab) => tab.hidden === false);
     },
   },
 };
