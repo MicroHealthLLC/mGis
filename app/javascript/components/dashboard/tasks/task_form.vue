@@ -53,7 +53,7 @@
           </button>
           <button
             class="btn btn-sm sticky-btn btn-outline-secondary"
-            @click.prevent="cancelSave"
+            @click.prevent="redirectBack"
             data-cy="task_close_btn"
           >
             Close
@@ -1269,7 +1269,7 @@ import { extendMoment } from "moment-range";
 const moment = extendMoment(Moment);
 export default {
   name: "TaskForm",
-  props: ["facility", "task", "title", "fixedStage"],
+  props: ["facility", "title", "fixedStage"],
   components: {
     AttachmentInput,
     Draggable,
@@ -1278,6 +1278,7 @@ export default {
   },
   data() {
     return {
+      task: {},
       DV_task: this.INITIAL_TASK_STATE(),
       DV_facility: Object.assign({}, this.facility),
       paginate: ["filteredNotes"],
@@ -1352,6 +1353,12 @@ export default {
     }
   },
   mounted() {
+    if (this.contentLoaded && this.$route.params.taskId !== "new") {
+      this.task = this.facility.tasks.find(
+        (task) => task.id == this.$route.params.taskId
+      );
+    }
+
     if (!_.isEmpty(this.task)) {
       this.loadTask(this.task);
     } else {
@@ -1392,6 +1399,11 @@ export default {
         checklists: [],
         notes: [],
       };
+    },
+    redirectBack() {
+      this.$router.push(
+        `/programs/${this.$route.params.programId}/sheet/projects/${this.$route.params.projectId}/tasks`
+      );
     },
     selectedStage(item) {
       if (this._isallowed("write")) {
@@ -1587,7 +1599,7 @@ export default {
       this.DV_task.dueDate = '';
     },
     cancelSave() {
-      this.$emit("on-close-form");
+      this.redirectBack();
       this.setTaskForManager({ key: "task", value: null });
     },
     saveTask() {
@@ -1803,6 +1815,7 @@ export default {
           })
           .finally(() => {
             this.loading = false;
+            return new Promise(resolve);
           });
       });
     },
@@ -1989,6 +2002,7 @@ export default {
       "projectUsers",
       "taskStages",
       "taskTypes",
+      "contentLoaded",
     ]),
     readyToSave() {
       return (
@@ -2071,6 +2085,15 @@ export default {
     task: {
       handler: function(value) {
         this.loadTask(this.task);
+      },
+    },
+    contentLoaded: {
+      handler() {
+        if (this.$route.params.taskId !== "new") {
+          this.task = this.facility.tasks.find(
+            (task) => task.id == this.$route.params.taskId
+          );
+        }
       },
     },
     "DV_task.startDate"(value) {
