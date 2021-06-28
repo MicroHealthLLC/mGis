@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../index";
 
 const lessonModule = {
   state: () => ({
@@ -160,7 +161,12 @@ const lessonModule = {
   },
   getters: {
     lesson: (state) => state.lesson,
-    projectLessons: (state) => state.project_lessons,
+    projectLessons: (state) =>
+      state.project_lessons
+        .filter((lesson) => filterImportant(lesson))
+        .filter((lesson) => filterNotImportant(lesson))
+        .filter((lesson) => filterDrafts(lesson))
+        .filter((lesson) => filterBriefings(lesson)),
     programLessons: (state) => state.program_lessons,
     lessonStages: (state) => state.lesson_stages,
     lessonsLoaded: (state) => state.lessons_loaded,
@@ -236,6 +242,38 @@ const lessonFormData = (lesson) => {
   });
 
   return formData;
+};
+
+const filterImportant = (lesson) => {
+  return store.getters.getAdvancedFilter
+    .map((filter) => filter.id)
+    .includes("important")
+    ? lesson.important
+    : true;
+};
+
+const filterNotImportant = (lesson) => {
+  return store.getters.getAdvancedFilter
+    .map((filter) => filter.id)
+    .includes("notImportant")
+    ? !lesson.important
+    : true;
+};
+
+const filterDrafts = (lesson) => {
+  return store.getters.getAdvancedFilter
+    .map((filter) => filter.id)
+    .includes("draft")
+    ? !lesson.important
+    : true;
+};
+
+const filterBriefings = (lesson) => {
+  return store.getters.getAdvancedFilter
+    .map((filter) => filter.id)
+    .includes("reportable")
+    ? lesson.reportable
+    : true;
 };
 
 export default lessonModule;
