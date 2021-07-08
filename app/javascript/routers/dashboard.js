@@ -134,7 +134,7 @@ export default new VueRouter({
     },
      {
       name: "PortfolioView",
-      path: "/api/v1/portfolio/programs",    
+      path: "/portfolio",    
       component: PortfolioView,
     },
     {

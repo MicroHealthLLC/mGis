@@ -6,7 +6,7 @@
       span.mpathLogo   
         =image_tag "mpath.svg"
     br
-     =link_to "api/v1/portfolio/programs", class: "nav-link mb-3 float-right portfolioViewerBtn", target: "_blank" do
+     =link_to "portfolio", class: "nav-link mb-3 float-right portfolioViewerBtn", target: "_blank" do
         | PORTFOLIO VIEWER
     .grid-container.program-name
       -if @active_projects.size > 0
