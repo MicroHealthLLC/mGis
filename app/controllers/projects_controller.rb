@@ -46,60 +46,6 @@ class ProjectsController < AuthenticatedController
     end
   end
 
-  def tasks
-    project = current_user.projects.includes(:project_type).active.find(params[:program_id])
-    response_hash = project.build_json_response_for_portfolio("tasks", current_user)
-    respond_to do |format|
-      format.json {render json: response_hash }
-      format.html {}
-    end
-  end
-
-  def issues
-    project = current_user.projects.includes(:project_type).active.find(params[:program_id])
-    response_hash = project.build_json_response_for_portfolio("issues", current_user)
-    respond_to do |format|
-      format.json {render json: response_hash }
-      format.html {}
-    end
-  end
-
-  def risks
-    project = current_user.projects.includes(:project_type).active.find(params[:program_id])
-    response_hash = project.build_json_response_for_portfolio("risks", current_user)
-    respond_to do |format|
-      format.json {render json: response_hash }
-      format.html {}
-    end
-  end
-
-  def projects
-    project = current_user.projects.includes(:project_type).active.find(params[:program_id])
-    response_hash = project.build_json_response_for_portfolio("projects", current_user)
-    respond_to do |format|
-      format.json {render json: response_hash }
-      format.html {}
-    end
-  end
-
-  def notes
-    project = current_user.projects.includes(:project_type).active.find(params[:program_id])
-    response_hash = project.build_json_response_for_portfolio("notes", current_user)
-    respond_to do |format|
-      format.json {render json: response_hash }
-      format.html {}
-    end
-  end
-
-  def lessons
-    project = current_user.projects.includes(:project_type).active.find(params[:program_id])
-    response_hash = project.build_json_response_for_portfolio("lessons", current_user)
-    respond_to do |format|
-      format.json {render json: response_hash }
-      format.html {}
-    end
-  end
-
   def show
     @project = current_user.projects.active.find_by(id: params[:id])
     check_permit("map_view")

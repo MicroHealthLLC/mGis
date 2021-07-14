@@ -74,14 +74,6 @@ Rails.application.routes.draw do
 
   get "/portfolio" => "dashboard#portfolio"
 
-  # get "/api/v1/portfolio/programs" => "projects#index"
-  # get "/api/v1/portfolio/programs/:program_id/projects" => "projects#projects"
-  # get "/api/v1/portfolio/programs/:program_id/tasks" => "projects#tasks"
-  # get "/api/v1/portfolio/programs/:program_id/issues" => "projects#issues"
-  # get "/api/v1/portfolio/programs/:program_id/risks" => "projects#risks"
-  # get "/api/v1/portfolio/programs/:program_id/notes" => "projects#notes"
-  # get "/api/v1/portfolio/programs/:program_id/lessons" => "projects#lessons"
-
   resources :dashboard, only: [:index]
   resources :projects, only: [:index, :show] do
     get :gantt_chart, on: :member
